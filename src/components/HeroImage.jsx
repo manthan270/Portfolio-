@@ -89,17 +89,19 @@ export default function HeroImage({ src, videoSrc, alt }) {
       {/* Autoplay/Hover/Tap Video */}
       <video
         ref={videoRef}
-        src={videoSrc}
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
           transition: "opacity 0.4s ease, transform 0.4s ease",
           opacity: isActive ? 1 : 0,
           transform: isActive ? "scale(1.02)" : "scale(1)"
         }}
-      />
+      >
+        <source src="/videos/hero-video.webm" type="video/webm" />
+        <source src="/videos/heymain.mp4" type="video/mp4" />
+      </video>
     </div>
   );
 }
