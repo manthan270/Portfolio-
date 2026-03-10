@@ -1,0 +1,23 @@
+.about-container {
+max-width: 900px;
+width: 90%;
+margin: 0 auto;
+padding: 20px;
+}
+
+.about-text {
+font-size: 1rem;
+line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+.about-container {
+width: 95%;
+padding: 15px;
+}
+
+.about-text {
+font-size: 0.95rem;
+line-height: 1.6;
+}
+}
