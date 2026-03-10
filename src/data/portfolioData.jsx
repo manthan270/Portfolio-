@@ -12,7 +12,7 @@ export const portfolioData = {
       "Bridging the gap between creativity and functionality to bring ideas to life through human-centered design and clean code."
     ],
     profileImage: "/images/profile/profile2.png",
-    profileVideo: "/videos/profile-video.webm",
+    profileVideo: "/videos/heymain.mp4",
     cvLink: "/CV/MANTHAN GADEGONE.pdf",
     socials: [
       { name: "Email", icon: Mail01Icon, link: "mailto:anilgadegone@gmail.com" },
