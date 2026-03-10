@@ -89,6 +89,8 @@ export default function HeroImage({ src, videoSrc, alt }) {
       {/* Autoplay/Hover/Tap Video */}
       <video
         ref={videoRef}
+        autoPlay
+        loop
         muted
         playsInline
         preload="metadata"
