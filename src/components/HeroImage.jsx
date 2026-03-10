@@ -72,6 +72,12 @@ export default function HeroImage({ src, videoSrc, alt }) {
       <img
         src={src}
         alt={alt}
+        width={800}
+        height={800}
+        loading="eager" /* Hero image shouldn't be lazy loaded */
+        decoding="async"
+        srcSet={`${src.replace('.webp', '-400.webp')} 400w, ${src.replace('.webp', '-800.webp')} 800w, ${src} 1200w`}
+        sizes="(max-width: 768px) 400px, 800px"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
           transition: "opacity 0.4s ease, transform 0.4s ease",

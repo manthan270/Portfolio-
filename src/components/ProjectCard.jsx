@@ -25,6 +25,12 @@ export const ProjectCard = ({ project }) => {
           <motion.img
             src={project.image}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
+            width={800}
+            height={500}
+            srcSet={`${project.image.replace('.webp', '-400.webp')} 400w, ${project.image.replace('.webp', '-800.webp')} 800w, ${project.image} 1200w`}
+            sizes="(max-width: 768px) 400vw, 800px"
             className="h-full w-full object-contain duration-200"
             whileHover={{ scale: 1.05 }}
           />

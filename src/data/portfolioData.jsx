@@ -11,7 +11,7 @@ export const portfolioData = {
     description: [
       "Bridging the gap between creativity and functionality to bring ideas to life through human-centered design and clean code."
     ],
-    profileImage: "/images/profile/profile2.png",
+    profileImage: "/images/profile/profile2.webp",
     profileVideo: "/videos/heymain.mp4",
     cvLink: "/CV/MANTHAN GADEGONE.pdf",
     socials: [
@@ -36,7 +36,7 @@ export const portfolioData = {
       techStack: ['React.js', 'JavaScript', 'TailwindCSS', 'JSON'],
       link: 'https://github.com/manthan270',
       year: '2024',
-      image: '/images/projects/campus system.png',
+      image: '/images/projects/campus system.webp',
       category: 'Web Projects',
     },
     {
@@ -54,7 +54,7 @@ export const portfolioData = {
       techStack: ['React.js', 'JavaScript', 'TailwindCSS'],
       link: 'https://hirelite.vercel.app',
       year: '2024',
-      image: '/images/projects/OrdersOgImage.png',
+      image: '/images/projects/OrdersOgImage.webp',
       category: 'Web Projects',
     },
   ],

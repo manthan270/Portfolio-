@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Hero from '../components/Hero';
-import Experience from '../components/Experience';
-import Project from '../components/Project';
-import Skills from '../components/Skills';
-import Header from '../components/Header';
 import AboutMe from '../components/AboutMe';
-import Education from '../components/Education';
 import { portfolioData } from '../data/portfolioData';
+
+const Experience = lazy(() => import('../components/Experience'));
+const Project = lazy(() => import('../components/Project'));
+const Skills = lazy(() => import('../components/Skills'));
+const Education = lazy(() => import('../components/Education'));
+const Contact = lazy(() => import('../components/Contact'));
+const PlaygroundPreview = lazy(() => import('../components/PlaygroundPreview'));
 
 const SectionDivider = () => (
   <div className="w-full px-4 relative">
     <div className="absolute left-[calc(-50vw+50%)] w-screen border-t border-dashed border-border" />
   </div>
 );
-
-import Contact from '../components/Contact';
-import PlaygroundPreview from '../components/PlaygroundPreview';
 
 export default function Home() {
   return (
@@ -33,39 +32,41 @@ export default function Home() {
 
       <SectionDivider />
 
-      <div id="education" className="relative">
-        <Education data={portfolioData.education} />
-      </div>
+      <Suspense fallback={<div className="min-h-[200px]" />}>
+        <div id="education" className="relative">
+          <Education data={portfolioData.education} />
+        </div>
 
-      <SectionDivider />
+        <SectionDivider />
 
-      <div id="projects" className="relative">
-        <Project data={portfolioData.projects} />
-      </div>
+        <div id="projects" className="relative">
+          <Project data={portfolioData.projects} />
+        </div>
 
-      <SectionDivider />
+        <SectionDivider />
 
-      <div id="experience" className="relative">
-        <Experience data={portfolioData.experience} />
-      </div>
+        <div id="experience" className="relative">
+          <Experience data={portfolioData.experience} />
+        </div>
 
-      <SectionDivider />
+        <SectionDivider />
 
-      <div id="skills" className="relative">
-        <Skills data={portfolioData.skills} />
-      </div>
+        <div id="skills" className="relative">
+          <Skills data={portfolioData.skills} />
+        </div>
 
-      <SectionDivider />
+        <SectionDivider />
 
-      <div id="playground" className="relative">
-        <PlaygroundPreview />
-      </div>
+        <div id="playground" className="relative">
+          <PlaygroundPreview />
+        </div>
 
-      <SectionDivider />
+        <SectionDivider />
 
-      <div id="contact" className="relative">
-        <Contact />
-      </div>
+        <div id="contact" className="relative">
+          <Contact />
+        </div>
+      </Suspense>
     </>
   );
 }
