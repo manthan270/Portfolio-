@@ -131,6 +131,7 @@ function SkillPill({ skill }) {
         <img
           src={skill.Icon}
           alt={skill.name}
+          loading="lazy"
           className="
             w-full h-full object-contain 
             transition-all duration-300
@@ -163,6 +164,7 @@ function StackItem({ skill, index }) {
         <img
           src={skill.Icon}
           alt={skill.name}
+          loading="lazy"
           className="
             w-5 h-5 object-contain
             transition-all duration-300 group-hover:scale-110

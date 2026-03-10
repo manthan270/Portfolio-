@@ -85,6 +85,7 @@ const ProjectDetail = () => {
                         className="w-full h-full"
                         src={getEmbedUrl(project.videoUrl)}
                         title={project.title}
+                        loading="lazy"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                      />
@@ -92,12 +93,14 @@ const ProjectDetail = () => {
                      <iframe
                         className="w-full h-full"
                         src={project.figmaUrl}
+                        loading="lazy"
                         allowFullScreen
                      />
                   ) : (
                      <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
                         className="w-full h-full object-contain"
                      />
                   )}
