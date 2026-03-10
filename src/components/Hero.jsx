@@ -87,6 +87,16 @@ export default function Hero({ data }) {
             {/* Actions */}
             <div className="flex flex-wrap items-center gap-3 mb-8">
               <Button
+                variant="primary"
+                size="sm"
+                href="https://cal.com/manthan-gadegone/15min"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book a Call
+              </Button>
+
+              <Button
                 variant="secondary"
                 size="sm"
                 icon={ViewIcon}

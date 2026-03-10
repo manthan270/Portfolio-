@@ -99,7 +99,7 @@ export default function Contact() {
 
 
             <TactileButton
-              onClick={() => window.open('mailto:anilgadegone@gmail.com', '_blank')}
+              onClick={() => window.open('https://cal.com/manthan-gadegone/15min', '_blank', 'noopener,noreferrer')}
               className="flex-1"
               label="MEETING"
             >

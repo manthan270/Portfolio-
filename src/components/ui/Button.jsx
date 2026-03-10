@@ -90,14 +90,18 @@ export function Button({
   disabled = false,
   loading = false,
   onClick,
+  href,
   ...props
 }) {
   const variantStyle = variants[variant] || variants.primary;
   const sizeStyle = sizes[size] || sizes.md;
   const shouldAnimateIcon = variant === 'primary' && !loading;
 
+  const Component = href ? motion.a : motion.button;
+
   return (
-    <motion.button
+    <Component
+      href={href}
       className={`
         cursor-pointer
         relative overflow-hidden group 
@@ -107,8 +111,9 @@ export function Button({
         disabled:pointer-events-none disabled:opacity-50
         ${variantStyle} ${sizeStyle} ${className}
       `}
-      onClick={onClick}
-      disabled={disabled || loading}
+      onClick={disabled || loading ? (e) => e.preventDefault() : onClick}
+      disabled={!href ? (disabled || loading) : undefined}
+      aria-disabled={href ? (disabled || loading) : undefined}
 
       // Apply the parent motion settings
       {...buttonMotion}
@@ -140,6 +145,6 @@ export function Button({
           variants={shimmerMotion}
         />
       )}
-    </motion.button>
+    </Component>
   );
 }
