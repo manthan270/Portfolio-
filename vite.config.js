@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
+import viteCompression from 'vite-plugin-compression'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -13,6 +14,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
+    viteCompression({ algorithm: 'brotliCompress' }),
     visualizer({
       filename: 'stats-optimized.html',
       gzipSize: true,
@@ -20,6 +22,19 @@ export default defineConfig({
       template: 'treemap'
     })
   ],
+  build: {
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          motion: ['motion/react'],
+          hugeicons: ['hugeicons-react'],
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),

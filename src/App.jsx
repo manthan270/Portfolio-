@@ -1,14 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Analytics } from '@vercel/analytics/react';
 import RootLayout from './components/Layout/RootLayout';
 import SignatureLoader from './components/SignatureLoader';
 import CommandPalette from './components/CommandPalette';
+
 const Home = lazy(() => import('./pages/Home'));
 const Playground = lazy(() => import('./pages/Playground'));
 const ProjectsPage = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+
+// Deferring heavier third-party scripts to avoid blocking the main thread
+const Analytics = lazy(() => import('@vercel/analytics/react').then(mod => ({ default: mod.Analytics })));
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +52,9 @@ export default function App() {
           </Suspense>
         </RootLayout>
       </motion.div>
-      <Analytics />
+      <Suspense fallback={null}>
+        {!isLoading && <Analytics />}
+      </Suspense>
     </BrowserRouter>
   );
 }
