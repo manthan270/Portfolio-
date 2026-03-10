@@ -1,8 +1,8 @@
 <div align="center">
   <img alt="Project Banner" src="public/thumbnail.png" width="100%" style="border-radius: 12px; margin-bottom: 2rem;" />
 
-  <h1>Manthan Gadegone's Portfolio</h1>
-  <p><strong>A modern, highly interactive, and uniquely designed personal portfolio website showcasing creatively engineered web experiences. Built with an emphasis on "Cosmic Minimalism", smooth animations, and a focus on both aesthetics and performance. Welcome to my digital space!</strong></p>
+  <h1>Portfolio</h1>
+  <p><strong>A modern, highly interactive, and uniquely designed personal portfolio website showcasing creatively engineered web experiences. Built with an emphasis on "Cosmic Minimalism", smooth animations, and a focus on both aesthetics and performance.</strong></p>
 
   <p>
     <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-00d8ff?style=flat-square&logo=react&logoColor=black" alt="React 19" /></a>
