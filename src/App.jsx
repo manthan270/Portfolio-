@@ -12,6 +12,7 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 
 // Deferring heavier third-party scripts to avoid blocking the main thread
 const Analytics = lazy(() => import('@vercel/analytics/react').then(mod => ({ default: mod.Analytics })));
+const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(mod => ({ default: mod.SpeedInsights })));
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +54,12 @@ export default function App() {
         </RootLayout>
       </motion.div>
       <Suspense fallback={null}>
-        {!isLoading && <Analytics />}
+        {!isLoading && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </Suspense>
     </BrowserRouter>
   );
