@@ -19,28 +19,34 @@ const SignatureLoader = () => {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-background"
+      exit={{ 
+        opacity: 0, 
+        scale: 1.05, 
+        filter: "blur(8px)",
+        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-background pointer-events-none"
     >
       <div className="w-[min(72vw,340px)]">
         <svg
           viewBox="0 0 210 297"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full overflow-visible"
+          className="w-full h-full overflow-visible drop-shadow-md"
+          style={{ filter: "drop-shadow(0px 0px 12px rgba(var(--primary-rgb), 0.15))" }}
         >
           <motion.path
             d={PATHS.join(' ')}
             stroke="currentColor"
-            strokeWidth="1.2"
+            strokeWidth="1.0"
             strokeLinecap="round"
             strokeLinejoin="round"
             className="text-foreground"
             initial={{ pathLength: 0, fillOpacity: 0 }}
             animate={{ pathLength: 1, fillOpacity: 1 }}
             transition={{
-              pathLength: { duration: 3, ease: 'easeInOut' },
-              fillOpacity: { duration: 1, ease: 'easeIn', delay: 2.5 }
+              pathLength: { duration: 2.8, ease: 'easeInOut' },
+              fillOpacity: { duration: 0.8, ease: 'easeIn', delay: 2.6 }
             }}
           />
         </svg>
