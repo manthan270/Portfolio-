@@ -19,11 +19,11 @@ const SignatureLoader = () => {
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ 
-        opacity: 0, 
-        scale: 1.05, 
+      exit={{
+        opacity: 0,
+        scale: 1.05,
         filter: "blur(8px)",
-        transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+        transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] }
       }}
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-background pointer-events-none"
     >
@@ -45,8 +45,8 @@ const SignatureLoader = () => {
             initial={{ pathLength: 0, fillOpacity: 0 }}
             animate={{ pathLength: 1, fillOpacity: 1 }}
             transition={{
-              pathLength: { duration: 2.8, ease: 'easeInOut' },
-              fillOpacity: { duration: 0.8, ease: 'easeIn', delay: 2.6 }
+              pathLength: { duration: 3.3, ease: [0.25, 1, 0.5, 1] }, // Organic, swift curve
+              fillOpacity: { duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 3.2 }
             }}
           />
         </svg>
