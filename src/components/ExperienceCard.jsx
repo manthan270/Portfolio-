@@ -39,15 +39,15 @@ export const ExperienceCard = ({ experience, index }) => {
             >
               {experience.role}
             </Typography>
-            <div className="flex items-center gap-3 text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">
               <span className="flex items-center gap-1">
                 <PinIcon className="w-2.5 h-2.5 shrink-0" />
-                {experience.company}
+                <span className="break-words">{experience.company}</span>
               </span>
-              <span className="text-border">·</span>
+              <span className="text-border hidden sm:inline">·</span>
               <span className="flex items-center gap-1">
                 <Calendar01Icon className="w-2.5 h-2.5 shrink-0" />
-                {experience.period}
+                <span className="whitespace-nowrap">{experience.period}</span>
               </span>
             </div>
           </div>
