@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Header from '../Header';
 import { portfolioData } from '../../data/portfolioData';
 
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
 
 
 
-  const applyTheme = (theme) => {
+  const applyTheme = useCallback((theme) => {
     // Temporarily disable all transitions to prevent color jumping on buttons/search bar
     document.documentElement.classList.add('disable-transitions');
 
@@ -38,11 +38,14 @@ export default function RootLayout({ children }) {
         document.documentElement.classList.remove('disable-transitions');
       });
     });
-  };
+  }, []);
 
-  const toggleTheme = () => {
-    applyTheme(!isDark);
-  };
+  const toggleTheme = useCallback(() => {
+    setIsDark(prev => {
+      applyTheme(!prev);
+      return !prev;
+    });
+  }, [applyTheme]);
 
   // Keyboard 'D' key listener
   useEffect(() => {
@@ -61,8 +64,7 @@ export default function RootLayout({ children }) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('toggle-theme', handleToggleEvent);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDark]);
+  }, [toggleTheme]);
 
   return (
     <div className="bg-background min-h-screen text-foreground font-sans selection:bg-primary/20 flex flex-col">

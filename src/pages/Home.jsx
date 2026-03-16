@@ -1,7 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import Hero from '../components/Hero';
 import AboutMe from '../components/AboutMe';
 import { portfolioData } from '../data/portfolioData';
+import SectionDivider from '../components/ui/SectionDivider';
 
 const Experience = lazy(() => import('../components/Experience'));
 const Project = lazy(() => import('../components/Project'));
@@ -10,11 +11,7 @@ const Education = lazy(() => import('../components/Education'));
 const Contact = lazy(() => import('../components/Contact'));
 const PlaygroundPreview = lazy(() => import('../components/PlaygroundPreview'));
 
-const SectionDivider = () => (
-  <div className="w-full px-4 relative">
-    <div className="absolute left-[calc(-50vw+50%)] w-screen border-t border-dashed border-border" />
-  </div>
-);
+
 
 export default function Home() {
   return (

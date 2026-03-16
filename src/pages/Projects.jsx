@@ -1,14 +1,25 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { portfolioData } from '../data/portfolioData';
 import { ProjectCard } from '../components/ProjectCard';
 import { Typography } from '../components/ui/Typography';
 import Contact from '../components/Contact';
+import SectionDivider from '../components/ui/SectionDivider';
 
-const SectionDivider = () => (
-  <div className="w-full px-4 relative">
-    <div className="absolute left-[calc(-50vw+50%)] w-screen border-t border-dashed border-border" />
-  </div>
+const ProjectSection = ({ title, data, subtitle }) => (
+  <section className="px-4 py-8">
+    <div className="flex items-baseline justify-between mb-6 pb-2">
+      <Typography variant="h3">{title}</Typography>
+      <Typography variant="small" className="text-muted-foreground uppercase font-mono tracking-wider">
+        {subtitle || `${data.length} Works`}
+      </Typography>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {data.map((project, index) => (
+        <ProjectCard key={project.id || project.title} project={project} index={index} />
+      ))}
+    </div>
+  </section>
 );
 
 const ProjectsPage = () => {
@@ -19,22 +30,6 @@ const ProjectsPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const ProjectSection = ({ title, data, subtitle }) => (
-    <section className="px-4 py-8">
-      <div className="flex items-baseline justify-between mb-6 pb-2">
-        <Typography variant="h3">{title}</Typography>
-        <Typography variant="small" className="text-muted-foreground uppercase font-mono tracking-wider">
-          {subtitle || `${data.length} Works`}
-        </Typography>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {data.map((project, index) => (
-          <ProjectCard key={project.title} project={project} index={index} />
-        ))}
-      </div>
-    </section>
-  );
 
   return (
     <main className="pt-4">

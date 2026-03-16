@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { cn } from '/src/lib/utils';
+import { cn } from '@/lib/utils';
 
 const variants = {
   h1: "font-sans text-3xl font-semibold tracking-tight leading-tight text-foreground",

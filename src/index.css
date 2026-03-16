@@ -217,4 +217,22 @@
     overflow-x: hidden;
     @apply bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans;
   }
+
+  /* Shared scrollbar for modals / command palette */
+  .command-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .command-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .command-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 10px;
+  }
+
+  .command-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-muted-foreground);
+  }
 }

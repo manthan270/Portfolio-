@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calendar01Icon, Coffee01Icon, Mail01Icon } from 'hugeicons-react';
 import { Dithering } from '@paper-design/shaders-react';
 import { Typography } from './ui/Typography';
 
@@ -122,11 +121,12 @@ export default function Contact() {
   );
 }
 
-function TactileButton({ children, onClick, label }) {
+function TactileButton({ children, onClick, label, className = '' }) {
   return (
     <button
       onClick={onClick}
-      className="
+      aria-label={label}
+      className={`
                 cursor-pointer
                 group relative
                 overflow-hidden
@@ -137,7 +137,9 @@ function TactileButton({ children, onClick, label }) {
                 shadow-lg
                 active:scale-[0.98]
                 transition-all duration-100 ease-out
-                flex flex-col items-center justify-center"
+                flex flex-col items-center justify-center
+                ${className}
+      `}
     >
       <div className="relative z-10">
         {children}

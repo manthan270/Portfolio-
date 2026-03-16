@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { Loading02Icon } from 'hugeicons-react';
 

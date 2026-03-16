@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -164,7 +164,7 @@ const CommandPalette = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[30vh] px-4 sm:px-6">
+        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[30vh] px-4 sm:px-6" role="dialog" aria-modal="true" aria-label="Command palette">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -204,6 +204,7 @@ const CommandPalette = () => {
             {/* Results List */}
             <div
               ref={listRef}
+              role="listbox"
               className="max-h-96 overflow-y-auto py-2 command-scrollbar"
               onMouseMove={() => lastInteraction.current = 'mouse'}
             >
@@ -285,22 +286,7 @@ const CommandPalette = () => {
             </div>
           </motion.div>
 
-          {/* Scrollbar Styles */}
-          <style>{`
-            .command-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .command-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .command-scrollbar::-webkit-scrollbar-thumb {
-              background: var(--color-border);
-              border-radius: 10px;
-            }
-            .command-scrollbar::-webkit-scrollbar-thumb:hover {
-              background: var(--color-muted-foreground);
-            }
-          `}</style>
+
         </div >
       )}
     </AnimatePresence >

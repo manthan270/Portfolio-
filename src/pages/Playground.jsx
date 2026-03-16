@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { playgroundData } from '../data/playgroundData';
 import { motion } from 'motion/react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft01Icon, CommandLineIcon, Sun01Icon, Moon01Icon } from 'hugeicons-react';
 
 import BubbleMenu from '../components/Playground/BubbleMenu';
 import { Typography } from '../components/ui/Typography';
-import { AnimatePresence } from 'motion/react';
 
 
 
@@ -23,12 +20,7 @@ const SectionDivider = () => (
   </div>
 );
 
-// --- Section Colors Configuration ---
-const SECTION_COLORS = {
-  figma: '#F24E1E',
-  '3d': '#18A0FB',
-  posters: '#FF7262',
-};
+
 
 const SectionSkeleton = () => (
   <div className="w-full py-16 flex items-center justify-center opacity-20">

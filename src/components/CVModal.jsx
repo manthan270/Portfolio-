@@ -1,13 +1,22 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Cancel01Icon, Download01Icon, File01Icon } from 'hugeicons-react';
 import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 
+function downloadFile(url, filename) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 export default function CVModal({ isOpen, onClose, cvUrl }) {
   // Close on Escape key
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
@@ -54,14 +63,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     variant="primary"
                     size="sm"
                     icon={Download01Icon}
-                    onClick={() => {
-                      const link = document.createElement('a');
-                      link.href = cvUrl;
-                      link.download = 'Manthan_Gadegone_CV.pdf';
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
+                    onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
                     className="hidden sm:flex"
                   >
                     Download
@@ -92,14 +94,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                   variant="primary"
                   className="w-full"
                   icon={Download01Icon}
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = cvUrl;
-                    link.download = 'Manthan_Gadegone_CV.pdf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                  }}
+                  onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
                 >
                   Download Resume
                 </Button>

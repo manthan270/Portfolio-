@@ -21,7 +21,7 @@ export default function Education({ data }) {
                 <div className="space-y-4">
                     {data.map((education, index) => (
                         <motion.div
-                            key={index}
+                            key={education.institution || index}
                             className="group relative px-8 py-4"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}

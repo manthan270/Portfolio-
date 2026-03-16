@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +62,7 @@ export const ProjectCard = ({ project }) => {
           {/* Actions */}
           <div className="flex gap-12 pt-2">
             {/* Live/Source Button */}
-            {project.title === "SmartCampus Navigator" || project.description === "Interactive Campus Navigation App" ? (
+            {project.comingSoon ? (
               <button
                 onClick={() => setModalOpen(true)}
                 className="flex-1 flex h-8 items-center justify-center gap-2 rounded-xl bg-primary text-background transition-all hover:opacity-90 active:scale-[0.98] shadow-sm"

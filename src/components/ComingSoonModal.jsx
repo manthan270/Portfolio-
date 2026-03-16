@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import './ComingSoonModal.css';
 
 const ComingSoonModal = ({ onClose }) => {
@@ -79,7 +79,7 @@ const ComingSoonModal = ({ onClose }) => {
                         <span className="status-text">In Development</span>
                     </div>
                     <div className="top-bar-line"></div>
-                    <button className="modal-close" onClick={onClose}>×</button>
+                    <button className="modal-close" onClick={onClose} aria-label="Close modal">×</button>
                 </div>
 
                 {/* HERO */}

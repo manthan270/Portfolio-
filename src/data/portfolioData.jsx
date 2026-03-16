@@ -38,6 +38,7 @@ export const portfolioData = {
       year: '2024',
       image: '/images/projects/campus system.webp',
       category: 'Web Projects',
+      comingSoon: true,
     },
     {
       id: 'hirelite',

@@ -1,12 +1,12 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { Cancel01Icon, PaintBoardIcon, TextIcon, Layout01Icon, PaintBucketIcon, AspectRatioIcon, CircleIcon } from 'hugeicons-react';
+import { Cancel01Icon, PaintBoardIcon, TextIcon, PaintBucketIcon, AspectRatioIcon } from 'hugeicons-react';
 import { Typography } from './ui/Typography';
 
 export default function DesignSystem({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[10vh] px-4 sm:px-6">
+        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[10vh] px-4 sm:px-6" role="dialog" aria-modal="true" aria-label="Design System">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -34,6 +34,7 @@ export default function DesignSystem({ isOpen, onClose }) {
               <button
                 onClick={onClose}
                 className="p-1 hover:bg-muted/50 rounded-md text-muted-foreground transition-colors cursor-pointer"
+                aria-label="Close design system"
               >
                 <Cancel01Icon size={16} />
               </button>
@@ -84,21 +85,7 @@ export default function DesignSystem({ isOpen, onClose }) {
             </div>
           </motion.div>
 
-          <style>{`
-            .command-scrollbar::-webkit-scrollbar {
-              width: 6px;
-            }
-            .command-scrollbar::-webkit-scrollbar-track {
-              background: transparent;
-            }
-            .command-scrollbar::-webkit-scrollbar-thumb {
-              background: var(--color-border);
-              border-radius: 10px;
-            }
-            .command-scrollbar::-webkit-scrollbar-thumb:hover {
-              background: var(--color-muted-foreground);
-            }
-          `}</style>
+
         </div>
       )}
     </AnimatePresence>
