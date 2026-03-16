@@ -26,14 +26,15 @@ export const ExperienceCard = ({ experience, index }) => {
       {/* Card */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left pl-8 pr-3 py-3 focus:outline-none cursor-pointer"
+        className="w-full text-left pl-8 pr-3 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 rounded-md cursor-pointer"
         aria-expanded={isOpen}
+        aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${experience.role} at ${experience.company}`}
       >
         {/* Always-visible header row */}
         <div className="flex items-center justify-between gap-3 min-w-0">
           <div className="flex flex-col gap-0.5 min-w-0 flex-1">
             <Typography
-              variant="h3"
+              variant="h4"
               className={`text-sm font-semibold tracking-tight leading-tight truncate transition-colors duration-300 ${isOpen ? 'text-foreground' : 'text-foreground/75 group-hover:text-foreground'}`}
             >
               {experience.role}
@@ -85,14 +86,16 @@ export const ExperienceCard = ({ experience, index }) => {
               className="pl-8 pr-3 pb-4 flex flex-col gap-3"
             >
               {/* Description */}
-              <div className="relative bg-secondary/40 px-3 py-2 rounded-md inset-shadow-sm">
-                <Typography
-                  variant="body"
-                  className="text-sm leading-relaxed text-muted-foreground/80"
-                >
-                  {experience.description}
-                </Typography>
-              </div>
+              {experience.description && (
+                <div className="relative bg-secondary/40 px-3 py-2 rounded-md inset-shadow-sm">
+                  <Typography
+                    variant="body"
+                    className="text-sm leading-relaxed text-muted-foreground/80"
+                  >
+                    {experience.description}
+                  </Typography>
+                </div>
+              )}
 
               {/* Tech pills */}
               <motion.div
@@ -104,9 +107,9 @@ export const ExperienceCard = ({ experience, index }) => {
                   visible: { transition: { staggerChildren: 0.05 } }
                 }}
               >
-                {experience.technologies.map((skill, i) => (
+                {(experience.technologies ?? []).map((skill) => (
                   <motion.span
-                    key={i}
+                    key={skill}
                     variants={{
                       hidden: { opacity: 0, scale: 0.85, y: 4 },
                       visible: { opacity: 1, scale: 1, y: 0 }

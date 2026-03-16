@@ -20,7 +20,7 @@ export default function Experience({ data }) {
 
         <div className="space-y-4">
           {data.map((exp, index) => (
-            <ExperienceCard key={index} experience={exp} index={index} />
+            <ExperienceCard key={exp.id ?? `${exp.company}-${exp.role}`} experience={exp} index={index} />
           ))}
         </div>
       </motion.div>
