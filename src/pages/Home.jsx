@@ -5,13 +5,11 @@ import { portfolioData } from '../data/portfolioData';
 import SectionDivider from '../components/ui/SectionDivider';
 
 const Experience = lazy(() => import('../components/Experience'));
-const Project = lazy(() => import('../components/Project'));
+const ProjectsSection = lazy(() => import('../components/ProjectsSection'));
 const Skills = lazy(() => import('../components/Skills'));
 const Education = lazy(() => import('../components/Education'));
 const Contact = lazy(() => import('../components/Contact'));
 const PlaygroundPreview = lazy(() => import('../components/PlaygroundPreview'));
-
-
 
 export default function Home() {
   return (
@@ -29,37 +27,47 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div className="min-h-[200px]" />}>
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="education" className="relative">
           <Education data={portfolioData.education} />
         </div>
+      </Suspense>
 
-        <SectionDivider />
+      <SectionDivider />
 
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="projects" className="relative">
-          <Project data={portfolioData.projects} />
+          <ProjectsSection data={portfolioData.projects} />
         </div>
+      </Suspense>
 
-        <SectionDivider />
+      <SectionDivider />
 
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="experience" className="relative">
           <Experience data={portfolioData.experience} />
         </div>
+      </Suspense>
 
-        <SectionDivider />
+      <SectionDivider />
 
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="skills" className="relative">
           <Skills data={portfolioData.skills} />
         </div>
+      </Suspense>
 
-        <SectionDivider />
+      <SectionDivider />
 
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="playground" className="relative">
           <PlaygroundPreview />
         </div>
+      </Suspense>
 
-        <SectionDivider />
+      <SectionDivider />
 
+      <Suspense fallback={<div>Loading...</div>}>
         <div id="contact" className="relative">
           <Contact />
         </div>
@@ -67,4 +75,3 @@ export default function Home() {
     </>
   );
 }
-

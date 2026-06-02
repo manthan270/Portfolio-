@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PaintBoardIcon, ArrowLeft01Icon, Search01Icon, Sun02Icon, Moon02Icon } from 'hugeicons-react';
+import { Palette, ArrowLeft, Search, Sun, Moon } from 'lucide-react';
 import DesignSystem from './DesignSystem';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
@@ -42,7 +42,7 @@ export default function Header({ isDark, toggleTheme }) {
             {!context.root && (
               <Link to={location.pathname.startsWith('/project/') ? '/projects' : '/'}>
                 <Button variant="ghost" size="icon" aria-label="Go Back" className="w-8 h-8 rounded-full border border-border/50 bg-secondary/10 hover:bg-secondary transition-colors">
-                  <ArrowLeft01Icon size={14} />
+                  <ArrowLeft size={14} />
                 </Button>
               </Link>
             )}
@@ -59,6 +59,7 @@ export default function Header({ isDark, toggleTheme }) {
                   <img
                     src={portfolioData.hero.profileImage}
                     alt="Profile"
+                    loading="lazy"
                     className="w-8 h-8 rounded-md object-cover"
                   />
                   <div className="flex flex-col">
@@ -79,10 +80,10 @@ export default function Header({ isDark, toggleTheme }) {
               onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
               className="hidden md:flex items-center gap-2 px-2 py-1.5 bg-secondary/50 border border-border/50 rounded-lg hover:bg-secondary transition-colors group"
             >
-              <Search01Icon size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+              <Search size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">Search...</span>
               <div className="flex items-center gap-1 ml-2">
-                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">⌘</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">{navigator.platform?.includes('Mac') ? '⌘' : 'Ctrl'}</kbd>
                 <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">K</kbd>
               </div>
             </button>
@@ -94,7 +95,7 @@ export default function Header({ isDark, toggleTheme }) {
               className="md:hidden rounded-full w-9 h-9 hover:bg-muted"
               aria-label="Search"
             >
-              <Search01Icon size={18} />
+              <Search size={18} />
             </Button>
 
             <Button
@@ -104,7 +105,7 @@ export default function Header({ isDark, toggleTheme }) {
               className="rounded-full w-9 h-9 hover:bg-muted"
               aria-label="View Design System"
             >
-              <PaintBoardIcon size={18} />
+              <Palette size={18} />
             </Button>
             <Button
               variant="ghost"
@@ -123,9 +124,9 @@ export default function Header({ isDark, toggleTheme }) {
                   className="flex items-center justify-center"
                 >
                   {isDark ? (
-                    <Sun02Icon size={18} className="text-muted-foreground hover:text-foreground transition-colors" />
+                    <Sun size={18} className="text-muted-foreground hover:text-foreground transition-colors" />
                   ) : (
-                    <Moon02Icon size={18} className="text-muted-foreground hover:text-foreground transition-colors" />
+                    <Moon size={18} className="text-muted-foreground hover:text-foreground transition-colors" />
                   )}
                 </motion.div>
               </AnimatePresence>

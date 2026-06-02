@@ -18,7 +18,7 @@ const MenuItem = ({ item, isActive, onClick, onHover, onLeave }) => {
       animate={{
         backgroundColor: isActive ? item.color : 'rgba(255,255,255,0.01)',
         borderColor: isActive ? item.color : 'rgba(128,128,128,0.5)',
-        color: isActive ? 'white' : 'var(--color-muted-background)',
+        color: isActive ? 'white' : 'var(--color-muted-foreground)',
         minWidth: isActive ? '100px' : '48px',
       }}
       whileTap={{ scale: 0.92 }}
@@ -113,7 +113,7 @@ const BubbleMenu = ({ activeSection }) => {
     if (section) {
       const headerOffset = 130;
       const elementPosition = section.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,

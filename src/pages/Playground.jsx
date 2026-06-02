@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { playgroundData } from '../data/playgroundData';
 import { motion } from 'motion/react';
 
 import BubbleMenu from '../components/Playground/BubbleMenu';
 import { Typography } from '../components/ui/Typography';
+import SectionDivider from '../components/ui/SectionDivider';
 
 
 
@@ -12,13 +13,7 @@ const FigmaExploration = React.lazy(() => import('../components/Playground/Explo
 const Posters = React.lazy(() => import('../components/Playground/Posters'));
 const ThreeDArts = React.lazy(() => import('../components/Playground/ThreeDArts'));
 
-// --- Technical Divider Component ---
-const SectionDivider = () => (
-  <div className="relative w-full my-8 flex items-center">
-    {/* Bleeding Line */}
-    <div className="absolute left-[calc(-50vw+50%)] w-screen border-t border-dashed border-border/60" />
-  </div>
-);
+
 
 
 
@@ -29,8 +24,8 @@ const SectionSkeleton = () => (
 );
 
 export default function Playground() {
-  const [activeSection, setActiveSection] = React.useState(null);
-  const scrollTimeoutRef = React.useRef(null);
+  const [activeSection, setActiveSection] = useState(null);
+  const scrollTimeoutRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -100,25 +95,25 @@ export default function Playground() {
 
         {/* Spinner shown per section independently */}
         <div id="figma">
-          <React.Suspense fallback={<SectionSkeleton />}>
+          <Suspense fallback={<SectionSkeleton />}>
             <FigmaExploration data={playgroundData.figma} />
-          </React.Suspense>
+          </Suspense>
         </div>
 
         <SectionDivider />
 
         <div id="3d">
-          <React.Suspense fallback={<SectionSkeleton />}>
+          <Suspense fallback={<SectionSkeleton />}>
             <ThreeDArts data={playgroundData.threeD} />
-          </React.Suspense>
+          </Suspense>
         </div>
 
         <SectionDivider />
 
         <div id="posters">
-          <React.Suspense fallback={<SectionSkeleton />}>
+          <Suspense fallback={<SectionSkeleton />}>
             <Posters data={playgroundData.posters} />
-          </React.Suspense>
+          </Suspense>
         </div>
 
       </div>

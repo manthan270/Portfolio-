@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { Cancel01Icon, PaintBoardIcon, TextIcon, PaintBucketIcon, AspectRatioIcon } from 'hugeicons-react';
+import { X, Palette, Type, PaintBucket, Monitor } from 'lucide-react';
 import { Typography } from './ui/Typography';
 
 export default function DesignSystem({ isOpen, onClose }) {
@@ -28,7 +28,7 @@ export default function DesignSystem({ isOpen, onClose }) {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 shrink-0">
               <Typography variant="h3" className="font-semi flex items-center gap-2 m-0 text-base">
-                <PaintBoardIcon className="text-primary" size={20} />
+                <Palette className="text-primary" size={20} />
                 Design System
               </Typography>
               <button
@@ -36,7 +36,7 @@ export default function DesignSystem({ isOpen, onClose }) {
                 className="p-1 hover:bg-muted/50 rounded-md text-muted-foreground transition-colors cursor-pointer"
                 aria-label="Close design system"
               >
-                <Cancel01Icon size={16} />
+                <X size={16} />
               </button>
             </div>
 
@@ -44,7 +44,7 @@ export default function DesignSystem({ isOpen, onClose }) {
             <div className="overflow-y-auto p-4 command-scrollbar">
 
               {/* Color Palette */}
-              <Section icon={PaintBucketIcon} title="Colors">
+              <Section icon={PaintBucket} title="Colors">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <ColorVariable name="--color-background" label="Background" />
                   <ColorVariable name="--color-foreground" label="Foreground" />
@@ -58,7 +58,7 @@ export default function DesignSystem({ isOpen, onClose }) {
               </Section>
 
               {/* Typography */}
-              <Section icon={TextIcon} title="Typography">
+              <Section icon={Type} title="Typography">
                 <div className="space-y-4">
                   <TypeVariable className="text-(length:--text-xs)" name="--text-xs" />
                   <TypeVariable className="text-(length:--text-sm)" name="--text-sm" />
@@ -70,7 +70,7 @@ export default function DesignSystem({ isOpen, onClose }) {
               </Section>
 
               {/* Spacing */}
-              <Section icon={AspectRatioIcon} title="Golden Ratio Spacing">
+              <Section icon={Monitor} title="Golden Ratio Spacing">
                 <div className="space-y-2">
                   <SpacingVariable name="--spacing-1" />
                   <SpacingVariable name="--spacing-2" />

@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Typography } from './ui/Typography';
-import { Calendar01Icon, PinIcon, UnfoldLessIcon, UnfoldMoreIcon } from 'hugeicons-react';
+import { Calendar, MapPin, ChevronUp, ChevronDown } from 'lucide-react';
 
-export const ExperienceCard = ({ experience, index }) => {
+export const ExperienceCard = memo(({ experience, index }) => {
   const [isOpen, setIsOpen] = useState(index === 0);
 
   return (
@@ -41,12 +41,12 @@ export const ExperienceCard = ({ experience, index }) => {
             </Typography>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-xs font-mono text-muted-foreground/70 uppercase tracking-wider">
               <span className="flex items-center gap-1">
-                <PinIcon className="w-2.5 h-2.5 shrink-0" />
+                <MapPin className="w-2.5 h-2.5 shrink-0" />
                 <span className="break-words">{experience.company}</span>
               </span>
               <span className="text-border hidden sm:inline">·</span>
               <span className="flex items-center gap-1">
-                <Calendar01Icon className="w-2.5 h-2.5 shrink-0" />
+                <Calendar className="w-2.5 h-2.5 shrink-0" />
                 <span className="whitespace-nowrap">{experience.period}</span>
               </span>
             </div>
@@ -61,7 +61,7 @@ export const ExperienceCard = ({ experience, index }) => {
               transition={{ duration: 0.15 }}
               className="shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors"
             >
-              {isOpen ? <UnfoldLessIcon size={16} /> : <UnfoldMoreIcon size={16} />}
+              {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -127,4 +127,6 @@ export const ExperienceCard = ({ experience, index }) => {
       </AnimatePresence>
     </motion.div>
   );
-};
+});
+
+ExperienceCard.displayName = 'ExperienceCard';
