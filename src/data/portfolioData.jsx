@@ -1,6 +1,6 @@
 import {
-  GithubIcon, Linkedin01Icon, Mail01Icon
-} from 'hugeicons-react';
+  Github, Linkedin, Mail
+} from 'lucide-react';
 
 export const portfolioData = {
   hero: {
@@ -15,9 +15,9 @@ export const portfolioData = {
     profileVideo: "/videos/heymain.mp4",
     cvLink: "/CV/MANTHAN GADEGONE.pdf",
     socials: [
-      { name: "Email", icon: Mail01Icon, link: "mailto:anilgadegone@gmail.com" },
-      { name: "GitHub", icon: GithubIcon, link: "https://github.com/manthan270" },
-      { name: "LinkedIn", icon: Linkedin01Icon, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
+      { name: "Email", icon: Mail, link: "mailto:anilgadegone@gmail.com" },
+      { name: "GitHub", icon: Github, link: "https://github.com/manthan270" },
+      { name: "LinkedIn", icon: Linkedin, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
     ]
   },
   projects: [
@@ -81,16 +81,16 @@ export const portfolioData = {
 
   //custom svg from folder public/images/icons
   skills: [
-    { name: 'React', Icon: '/images/icons/React.svg' },
-    { name: 'JS', Icon: '/images/icons/JavaScript.svg' },
-    { name: 'Tailwind', Icon: '/images/icons/Tailwind CSS.svg' },
-    { name: 'CSS', Icon: '/images/icons/CSS3.svg' },
-    { name: 'HTML', Icon: '/images/icons/HTML5.svg' },
-    { name: 'Node', Icon: '/images/icons/Node.js.svg' },
-    { name: 'Git', Icon: '/images/icons/Git.svg' },
-    { name: 'Python', Icon: '/images/icons/Python.svg' },
-    { name: 'SQL', Icon: '/images/icons/SQL Developer.svg' },
-    { name: 'Figma', Icon: '/images/icons/Figma.svg' },
+    { name: 'React', icon: '/images/icons/React.svg' },
+    { name: 'JS', icon: '/images/icons/JavaScript.svg' },
+    { name: 'Tailwind', icon: '/images/icons/Tailwind CSS.svg' },
+    { name: 'CSS', icon: '/images/icons/CSS3.svg' },
+    { name: 'HTML', icon: '/images/icons/HTML5.svg' },
+    { name: 'Node', icon: '/images/icons/Node.js.svg' },
+    { name: 'Git', icon: '/images/icons/Git.svg' },
+    { name: 'Python', icon: '/images/icons/Python.svg' },
+    { name: 'SQL', icon: '/images/icons/SQL Developer.svg' },
+    { name: 'Figma', icon: '/images/icons/Figma.svg' },
   ],
   footer: {
     year: new Date().getFullYear(),

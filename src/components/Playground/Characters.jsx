@@ -79,7 +79,8 @@ export default function Characters({ data = [] }) {
                   >
                     <img
                       src={character.image}
-                      alt="Character"
+                      alt={character.name || "Character"}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                     />
                   </motion.div>

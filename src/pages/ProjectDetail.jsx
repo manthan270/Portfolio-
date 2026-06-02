@@ -3,13 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { portfolioData } from '../data/portfolioData';
 import {
-   Github01Icon,
-   CpuIcon,
-   CheckListIcon,
-   DashboardSquare01Icon,
-   PlayIcon,
-   CodeCircleIcon
-} from 'hugeicons-react';
+   Github,
+   Cpu,
+   ListChecks,
+   LayoutDashboard,
+   Play,
+   Code
+} from 'lucide-react';
 import { Typography } from '../components/ui/Typography';
 import { Button } from '../components/ui/Button';
 
@@ -41,10 +41,8 @@ const ProjectDetail = () => {
       );
    }
 
-   const isDimlightOrWishgrid = project.slug === 'dimlight' || project.slug === 'wishgrid';
-   const isUIDesign = project.category === 'UI Projects' || project.category === 'Case Studies';
-   const hasVideo = project.videoUrl && isDimlightOrWishgrid;
-   const hasFigma = project.figmaUrl && isUIDesign;
+   const hasVideo = !!project.videoUrl;
+   const hasFigma = !!project.figmaUrl;
    const liveLink = project.link || "#";
    const isGithub = liveLink.includes("github");
 
@@ -111,12 +109,12 @@ const ProjectDetail = () => {
                <div className="border-t border-border bg-secondary/10 p-4 flex items-center justify-center gap-3">
                   {isGithub && (
                      <Button
-                        variant="outline"
+                        variant="secondary"
                         size="sm"
                         className="border-border/60"
                         onClick={() => window.open(liveLink, "_blank")}
                      >
-                        <CodeCircleIcon size={16} className="mr-2" />
+                        <Code size={16} className="mr-2" />
                         Source
                      </Button>
                   )}
@@ -128,12 +126,12 @@ const ProjectDetail = () => {
                   >
                      {isGithub ? (
                         <>
-                           <Github01Icon size={16} className="mr-2" />
+                           <Github size={16} className="mr-2" />
                            Repository
                         </>
                      ) : (
                         <>
-                           <PlayIcon size={16} className="inline mr-2" strokeWidth={2} />
+                           <Play size={16} className="inline mr-2" strokeWidth={2} />
                            Live
                         </>
                      )}
@@ -152,7 +150,7 @@ const ProjectDetail = () => {
                viewport={{ once: true }}
                transition={{ duration: 0.5 }}
             >
-               <SectionLabel icon={DashboardSquare01Icon} label="Overview" />
+               <SectionLabel icon={LayoutDashboard} label="Overview" />
                <p className="text-muted-foreground leading-relaxed text-sm">
                   {project.fullDescription || project.description}
                </p>
@@ -166,7 +164,7 @@ const ProjectDetail = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.05 }}
                >
-                  <SectionLabel icon={CpuIcon} label="Tech Stack" />
+                  <SectionLabel icon={Cpu} label="Tech Stack" />
                   <div className="flex flex-wrap gap-2">
                      {project.techStack.map((tech, i) => (
                         <span
@@ -188,7 +186,7 @@ const ProjectDetail = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                >
-                  <SectionLabel icon={CheckListIcon} label="Features" />
+                  <SectionLabel icon={ListChecks} label="Features" />
                   <div className="flex flex-col gap-3">
                      {project.features.map((feature, i) => {
                         const colonIdx = feature.indexOf(':');

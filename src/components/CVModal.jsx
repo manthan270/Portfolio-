@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Cancel01Icon, Download01Icon, File01Icon } from 'hugeicons-react';
+import { X, Download, File } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 
@@ -15,13 +15,19 @@ function downloadFile(url, filename) {
 }
 
 export default function CVModal({ isOpen, onClose, cvUrl }) {
-  // Close on Escape key
+  // Close on Escape key + lock body scroll
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
-    if (isOpen) window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
   }, [isOpen, onClose]);
 
   // Use Portal to render outside parent stacking contexts
@@ -50,7 +56,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               <div className="flex items-center justify-between px-4 py-3 sm:px-6 border-b border-border/50 bg-secondary/5 shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-primary/10 rounded-lg">
-                    <File01Icon size={20} className="text-primary" />
+                    <File size={20} className="text-primary" />
                   </div>
                   <div className="flex flex-col">
                     <Typography variant="h3" className="text-sm font-semibold">Resume</Typography>
@@ -62,7 +68,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                   <Button
                     variant="primary"
                     size="sm"
-                    icon={Download01Icon}
+                    icon={Download}
                     onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
                     className="hidden sm:flex"
                   >
@@ -74,7 +80,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     onClick={onClose}
                     className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
                   >
-                    <Cancel01Icon size={18} />
+                    <X size={18} />
                   </Button>
                 </div>
               </div>
@@ -93,7 +99,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                 <Button
                   variant="primary"
                   className="w-full"
-                  icon={Download01Icon}
+                  icon={Download}
                   onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
                 >
                   Download Resume

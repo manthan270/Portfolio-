@@ -46,7 +46,8 @@ const Extras = ({ data }) => {
               >
                 <img
                   src={item.image}
-                  alt="Extra"
+                  alt={item.title || "Extra"}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </motion.div>

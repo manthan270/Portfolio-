@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Typography } from './ui/Typography';
-import { LayoutGridIcon, Layout3RowIcon } from 'hugeicons-react';
+import { LayoutGrid, Rows } from 'lucide-react';
 
-export default function Skills({ data }) {
+export default memo(function Skills({ data }) {
   const [view, setView] = useState('scroll');
 
   if (!data) return null;
@@ -44,7 +44,7 @@ export default function Skills({ data }) {
                 />
               )}
               <span className={`relative z-10 transition-colors duration-200 ${view === 'scroll' ? 'text-foreground' : 'text-muted-foreground/50 group-hover:text-foreground/50'}`}>
-                <Layout3RowIcon size={14} />
+                <Rows size={14} />
               </span>
             </div>
 
@@ -58,7 +58,7 @@ export default function Skills({ data }) {
                 />
               )}
               <span className={`relative z-10 transition-colors duration-200 ${view === 'stack' ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground/70'}`}>
-                <LayoutGridIcon size={14} />
+                <LayoutGrid size={14} />
               </span>
             </div>
           </button>
@@ -101,7 +101,7 @@ export default function Skills({ data }) {
       </motion.div>
     </section>
   );
-}
+});
 
 // --- Helper Components ---
 
@@ -119,7 +119,7 @@ const MarqueeRow = ({ items, direction = "left" }) => {
   );
 };
 
-function SkillPill({ skill }) {
+const SkillPill = memo(function SkillPill({ skill }) {
   return (
     <div className="
       group relative flex items-center gap-2 px-3 py-1.5
@@ -129,7 +129,7 @@ function SkillPill({ skill }) {
     ">
       <div className="w-4 h-4 shrink-0 flex items-center justify-center">
         <img
-          src={skill.Icon}
+          src={skill.icon}
           alt={skill.name}
           loading="lazy"
           className="
@@ -147,9 +147,9 @@ function SkillPill({ skill }) {
       </span>
     </div>
   );
-}
+});
 
-function StackItem({ skill, index }) {
+const StackItem = memo(function StackItem({ skill, index }) {
   return (
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
@@ -162,7 +162,7 @@ function StackItem({ skill, index }) {
         w-10 h-10
       ">
         <img
-          src={skill.Icon}
+          src={skill.icon}
           alt={skill.name}
           loading="lazy"
           className="
@@ -186,4 +186,4 @@ function StackItem({ skill, index }) {
       </div>
     </motion.div>
   );
-}
+});

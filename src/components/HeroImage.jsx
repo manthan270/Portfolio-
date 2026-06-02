@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export default function HeroImage({ src, videoSrc, alt }) {
+export default function HeroImage({ src, alt }) {
   const [isActive, setIsActive] = useState(true); // Start with video
   const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
   const videoRef = useRef(null);
@@ -41,7 +41,7 @@ export default function HeroImage({ src, videoSrc, alt }) {
     if (videoRef.current && !isActive) {
       setIsActive(true);
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -58,7 +58,7 @@ export default function HeroImage({ src, videoSrc, alt }) {
     if (videoRef.current && !isActive) {
       setIsActive(true);
       videoRef.current.currentTime = 0;
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -76,7 +76,6 @@ export default function HeroImage({ src, videoSrc, alt }) {
         height={800}
         loading="eager" /* Hero image shouldn't be lazy loaded */
         decoding="async"
-        srcSet={`${src.replace('.webp', '-400.webp')} 400w, ${src.replace('.webp', '-800.webp')} 800w, ${src} 1200w`}
         sizes="(max-width: 768px) 400px, 800px"
         className="absolute inset-0 w-full h-full object-cover"
         style={{
@@ -90,7 +89,6 @@ export default function HeroImage({ src, videoSrc, alt }) {
       <video
         ref={videoRef}
         autoPlay
-        loop
         muted
         playsInline
         preload="metadata"

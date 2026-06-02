@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Location01Icon, ViewIcon, CheckmarkBadge01Icon } from 'hugeicons-react';
+import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
 import HeroImage from "./HeroImage.jsx";
 import { Typography } from './ui/Typography';
@@ -16,7 +16,7 @@ export default function Hero({ data }) {
 
       <div className="absolute top-40 right-4 z-20 flex items-center gap-4 sm:gap-6">
         <div className="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-          <Location01Icon size={13} className="text-foreground" />
+          <MapPin size={13} className="text-foreground" />
           <Typography variant="small" className="font-medium tracking-wide text-foreground">India</Typography>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function Hero({ data }) {
             <div className="flex flex-col gap-2">
               <Typography variant="h1" className="text-foreground tracking-tight flex items-center gap-2">
                 {data.name}
-                <CheckmarkBadge01Icon size={24} className="text-white fill-blue-500 stroke-white" strokeWidth={1.2} />
+                <BadgeCheck size={24} className="text-white fill-blue-500 stroke-white" strokeWidth={1.2} />
               </Typography>
 
               <div className="flex items-center gap-3 text-muted-foreground">
@@ -99,7 +99,7 @@ export default function Hero({ data }) {
               <Button
                 variant="secondary"
                 size="sm"
-                icon={ViewIcon}
+                icon={Eye}
                 onClick={() => setShowCV(true)}
               >
                 View CV

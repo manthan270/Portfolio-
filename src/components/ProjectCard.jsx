@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
-import { ArrowUpRight01Icon, ArrowRight01Icon } from "hugeicons-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Typography } from "./ui/Typography";
 import ComingSoonModal from './ComingSoonModal';
 
-export const ProjectCard = ({ project }) => {
+export const ProjectCard = memo(({ project }) => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const detailsLink = project.slug ? `/project/${project.slug}` : `/project/${project.id}`;
@@ -29,8 +29,7 @@ export const ProjectCard = ({ project }) => {
             decoding="async"
             width={800}
             height={500}
-            srcSet={`${project.image.replace('.webp', '-400.webp')} 400w, ${project.image.replace('.webp', '-800.webp')} 800w, ${project.image} 1200w`}
-            sizes="(max-width: 768px) 400vw, 800px"
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="h-full w-full object-contain duration-200"
             whileHover={{ scale: 1.05 }}
           />
@@ -70,7 +69,7 @@ export const ProjectCard = ({ project }) => {
                 <span className="text-[11px] font-mono font-semibold uppercase tracking-tighter">
                   Live
                 </span>
-                <ArrowUpRight01Icon size={16} strokeWidth={2} />
+                <ArrowUpRight size={16} strokeWidth={2} />
               </button>
             ) : (
               <a
@@ -82,7 +81,7 @@ export const ProjectCard = ({ project }) => {
                 <span className="text-[11px] font-mono font-semibold uppercase tracking-tighter">
                   {liveLink.includes("figma") ? "Prototype" : "Live"}
                 </span>
-                <ArrowUpRight01Icon size={16} strokeWidth={2} />
+                <ArrowUpRight size={16} strokeWidth={2} />
               </a>
             )}
             {/* View Details Button */}
@@ -93,7 +92,7 @@ export const ProjectCard = ({ project }) => {
               <span className="text-[11px] font-mono font-semibold uppercase tracking-tighter">
                 Details
               </span>
-              <ArrowRight01Icon size={16} strokeWidth={2} />
+              <ArrowRight size={16} strokeWidth={2} />
             </button>
           </div>
         </div>
@@ -107,4 +106,6 @@ export const ProjectCard = ({ project }) => {
       )}
     </>
   );
-};
+});
+
+ProjectCard.displayName = 'ProjectCard';

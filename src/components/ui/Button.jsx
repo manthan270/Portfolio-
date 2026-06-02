@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Loading02Icon } from 'hugeicons-react';
+import { Loader2 } from 'lucide-react';
 
 const variants = {
   // 1. Primary: The "Gem" look. 
@@ -121,7 +121,7 @@ export function Button({
       {/* Loading State Overlay */}
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-inherit z-20">
-          <Loading02Icon className="w-4 h-4 animate-spin" />
+          <Loader2 className="w-4 h-4 animate-spin" />
         </div>
       )}
 

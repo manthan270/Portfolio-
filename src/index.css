@@ -4,29 +4,30 @@
 
 @theme {
 
-  --color-primary: var(--color-primary);
-  --color-primary-foreground: var(--color-primary-foreground);
-  --color-secondary: var(--color-secondary);
-  --color-secondary-foreground: var(--color-secondary-foreground);
+  /* Light mode defaults — overridden by .dark in the cascade below */
+  --color-primary: #18181b;
+  --color-primary-foreground: #fafafa;
+  --color-secondary: #cccccc;
+  --color-secondary-foreground: #18181b;
 
-  --color-background: var(--color-background);
-  --color-foreground: var(--color-foreground);
+  --color-background: #f7f7f7;
+  --color-foreground: #111111;
 
-  --color-card: var(--color-card);
-  --color-card-foreground: var(--color-card-foreground);
+  --color-card: #ffffff;
+  --color-card-foreground: #111111;
 
-  --color-popover: var(--color-popover);
-  --color-popover-foreground: var(--color-popover-foreground);
+  --color-popover: #ffffff;
+  --color-popover-foreground: #09090b;
 
-  --color-muted: var(--color-muted);
-  --color-muted-foreground: var(--color-muted-foreground);
+  --color-muted: #555555;
+  --color-muted-foreground: #222222;
 
-  --color-accent: var(--color-accent);
-  --color-accent-foreground: var(--color-accent-foreground);
+  --color-accent: #1a1a1a;
+  --color-accent-foreground: #fafafa;
 
-  --color-border: var(--color-border);
-  --color-input: var(--color-input);
-  --color-ring: var(--color-ring);
+  --color-border: #cccccc;
+  --color-input: #e4e4e7;
+  --color-ring: #18181b;
 
   /* Typography Scale */
   --text-xs: 0.75rem;
@@ -146,31 +147,6 @@
 :root {
   --phi: 1.618;
   --radius: 0.5rem;
-
-  --color-background: #f7f7f7;
-  --color-foreground: #111111;
-
-  --color-card: #ffffff;
-  --color-card-foreground: #111111;
-
-  --color-popover: #ffffff;
-  --color-popover-foreground: #09090b;
-
-  --color-primary: #18181b;
-  --color-primary-foreground: #fafafa;
-
-  --color-secondary: #cccccc;
-  --color-secondary-foreground: #18181b;
-
-  --color-muted: #555555;
-  --color-muted-foreground: #222222;
-
-  --color-accent: #1a1a1a;
-  --color-accent-foreground: #fafafa;
-
-  --color-border: #cccccc;
-  --color-input: #e4e4e7;
-  --color-ring: #18181b;
 }
 
 .dark {

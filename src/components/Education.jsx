@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Typography } from './ui/Typography';
-import { Calendar01Icon, UniversityIcon, Location01Icon } from 'hugeicons-react';
+import { Calendar, GraduationCap, MapPin } from 'lucide-react';
 
 export default function Education({ data }) {
     if (!data) return null;
@@ -46,19 +46,19 @@ export default function Education({ data }) {
 
                                     <div className="flex flex-col gap-1.5 mt-1 text-xs font-mono text-muted-foreground uppercase tracking-wider">
                                         <div className="flex items-center gap-1.5">
-                                            <UniversityIcon className="w-3 h-3 opacity-70" />
+                                            <GraduationCap className="w-3 h-3 opacity-70" />
                                             <span>{education.institution}</span>
                                         </div>
 
                                         {education.location && (
                                             <div className="flex items-center gap-1.5">
-                                                <Location01Icon className="w-3 h-3 opacity-70" />
+                                                <MapPin className="w-3 h-3 opacity-70" />
                                                 <span>{education.location}</span>
                                             </div>
                                         )}
 
                                         <div className="flex items-center gap-1.5">
-                                            <Calendar01Icon className="w-3 h-3 opacity-70" />
+                                            <Calendar className="w-3 h-3 opacity-70" />
                                             <span>{education.period}</span>
                                         </div>
                                     </div>

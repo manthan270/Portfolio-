@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, wrap, AnimatePresence } from 'motion/react';
-import { ArrowLeft02Icon, ArrowRight02Icon } from 'hugeicons-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import SectionWrapper from './SectionWrapper';
 
 const Posters = React.memo(({ data }) => {
@@ -27,7 +27,7 @@ const Posters = React.memo(({ data }) => {
             className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full border border-border/60 bg-secondary/20 hover:bg-secondary/50 hover:border-border transition-all duration-200 text-muted-foreground hover:text-foreground z-20"
             aria-label="Previous poster"
           >
-            <ArrowLeft02Icon size={16} />
+            <ArrowLeft size={16} />
           </motion.button>
 
           {/* Main Poster */}
@@ -47,6 +47,7 @@ const Posters = React.memo(({ data }) => {
                     <img
                       src={data[index].image}
                       alt={`Poster ${index + 1}`}
+                      loading="lazy"
                       className="w-full h-full object-cover select-none"
                       draggable="false"
                     />
@@ -57,10 +58,10 @@ const Posters = React.memo(({ data }) => {
               {/* Ghost previews */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="absolute w-full h-full scale-90 translate-x-8 -z-10 opacity-20 blur-sm overflow-hidden grayscale">
-                  <img src={data[wrap(0, data.length, index + 1)].image} className="w-full h-full object-cover" alt="" />
+                  <img src={data[wrap(0, data.length, index + 1)].image} className="w-full h-full object-cover" loading="lazy" alt="Next Poster preview" />
                 </div>
                 <div className="absolute w-full h-full scale-90 -translate-x-8 -z-10 opacity-20 blur-sm overflow-hidden grayscale">
-                  <img src={data[wrap(0, data.length, index - 1)].image} className="w-full h-full object-cover" alt="" />
+                  <img src={data[wrap(0, data.length, index - 1)].image} className="w-full h-full object-cover" loading="lazy" alt="Previous Poster preview" />
                 </div>
               </div>
 
@@ -75,7 +76,7 @@ const Posters = React.memo(({ data }) => {
             className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full border border-border/60 bg-secondary/20 hover:bg-secondary/50 hover:border-border transition-all duration-200 text-muted-foreground hover:text-foreground z-20"
             aria-label="Next poster"
           >
-            <ArrowRight02Icon size={16} />
+            <ArrowRight size={16} />
           </motion.button>
 
         </div>

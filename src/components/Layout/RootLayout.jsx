@@ -75,7 +75,6 @@ export default function RootLayout({ children }) {
         <Header
           isDark={isDark}
           toggleTheme={toggleTheme}
-          name={portfolioData.hero.name}
         />
 
         {/* Page Content */}

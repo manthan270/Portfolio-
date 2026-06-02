@@ -1,20 +1,18 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  Search01Icon,
-  Home01Icon,
-  BrowserIcon,
-  GithubIcon,
-  Linkedin01Icon,
-  Cancel01Icon,
-  SlideIcon,
-  Globe02Icon,
-  Sun02Icon,
-  Moon02Icon,
-  Mail01FreeIcons
-} from '@hugeicons/core-free-icons';
+  Search,
+  Home,
+  Globe,
+  Github,
+  Linkedin,
+  X,
+  Presentation,
+  Sun,
+  Moon,
+  Mail
+} from 'lucide-react';
 
 /**
  * CommandPalette Component
@@ -31,27 +29,25 @@ const CommandPalette = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
 
   // Flatten and filter items based on search
   const filteredItems = useMemo(() => {
-    // Mock data structure - aligns with the app's structure
+    const currentlyDark = document.documentElement.classList.contains('dark');
     const commandSections = [
       {
         group: "Navigation",
         items: [
-          { id: 'nav-home', label: 'Home', icon: Home01Icon, shortcut: 'H', action: () => navigate('/') },
-          { id: 'nav-projects', label: 'Projects', icon: BrowserIcon, shortcut: 'P', action: () => navigate('/projects') },
-          { id: 'nav-playground', label: 'Playground', icon: SlideIcon, shortcut: 'G', action: () => navigate('/playground') },
+          { id: 'nav-home', label: 'Home', icon: Home, shortcut: 'H', action: () => navigate('/') },
+          { id: 'nav-projects', label: 'Projects', icon: Globe, shortcut: 'P', action: () => navigate('/projects') },
+          { id: 'nav-playground', label: 'Playground', icon: Presentation, shortcut: 'G', action: () => navigate('/playground') },
         ]
       },
       {
         group: "Preferences",
         items: [
           {
-            id: 'pref-theme', label: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode', icon: isDark ? Sun02Icon : Moon02Icon, shortcut: 'T', action: () => {
+            id: 'pref-theme', label: currentlyDark ? 'Switch to Light Mode' : 'Switch to Dark Mode', icon: currentlyDark ? Sun : Moon, shortcut: 'T', action: () => {
               window.dispatchEvent(new Event('toggle-theme'));
-              setTimeout(() => setIsDark(document.documentElement.classList.contains('dark')), 10);
             }
           },
         ]
@@ -59,16 +55,16 @@ const CommandPalette = () => {
       {
         group: "Web Projects",
         items: [
-          { id: 'proj-smartcampus', label: 'SmartCampus Navigator', icon: Globe02Icon, action: () => navigate('/project/smartcampus') },
-          { id: 'proj-hirelite', label: 'HireLite', icon: Globe02Icon, action: () => navigate('/project/hirelite') },
+          { id: 'proj-smartcampus', label: 'SmartCampus Navigator', icon: Globe, action: () => navigate('/project/smartcampus') },
+          { id: 'proj-hirelite', label: 'HireLite', icon: Globe, action: () => navigate('/project/hirelite') },
         ]
       },
       {
         group: "Social Links",
         items: [
-          { id: 's1', label: 'GitHub', icon: GithubIcon, action: () => window.open('https://github.com/manthan270', '_blank') },
-          { id: 's2', label: 'LinkedIn', icon: Linkedin01Icon, action: () => window.open('https://linkedin.com/in/manthan-gadegone-126a7922b', '_blank') },
-          { id: 's4', label: 'Mail', icon: Mail01FreeIcons, action: () => window.open('mailto:anilgadegone@gmail.com', '_blank') },
+          { id: 's1', label: 'GitHub', icon: Github, action: () => window.open('https://github.com/manthan270', '_blank') },
+          { id: 's2', label: 'LinkedIn', icon: Linkedin, action: () => window.open('https://linkedin.com/in/manthan-gadegone-126a7922b', '_blank') },
+          { id: 's4', label: 'Mail', icon: Mail, action: () => window.open('mailto:anilgadegone@gmail.com', '_blank') },
         ]
       }
     ];
@@ -84,7 +80,7 @@ const CommandPalette = () => {
       }
     });
     return flat;
-  }, [search, isDark, navigate]);
+  }, [search, navigate]);
 
   const selectableItems = useMemo(() =>
     filteredItems.filter(i => i.type === 'item'),
@@ -112,11 +108,11 @@ const CommandPalette = () => {
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedIndex(prev => (prev + 1) % selectableItems.length);
+        setSelectedIndex(prev => selectableItems.length > 0 ? (prev + 1) % selectableItems.length : 0);
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedIndex(prev => (prev - 1 + selectableItems.length) % selectableItems.length);
+        setSelectedIndex(prev => selectableItems.length > 0 ? (prev - 1 + selectableItems.length) % selectableItems.length : 0);
       }
 
       if (e.key === 'Enter' && selectableItems[selectedIndex]) {
@@ -150,8 +146,11 @@ const CommandPalette = () => {
       setTimeout(() => inputRef.current?.focus(), 10);
       setSelectedIndex(0);
       setSearch('');
-      setIsDark(document.documentElement.classList.contains('dark'));
+      document.body.style.overflow = 'hidden';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   const handleAction = (item) => {
@@ -185,7 +184,7 @@ const CommandPalette = () => {
 
             {/* Search Input Section */}
             <div className="flex items-center px-3 py-3 border-b border-border/50">
-              <HugeiconsIcon icon={Search01Icon} className="mr-3 text-muted-foreground" size={16} />
+              <Search className="mr-3 text-muted-foreground" size={16} />
               <input
                 ref={inputRef}
                 className="w-full bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm"
@@ -197,7 +196,7 @@ const CommandPalette = () => {
                 onClick={() => setIsOpen(false)}
                 className="p-1 hover:bg-muted/50 rounded-md text-muted-foreground transition-colors cursor-pointer"
               >
-                <HugeiconsIcon icon={Cancel01Icon} size={16} />
+                <X size={16} />
               </button>
             </div>
 
@@ -250,7 +249,7 @@ const CommandPalette = () => {
                       <div className="flex items-center gap-2 relative z-10 w-full justify-between">
                         <div className="flex items-center gap-2">
                           <div className={`p-1.5 rounded-md transition-colors ${isActive ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground group-hover:bg-muted/50'}`}>
-                            <HugeiconsIcon icon={item.icon} size={16} />
+                            <item.icon size={16} />
                           </div>
                           <span className={`font-medium text-sm transition-colors ${isActive ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground'}`}>
                             {item.label}

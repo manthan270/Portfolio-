@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'motion/react';
 import SectionWrapper from './SectionWrapper';
 
@@ -23,7 +23,8 @@ const SpotifyCovers = ({ data }) => {
           >
             <img
               src={item.image}
-              alt="Cover Art"
+              alt={item.title || "Cover Art"}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </motion.div>
