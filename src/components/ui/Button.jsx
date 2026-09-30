@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { motion } from 'motion/react';
 import { Loader2 } from 'lucide-react';
 
@@ -80,7 +81,7 @@ const shimmerMotion = {
   }
 };
 
-export function Button({
+export const Button = forwardRef(function Button({
   variant = 'primary',
   size = 'md',
   className = '',
@@ -90,8 +91,9 @@ export function Button({
   loading = false,
   onClick,
   href,
+  type = 'button',
   ...props
-}) {
+}, ref) {
   const variantStyle = variants[variant] || variants.primary;
   const sizeStyle = sizes[size] || sizes.md;
   const shouldAnimateIcon = variant === 'primary' && !loading;
@@ -100,7 +102,9 @@ export function Button({
 
   return (
     <Component
+      ref={ref}
       href={href}
+      type={href ? undefined : type}
       className={`
         cursor-pointer
         relative overflow-hidden group 
@@ -146,4 +150,6 @@ export function Button({
       )}
     </Component>
   );
-}
+});
+
+Button.displayName = 'Button';

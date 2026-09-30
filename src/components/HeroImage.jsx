@@ -1,31 +1,39 @@
 import { useState, useRef, useEffect } from "react";
+import { useReducedMotion } from 'motion/react';
 
 export default function HeroImage({ src, alt }) {
-  const [isActive, setIsActive] = useState(true); // Start with video
-  const [hasAutoPlayed, setHasAutoPlayed] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const videoRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
-  // Autoplay video once on mount
   useEffect(() => {
-    if (videoRef.current && !hasAutoPlayed) {
-      setHasAutoPlayed(true);
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {
-        // Handle potential autoplay blocks quietly
-        setIsActive(false);
-      });
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    if (shouldReduceMotion) {
+      video.pause();
+      setIsActive(false);
+      return undefined;
     }
-  }, [hasAutoPlayed]);
+
+    let isMounted = true;
+    video.currentTime = 0;
+    setIsActive(true);
+    video.play().catch(() => {
+      if (isMounted) setIsActive(false);
+    });
+
+    return () => {
+      isMounted = false;
+      video.pause();
+    };
+  }, [shouldReduceMotion]);
 
   // Handle video end - switch to image
   useEffect(() => {
     const handleVideoEnd = () => {
       setIsActive(false);
-      // We don't reset currentTime immediately here to avoid a "rewind" flash
-      // We let the fade-out happen first
-      setTimeout(() => {
-        if (videoRef.current) videoRef.current.currentTime = 0;
-      }, 300); // Match transition duration
+      videoNode.currentTime = 0;
     };
 
     const videoNode = videoRef.current;
@@ -38,7 +46,7 @@ export default function HeroImage({ src, alt }) {
   }, []);
 
   const handleMouseEnter = () => {
-    if (videoRef.current && !isActive) {
+    if (!shouldReduceMotion && videoRef.current && !isActive) {
       setIsActive(true);
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
@@ -49,13 +57,12 @@ export default function HeroImage({ src, alt }) {
     if (videoRef.current) {
       setIsActive(false);
       videoRef.current.pause();
-      // Reset time after fade allows for smoother exit
     }
   };
 
   // For mobile/touch devices
   const handleTouch = () => {
-    if (videoRef.current && !isActive) {
+    if (!shouldReduceMotion && videoRef.current && !isActive) {
       setIsActive(true);
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
@@ -88,10 +95,11 @@ export default function HeroImage({ src, alt }) {
       {/* Autoplay/Hover/Tap Video */}
       <video
         ref={videoRef}
-        autoPlay
         muted
         playsInline
         preload="metadata"
+        aria-hidden="true"
+        tabIndex={-1}
         className="absolute inset-0 w-full h-full object-cover"
         style={{
           transition: "opacity 0.4s ease, transform 0.4s ease",
@@ -100,7 +108,6 @@ export default function HeroImage({ src, alt }) {
         }}
       >
         <source src="/videos/hero-video.webm" type="video/webm" />
-        <source src="/videos/heymain.mp4" type="video/mp4" />
       </video>
     </div>
   );

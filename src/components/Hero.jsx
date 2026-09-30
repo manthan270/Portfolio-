@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
+import { useState, useEffect } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
 import HeroImage from "./HeroImage.jsx";
@@ -9,6 +9,16 @@ import CVModal from './CVModal';
 
 export default function Hero({ data }) {
   const [showCV, setShowCV] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => setIsDark(root.classList.contains('dark')));
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
   if (!data) return null;
 
   return (
@@ -27,12 +37,12 @@ export default function Hero({ data }) {
           <Dithering
             width="800"
             height="150"
-            colorBack="#f7f7f7"
-            colorFront="#09090b"
+            colorBack={isDark ? '#09090b' : '#f7f7f7'}
+            colorFront={isDark ? '#a1a1aa' : '#09090b'}
             shape="wave"
             type="2x2"
             size={2}
-            speed={1}
+            speed={shouldReduceMotion ? 0 : 1}
           />
         </div>
       </div>
@@ -51,7 +61,6 @@ export default function Hero({ data }) {
             <div className="w-28 h-28 overflow-hidden rounded-2xl bg-muted relative">
               <HeroImage
                 src={data.profileImage}
-                videoSrc={data.profileVideo}
                 alt={data.name}
               />
             </div>
@@ -131,6 +140,7 @@ export default function Hero({ data }) {
                         flex items-center justify-center
                       "
                       title={social.name}
+                      aria-label={social.name}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >

@@ -8,8 +8,7 @@ import {
    ListChecks,
    LayoutDashboard,
    Play,
-   Code
-} from 'lucide-react';
+ } from 'lucide-react';
 import { Typography } from '../components/ui/Typography';
 import { Button } from '../components/ui/Button';
 
@@ -43,8 +42,8 @@ const ProjectDetail = () => {
 
    const hasVideo = !!project.videoUrl;
    const hasFigma = !!project.figmaUrl;
-   const liveLink = project.link || "#";
-   const isGithub = liveLink.includes("github");
+   const projectLink = project.link;
+   const isGithub = projectLink?.includes('github.com');
 
    const getEmbedUrl = (url) => {
       if (!url) return '';
@@ -54,7 +53,7 @@ const ProjectDetail = () => {
    };
 
    return (
-      <main className="pt-4 pb-32">
+      <div className="pt-4 pb-32">
 
          {/* Title */}
          <section className="px-4 mb-8">
@@ -63,7 +62,7 @@ const ProjectDetail = () => {
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.5 }}
             >
-               <Typography variant="h3">
+               <Typography variant="h1">
                   {project.title}
                </Typography>
             </motion.div>
@@ -84,6 +83,7 @@ const ProjectDetail = () => {
                         src={getEmbedUrl(project.videoUrl)}
                         title={project.title}
                         loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                      />
@@ -91,14 +91,18 @@ const ProjectDetail = () => {
                      <iframe
                         className="w-full h-full"
                         src={project.figmaUrl}
+                        title={`${project.title} prototype`}
                         loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
                         allowFullScreen
                      />
                   ) : (
                      <img
                         src={project.image}
+                        srcSet={project.imageSrcSet}
                         alt={project.title}
                         loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 768px"
                         className="w-full h-full object-contain"
                      />
                   )}
@@ -107,35 +111,20 @@ const ProjectDetail = () => {
 
                {/* Actions Bar */}
                <div className="border-t border-border bg-secondary/10 p-4 flex items-center justify-center gap-3">
-                  {isGithub && (
+                  {projectLink && (
                      <Button
+                        href={projectLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         variant="secondary"
-                        size="sm"
-                        className="border-border/60"
-                        onClick={() => window.open(liveLink, "_blank")}
+                        size="md"
+                        icon={isGithub ? Github : Play}
+                        aria-label={isGithub ? 'View project repository on GitHub' : 'Open live project'}
+                        className="min-w-40 rounded-lg border-border/70 bg-secondary/40 px-4 font-semibold shadow-sm transition-[background-color,border-color,box-shadow] hover:border-border hover:bg-secondary/70 hover:shadow-md"
                      >
-                        <Code size={16} className="mr-2" />
-                        Source
+                        {isGithub ? 'View on GitHub' : 'Live project'}
                      </Button>
                   )}
-                  <Button
-                     variant="primary"
-                     size="sm"
-                     className="shadow-lg shadow-primary/20"
-                     onClick={() => window.open(liveLink, "_blank")}
-                  >
-                     {isGithub ? (
-                        <>
-                           <Github size={16} className="mr-2" />
-                           Repository
-                        </>
-                     ) : (
-                        <>
-                           <Play size={16} className="inline mr-2" strokeWidth={2} />
-                           Live
-                        </>
-                     )}
-                  </Button>
                </div>
             </motion.div>
          </section>
@@ -215,7 +204,7 @@ const ProjectDetail = () => {
             )}
 
          </section>
-      </main>
+      </div>
    );
 };
 

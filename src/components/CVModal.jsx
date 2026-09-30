@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Download, File } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
+import FocusTrap from 'focus-trap-react';
 
 function downloadFile(url, filename) {
   const link = document.createElement('a');
@@ -15,18 +16,22 @@ function downloadFile(url, filename) {
 }
 
 export default function CVModal({ isOpen, onClose, cvUrl }) {
+  const closeButtonRef = useRef(null);
+
   // Close on Escape key + lock body scroll
   useEffect(() => {
+    if (!isOpen) return undefined;
+
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
-    if (isOpen) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
+    const previousOverflow = document.body.style.overflow;
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen, onClose]);
 
@@ -43,12 +48,18 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
             onClick={onClose}
             className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
           >
-            {/* Modal Container */}
+          <FocusTrap focusTrapOptions={{
+            initialFocus: () => closeButtonRef.current,
+            returnFocusOnDeactivate: true,
+          }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="cv-modal-title"
               className="w-full max-w-5xl h-[80vh] sm:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
             >
 
@@ -59,7 +70,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     <File size={20} className="text-primary" />
                   </div>
                   <div className="flex flex-col">
-                    <Typography variant="h3" className="text-sm font-semibold">Resume</Typography>
+                    <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold">Resume</Typography>
                     <Typography variant="small" className="text-xs text-muted-foreground">Manthan Gadegone</Typography>
                   </div>
                 </div>
@@ -75,9 +86,11 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     Download
                   </Button>
                   <Button
+                    ref={closeButtonRef}
                     variant="ghost"
                     size="icon"
                     onClick={onClose}
+                    aria-label="Close resume viewer"
                     className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
                   >
                     <X size={18} />
@@ -107,6 +120,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               </div>
 
             </motion.div>
+          </FocusTrap>
           </motion.div>
         </>
       )}

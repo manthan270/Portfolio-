@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import AboutMe from '../components/AboutMe';
 import { portfolioData } from '../data/portfolioData';
 import SectionDivider from '../components/ui/SectionDivider';
+import LoadingState from '../components/ui/LoadingState';
 
 const Experience = lazy(() => import('../components/Experience'));
 const ProjectsSection = lazy(() => import('../components/ProjectsSection'));
@@ -10,6 +11,7 @@ const Skills = lazy(() => import('../components/Skills'));
 const Education = lazy(() => import('../components/Education'));
 const Contact = lazy(() => import('../components/Contact'));
 const PlaygroundPreview = lazy(() => import('../components/PlaygroundPreview'));
+const Certificates = lazy(() => import('../components/Certificates'));
 
 export default function Home() {
   return (
@@ -27,7 +29,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
         <div id="education" className="relative">
           <Education data={portfolioData.education} />
         </div>
@@ -35,7 +37,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
         <div id="projects" className="relative">
           <ProjectsSection data={portfolioData.projects} />
         </div>
@@ -43,7 +45,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
         <div id="experience" className="relative">
           <Experience data={portfolioData.experience} />
         </div>
@@ -51,7 +53,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
         <div id="skills" className="relative">
           <Skills data={portfolioData.skills} />
         </div>
@@ -59,7 +61,7 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
         <div id="playground" className="relative">
           <PlaygroundPreview />
         </div>
@@ -67,7 +69,15 @@ export default function Home() {
 
       <SectionDivider />
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingState compact />}>
+        <div id="certificates" className="relative">
+          <Certificates data={portfolioData.certificates} />
+        </div>
+      </Suspense>
+
+      <SectionDivider />
+
+      <Suspense fallback={<LoadingState compact />}>
         <div id="contact" className="relative">
           <Contact />
         </div>

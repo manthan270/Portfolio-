@@ -3,56 +3,56 @@ import Header from '../Header';
 import { portfolioData } from '../../data/portfolioData';
 
 export default function RootLayout({ children }) {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains('dark')
+  );
 
   useEffect(() => {
-    // Check local storage or system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
+    const root = document.documentElement;
+    root.classList.toggle('dark', isDark);
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', isDark ? '#09090b' : '#f7f7f7');
+  }, [isDark]);
 
+  const syncThemeToDOM = useCallback((isDarkMode) => {
+    const root = document.documentElement;
+    root.classList.add('disable-transitions');
+    root.classList.toggle('dark', isDarkMode);
 
-
-  const applyTheme = useCallback((theme) => {
-    // Temporarily disable all transitions to prevent color jumping on buttons/search bar
-    document.documentElement.classList.add('disable-transitions');
-
-    setIsDark(theme);
-    if (theme) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+    try {
+      window.localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    } catch {
+      // Theme switching still works when browser storage is unavailable.
     }
 
-    // Re-enable transitions after the DOM has painted
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
-        document.documentElement.classList.remove('disable-transitions');
+        root.classList.remove('disable-transitions');
       });
     });
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setIsDark(prev => {
-      applyTheme(!prev);
-      return !prev;
-    });
-  }, [applyTheme]);
+    const next = !isDark;
+    syncThemeToDOM(next);
+    setIsDark(next);
+  }, [isDark, syncThemeToDOM]);
 
-  // Keyboard 'D' key listener
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if ((e.key === 'd' || e.key === 'D') && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-        toggleTheme();
-      }
+      const target = e.target;
+      const isTyping = target instanceof HTMLElement &&
+        (target.isContentEditable || target.matches('input, textarea, select'));
+
+      if (
+        e.key.toLowerCase() === 'd' &&
+        !e.repeat &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        !isTyping
+      ) toggleTheme();
     };
 
     const handleToggleEvent = () => toggleTheme();
@@ -70,6 +70,12 @@ export default function RootLayout({ children }) {
     <div className="bg-background min-h-screen text-foreground font-sans selection:bg-primary/20 flex flex-col">
       {/* Main Container with Bleeding Dashed Borders */}
       <div className="max-w-3xl mx-auto border-x border-dashed border-border min-h-screen relative bg-background flex flex-col w-full">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:shadow-lg"
+        >
+          Skip to content
+        </a>
 
         {/* Global Header */}
         <Header
@@ -78,7 +84,7 @@ export default function RootLayout({ children }) {
         />
 
         {/* Page Content */}
-        <main className="grow relative">
+        <main id="main-content" className="grow relative">
           {children}
         </main>
 

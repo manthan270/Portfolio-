@@ -1,13 +1,37 @@
+import { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Palette, Type, PaintBucket, Monitor } from 'lucide-react';
 import { Typography } from './ui/Typography';
+import FocusTrap from 'focus-trap-react';
 
 export default function DesignSystem({ isOpen, onClose }) {
+  const closeButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[10vh] px-4 sm:px-6" role="dialog" aria-modal="true" aria-label="Design System">
+        <div className="fixed inset-0 z-100 flex items-start justify-center pt-[10vh] px-4 sm:px-6">
           {/* Backdrop */}
+          <FocusTrap focusTrapOptions={{
+            initialFocus: () => closeButtonRef.current,
+            returnFocusOnDeactivate: true,
+          }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -22,19 +46,24 @@ export default function DesignSystem({ isOpen, onClose }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="design-system-title"
             className="relative w-full max-w-xl bg-card/70 backdrop-blur-2xl border border-border/50 rounded-xl shadow-2xl overflow-hidden flex flex-col ring-1 ring-black/5"
             style={{ maxHeight: '80vh' }}
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 shrink-0">
-              <Typography variant="h3" className="font-semi flex items-center gap-2 m-0 text-base">
+              <Typography variant="h3" as="h2" id="design-system-title" className="font-semi flex items-center gap-2 m-0 text-base">
                 <Palette className="text-primary" size={20} />
                 Design System
               </Typography>
               <button
+                ref={closeButtonRef}
                 onClick={onClose}
                 className="p-1 hover:bg-muted/50 rounded-md text-muted-foreground transition-colors cursor-pointer"
                 aria-label="Close design system"
+                type="button"
               >
                 <X size={16} />
               </button>
@@ -84,6 +113,7 @@ export default function DesignSystem({ isOpen, onClose }) {
 
             </div>
           </motion.div>
+          </FocusTrap>
 
 
         </div>

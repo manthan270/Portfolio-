@@ -26,13 +26,14 @@ const ProjectsPage = () => {
   const { projects } = portfolioData;
 
   const webProjects = projects.filter(p => p.category === 'Web Projects');
+  const dataProjects = projects.filter(p => p.category === 'Data Projects');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <main className="pt-4">
+    <div className="pt-4">
       <section className="px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -48,13 +49,22 @@ const ProjectsPage = () => {
       </section>
 
       <SectionDivider />
-      <ProjectSection title="Web Projects" data={webProjects} subtitle="Code & Logic" />
+      {webProjects.length > 0 && (
+        <ProjectSection title="Web Projects" data={webProjects} subtitle="Code & Logic" />
+      )}
+
+      {dataProjects.length > 0 && (
+        <>
+          <SectionDivider />
+          <ProjectSection title="Data Projects" data={dataProjects} subtitle="Analysis & Insights" />
+        </>
+      )}
 
       <SectionDivider />
       <div className="relative">
         <Contact />
       </div>
-    </main>
+    </div>
   );
 };
 
