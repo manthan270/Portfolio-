@@ -11,7 +11,7 @@ const SectionWrapper = ({ title, children, className = "" }) => {
         viewport={{ once: true }}
         className="mb-5"
       >
-        <Typography variant="h3">
+        <Typography variant="h3" as="h2">
           {title}
         </Typography>
       </motion.div>

@@ -46,7 +46,7 @@ export default function PlaygroundPreview() {
   return (
     <section className="px-4 py-12 relative overflow-hidden">
       <div className="flex items-center justify-between mb-8">
-        <Typography variant="h3">Playground</Typography>
+        <Typography variant="h3" as="h2">Playground</Typography>
       </div>
 
       {/* 2 Column Grid Layout */}

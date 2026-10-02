@@ -14,7 +14,7 @@ export default function Education({ data }) {
                 transition={{ duration: 0.6 }}
             >
                 <div className="flex items-baseline justify-between mb-4 pb-2">
-                    <Typography variant="h3">Education</Typography>
+                    <Typography variant="h3" as="h2">Education</Typography>
                     <Typography variant="small" className="text-muted-foreground">MY BACKGROUND</Typography>
                 </div>
 

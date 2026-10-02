@@ -24,6 +24,7 @@ export const ProjectCard = memo(({ project }) => {
         <div className="relative aspect-16/10 overflow-hidden rounded-2xl bg-secondary/10">
           <motion.img
             src={project.image}
+            srcSet={project.imageSrcSet}
             alt={project.title}
             loading="lazy"
             decoding="async"

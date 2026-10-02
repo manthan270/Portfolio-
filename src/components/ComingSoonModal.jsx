@@ -1,10 +1,14 @@
 import { useEffect, useState, useRef, useMemo } from 'react';
+import { useReducedMotion } from 'motion/react';
+import FocusTrap from 'focus-trap-react';
 import './ComingSoonModal.css';
 
 const ComingSoonModal = ({ onClose }) => {
     const progress = 65;
-    const pctRef = useRef(null);
     const [barWidth, setBarWidth] = useState("0%");
+    const [animatedProgress, setAnimatedProgress] = useState(0);
+    const closeButtonRef = useRef(null);
+    const shouldReduceMotion = useReducedMotion();
 
     // Generate particles only once
     const particles = useMemo(() => {
@@ -31,15 +35,23 @@ const ComingSoonModal = ({ onClose }) => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') onClose();
         };
-        document.addEventListener('keydown', handleKeyDown);
+        const previousOverflow = document.body.style.overflow;
+        window.addEventListener('keydown', handleKeyDown);
         document.body.style.overflow = 'hidden';
         return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
+            window.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = previousOverflow;
         };
     }, [onClose]);
 
     useEffect(() => {
+        if (shouldReduceMotion) {
+            setBarWidth(`${progress}%`);
+            setAnimatedProgress(progress);
+            return undefined;
+        }
+
+        let frameId = 0;
         const timeout = setTimeout(() => {
             setBarWidth(`${progress}%`);
 
@@ -48,16 +60,17 @@ const ComingSoonModal = ({ onClose }) => {
                 if (!s) s = ts;
                 const t = Math.min((ts - s) / 1200, 1);
                 const e = 1 - Math.pow(1 - t, 3);
-                if (pctRef.current) {
-                    pctRef.current.textContent = Math.round(e * progress) + "%";
-                }
-                if (t < 1) requestAnimationFrame(tick);
+                setAnimatedProgress(Math.round(e * progress));
+                if (t < 1) frameId = requestAnimationFrame(tick);
             };
-            requestAnimationFrame(tick);
+            frameId = requestAnimationFrame(tick);
         }, 160);
 
-        return () => clearTimeout(timeout);
-    }, [progress]);
+        return () => {
+            clearTimeout(timeout);
+            if (frameId) cancelAnimationFrame(frameId);
+        };
+    }, [progress, shouldReduceMotion]);
 
     const handleOverlayClick = (e) => {
         if (e.target.id === 'cs-overlay') {
@@ -69,8 +82,12 @@ const ComingSoonModal = ({ onClose }) => {
 
     return (
         <div className="coming-soon-modal overlay" id="cs-overlay" onClick={handleOverlayClick}>
-            <div className="modal">
-                <div className="particles">
+            <FocusTrap focusTrapOptions={{
+                initialFocus: () => closeButtonRef.current,
+                returnFocusOnDeactivate: true,
+            }}>
+            <div className="modal" role="dialog" aria-modal="true" aria-labelledby="cs-heading" onClick={(event) => event.stopPropagation()}>
+                <div className="particles" aria-hidden="true">
                     {particles}
                 </div>
                 <div className="modal-grid"></div>
@@ -83,7 +100,7 @@ const ComingSoonModal = ({ onClose }) => {
                         <span className="status-text">In Development</span>
                     </div>
                     <div className="top-bar-line"></div>
-                    <button className="modal-close" onClick={onClose} aria-label="Close modal">×</button>
+                    <button ref={closeButtonRef} type="button" className="modal-close" onClick={onClose} aria-label="Close modal">×</button>
                 </div>
 
                 {/* HERO */}
@@ -117,7 +134,7 @@ const ComingSoonModal = ({ onClose }) => {
                         </div>
 
                         <div className="hero-text">
-                            <div className="modal-heading">CURRENTLY<br /><span className="hi">IN DEV.</span></div>
+                    <div className="modal-heading" id="cs-heading">CURRENTLY<br /><span className="hi">IN DEV.</span></div>
                         </div>
                     </div>
 
@@ -141,9 +158,11 @@ const ComingSoonModal = ({ onClose }) => {
                     <div className="progress-card">
                         <div className="prog-header">
                             <span className="prog-label">Build Progress</span>
-                            <span className="prog-pct" ref={pctRef}>0%</span>
+                            <span className="prog-pct">{animatedProgress}%</span>
                         </div>
-                        <div className="track"><div className="bar" style={{ width: barWidth }}></div></div>
+                        <div className="track" role="progressbar" aria-label="Build progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={animatedProgress}>
+                            <div className="bar" style={{ width: barWidth }}></div>
+                        </div>
                         <div className="chips">
                             <div className="chip done"><span className="chip-lbl">Design</span><span className="chip-ico">✓</span></div>
                             <div className="chip done"><span className="chip-lbl">Dev</span><span className="chip-ico">✓</span></div>
@@ -152,11 +171,12 @@ const ComingSoonModal = ({ onClose }) => {
                         </div>
                     </div>
 
-                    <button className="cta" onClick={onClose}>
+                    <button type="button" className="cta" onClick={onClose}>
                         Got it — I&apos;ll check back when it&apos;s live
                     </button>
                 </div>
             </div>
+            </FocusTrap>
         </div>
     );
 };

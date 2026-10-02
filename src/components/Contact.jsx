@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Dithering } from '@paper-design/shaders-react';
 import { Typography } from './ui/Typography';
+import { portfolioData } from '../data/portfolioData';
 
 export default function Contact() {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState('idle');
   const [time, setTime] = useState('');
+  const copyResetTimeoutRef = useRef(null);
+  const email = portfolioData.contact.email;
+  const shouldReduceMotion = useReducedMotion();
 
   // Clock for the "Device Screen"
   useEffect(() => {
@@ -18,10 +22,20 @@ export default function Contact() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText("anilgadegone@gmail.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  useEffect(() => () => clearTimeout(copyResetTimeoutRef.current), []);
+
+  const handleCopy = async () => {
+    clearTimeout(copyResetTimeoutRef.current);
+
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(email);
+      setCopyStatus('copied');
+    } catch {
+      setCopyStatus('failed');
+    }
+
+    copyResetTimeoutRef.current = setTimeout(() => setCopyStatus('idle'), 2000);
   };
 
   return (
@@ -51,7 +65,7 @@ export default function Contact() {
               shape="ripple"
               type="2x2"
               size={2}
-              speed={2}
+              speed={shouldReduceMotion ? 0 : 2}
             />
           </div>
 
@@ -65,7 +79,7 @@ export default function Contact() {
             </div>
 
             <div className="space-y-2">
-              <Typography variant="h3" className="font-mono text-xl tracking-tighter text-white">
+              <Typography variant="h3" as="h2" className="font-mono text-xl tracking-tighter text-white">
                 Let&apos;s Talk
               </Typography>
             </div>
@@ -75,7 +89,7 @@ export default function Contact() {
         <div className="grid grid-cols-3 gap-[0.15rem] bg-black/80 p-[0.15rem] rounded-md">
 
           <TactileButton
-            onClick={() => window.location.href = 'mailto:anilgadegone@gmail.com'}
+            href={`mailto:${email}`}
             className="col-span-1 h-32"
             label="Send Mail"
           >
@@ -92,13 +106,18 @@ export default function Contact() {
             <TactileButton
               onClick={handleCopy}
               className="flex-1"
-              label={copied ? "COPIED" : "COPY MAIL"}
+              label={copyStatus === 'copied' ? 'COPIED' : copyStatus === 'failed' ? 'COPY FAILED' : 'COPY MAIL'}
             >
+              <span className="sr-only" role="status" aria-live="polite">
+                {copyStatus === 'copied' ? 'Email address copied.' : copyStatus === 'failed' ? 'Could not copy the email address.' : ''}
+              </span>
             </TactileButton>
 
 
             <TactileButton
-              onClick={() => window.open('https://cal.com/manthan-gadegone/15min', '_blank', 'noopener,noreferrer')}
+              href="https://cal.com/manthan-gadegone/15min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex-1"
               label="MEETING"
             >
@@ -121,11 +140,16 @@ export default function Contact() {
   );
 }
 
-function TactileButton({ children, onClick, label, className = '' }) {
+function TactileButton({ children, onClick, href, label, className = '', ...props }) {
+  const Component = href ? 'a' : 'button';
+
   return (
-    <button
+    <Component
+      type={href ? undefined : 'button'}
+      href={href}
       onClick={onClick}
       aria-label={label}
+      {...props}
       className={`
                 cursor-pointer
                 group relative
@@ -149,6 +173,6 @@ function TactileButton({ children, onClick, label, className = '' }) {
         {label && <span className="text-xs font-light tracking-wider font-mono">{label}</span>}
       </div>
 
-    </button>
+    </Component>
   );
 }

@@ -270,3 +270,14 @@
 @keyframes cs-blink   { 0%,100%{opacity:1} 50%{opacity:0.12} }
 @keyframes cs-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 @keyframes cs-floatUp { 0%{opacity:0;transform:translateY(0)} 10%{opacity:0.45} 90%{opacity:0.06} 100%{opacity:0;transform:translateY(-100px)} }
+
+@media (prefers-reduced-motion: reduce) {
+  .coming-soon-modal *,
+  .coming-soon-modal *::before,
+  .coming-soon-modal *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

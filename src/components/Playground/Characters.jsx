@@ -50,7 +50,7 @@ export default function Characters({ data = [] }) {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <Typography variant="h3" className='mb-2'>
+        <Typography variant="h3" as="h2" className='mb-2'>
           Characters
         </Typography>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">

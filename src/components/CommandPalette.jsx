@@ -1,18 +1,16 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { portfolioData } from '../data/portfolioData';
 import {
   Search,
   Home,
   Globe,
-  Github,
-  Linkedin,
   X,
   Presentation,
   Sun,
-  Moon,
-  Mail
 } from 'lucide-react';
+import FocusTrap from 'focus-trap-react';
 
 /**
  * CommandPalette Component
@@ -29,10 +27,12 @@ const CommandPalette = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const navigateToSection = useCallback((sectionId) => {
+    navigate({ pathname: '/', hash: `#${sectionId}` });
+  }, [navigate]);
 
   // Flatten and filter items based on search
   const filteredItems = useMemo(() => {
-    const currentlyDark = document.documentElement.classList.contains('dark');
     const commandSections = [
       {
         group: "Navigation",
@@ -43,29 +43,50 @@ const CommandPalette = () => {
         ]
       },
       {
+        group: "Sections",
+        items: [
+          { id: 'section-about', label: 'About Me', icon: Home, action: () => navigateToSection('about') },
+          { id: 'section-education', label: 'Education', icon: Home, action: () => navigateToSection('education') },
+          { id: 'section-projects', label: 'Projects', icon: Globe, action: () => navigateToSection('projects') },
+          { id: 'section-experience', label: 'Experience', icon: Home, action: () => navigateToSection('experience') },
+          { id: 'section-skills', label: 'Skills', icon: Home, action: () => navigateToSection('skills') },
+          { id: 'section-playground', label: 'Playground', icon: Presentation, action: () => navigateToSection('playground') },
+          { id: 'section-certificates', label: 'Certificates', icon: Presentation, action: () => navigateToSection('certificates') },
+          { id: 'section-contact', label: 'Contact', icon: Home, action: () => navigateToSection('contact') },
+        ]
+      },
+      {
         group: "Preferences",
         items: [
           {
-            id: 'pref-theme', label: currentlyDark ? 'Switch to Light Mode' : 'Switch to Dark Mode', icon: currentlyDark ? Sun : Moon, shortcut: 'T', action: () => {
+            id: 'pref-theme', label: 'Toggle color theme', icon: Sun, shortcut: 'T', action: () => {
               window.dispatchEvent(new Event('toggle-theme'));
             }
           },
         ]
       },
       {
-        group: "Web Projects",
+        group: "Projects",
         items: [
-          { id: 'proj-smartcampus', label: 'SmartCampus Navigator', icon: Globe, action: () => navigate('/project/smartcampus') },
+          { id: 'proj-global-restaurant', label: 'Global Restaurant Analysis', icon: Globe, action: () => navigate('/project/global-restaurant-analysis') },
           { id: 'proj-hirelite', label: 'HireLite', icon: Globe, action: () => navigate('/project/hirelite') },
         ]
       },
       {
         group: "Social Links",
-        items: [
-          { id: 's1', label: 'GitHub', icon: Github, action: () => window.open('https://github.com/manthan270', '_blank') },
-          { id: 's2', label: 'LinkedIn', icon: Linkedin, action: () => window.open('https://linkedin.com/in/manthan-gadegone-126a7922b', '_blank') },
-          { id: 's4', label: 'Mail', icon: Mail, action: () => window.open('mailto:anilgadegone@gmail.com', '_blank') },
-        ]
+        items: portfolioData.hero.socials.map((social, index) => ({
+          id: `social-${index}`,
+          label: social.name,
+          icon: social.icon,
+          action: () => {
+            if (social.link.startsWith('mailto:')) {
+              window.location.assign(social.link);
+              return;
+            }
+
+            window.open(social.link, '_blank', 'noopener,noreferrer');
+          },
+        })),
       }
     ];
 
@@ -80,11 +101,16 @@ const CommandPalette = () => {
       }
     });
     return flat;
-  }, [search, navigate]);
+  }, [search, navigate, navigateToSection]);
 
   const selectableItems = useMemo(() =>
     filteredItems.filter(i => i.type === 'item'),
     [filteredItems]);
+  const activeOption = selectableItems[selectedIndex] || selectableItems[0];
+  const handleAction = useCallback((item) => {
+    item.action?.();
+    setIsOpen(false);
+  }, []);
 
   // Handle Global Shortcuts
   const lastInteraction = useRef('keyboard');
@@ -95,9 +121,10 @@ const CommandPalette = () => {
         lastInteraction.current = 'keyboard';
       }
 
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         setIsOpen(prev => !prev);
+        return;
       }
 
       if (!isOpen) return;
@@ -115,8 +142,8 @@ const CommandPalette = () => {
         setSelectedIndex(prev => selectableItems.length > 0 ? (prev - 1 + selectableItems.length) % selectableItems.length : 0);
       }
 
-      if (e.key === 'Enter' && selectableItems[selectedIndex]) {
-        handleAction(selectableItems[selectedIndex]);
+      if (e.key === 'Enter' && activeOption) {
+        handleAction(activeOption);
       }
     };
 
@@ -129,36 +156,27 @@ const CommandPalette = () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('open-command-palette', handleOpenPalette);
     };
-  }, [isOpen, selectableItems, selectedIndex]);
+  }, [activeOption, handleAction, isOpen, selectableItems.length]);
 
   const listRef = useRef(null);
   const activeItemRef = useRef(null);
 
   useEffect(() => {
-    if (activeItemRef.current) {
-      activeItemRef.current.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
+    activeItemRef.current?.scrollIntoView?.({ block: 'nearest' });
   }, [selectedIndex]);
 
-  // Auto-focus input when opened
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 10);
-      setSelectedIndex(0);
-      setSearch('');
-      document.body.style.overflow = 'hidden';
-    }
+    if (!isOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    setSelectedIndex(0);
+    setSearch('');
+
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen]);
-
-  const handleAction = (item) => {
-    if (item.action) {
-      item.action();
-    }
-    setIsOpen(false);
-  };
 
   return (
     <AnimatePresence>
@@ -174,6 +192,10 @@ const CommandPalette = () => {
           />
 
           {/* Modal Container */}
+        <FocusTrap focusTrapOptions={{
+          initialFocus: () => inputRef.current,
+          returnFocusOnDeactivate: true,
+        }}>
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -187,14 +209,26 @@ const CommandPalette = () => {
               <Search className="mr-3 text-muted-foreground" size={16} />
               <input
                 ref={inputRef}
-                className="w-full bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm"
+                id="command-palette-input"
+                role="combobox"
+                aria-label="Search commands"
+                aria-autocomplete="list"
+                aria-expanded="true"
+                aria-controls="command-palette-results"
+                aria-activedescendant={activeOption ? `command-option-${activeOption.id}` : undefined}
+                className="w-full rounded-sm bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground text-sm focus-visible:ring-2 focus-visible:ring-ring"
                 placeholder="Go to..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setSelectedIndex(0);
+                }}
               />
               <button
                 onClick={() => setIsOpen(false)}
                 className="p-1 hover:bg-muted/50 rounded-md text-muted-foreground transition-colors cursor-pointer"
+                aria-label="Close command palette"
+                type="button"
               >
                 <X size={16} />
               </button>
@@ -202,8 +236,10 @@ const CommandPalette = () => {
 
             {/* Results List */}
             <div
+              id="command-palette-results"
               ref={listRef}
               role="listbox"
+              aria-label="Command results"
               className="max-h-96 overflow-y-auto py-2 command-scrollbar"
               onMouseMove={() => lastInteraction.current = 'mouse'}
             >
@@ -215,7 +251,7 @@ const CommandPalette = () => {
                 filteredItems.map((item) => {
                   if (item.type === 'header') {
                     return (
-                      <div key={item.label} className="px-3 py-1 text-[10px] font-medium uppercase text-muted-foreground/70">
+                      <div key={item.label} role="presentation" className="px-3 py-1 text-[10px] font-medium uppercase text-muted-foreground/70">
                         {item.label}
                       </div>
                     );
@@ -225,8 +261,12 @@ const CommandPalette = () => {
                   const isActive = currentSelectableIndex === selectedIndex;
 
                   return (
-                    <div
+                    <button
                       key={item.id}
+                      id={`command-option-${item.id}`}
+                      type="button"
+                      role="option"
+                      aria-selected={isActive}
                       ref={isActive ? activeItemRef : null}
                       onClick={() => handleAction(item)}
                       onMouseEnter={() => {
@@ -234,7 +274,7 @@ const CommandPalette = () => {
                           setSelectedIndex(currentSelectableIndex);
                         }
                       }}
-                      className="group mx-2 px-2 py-2 rounded-lg flex items-center justify-between cursor-pointer relative"
+                      className="group relative mx-2 flex w-[calc(100%-1rem)] items-center justify-between rounded-lg border-0 bg-transparent px-2 py-2 text-left"
                     >
                       {/* Active highlight background */}
                       {isActive && (
@@ -264,7 +304,7 @@ const CommandPalette = () => {
                           </div>
                         )}
                       </div>
-                    </div>
+                    </button>
                   );
                 })
               )}
@@ -284,6 +324,7 @@ const CommandPalette = () => {
               </div>
             </div>
           </motion.div>
+          </FocusTrap>
 
 
         </div >

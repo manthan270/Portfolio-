@@ -18,8 +18,9 @@ const ThreeDArts = React.lazy(() => import('../components/Playground/ThreeDArts'
 
 
 const SectionSkeleton = () => (
-  <div className="w-full py-16 flex items-center justify-center opacity-20">
-    <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+  <div role="status" aria-label="Loading playground section" className="w-full py-16 flex items-center justify-center opacity-20">
+    <span className="sr-only">Loading playground section</span>
+    <div className="w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin motion-reduce:animate-none" />
   </div>
 );
 
@@ -29,6 +30,8 @@ export default function Playground() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (typeof IntersectionObserver === 'undefined') return undefined;
 
     const observerOptions = {
       rootMargin: '-20% 0px -60% 0px',
@@ -73,7 +76,7 @@ export default function Playground() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto"
         >
-          <Typography variant="h3" className="mb-2">
+          <Typography variant="h3" as="h1" className="mb-2">
             {playgroundData.hero.title}
           </Typography>
 

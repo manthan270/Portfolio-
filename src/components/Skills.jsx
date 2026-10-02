@@ -24,7 +24,7 @@ export default memo(function Skills({ data }) {
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-4 pb-2">
-          <Typography variant="h3">
+          <Typography variant="h3" as="h2">
             Tech Stack
           </Typography>
 

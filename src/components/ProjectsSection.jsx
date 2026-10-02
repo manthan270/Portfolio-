@@ -1,10 +1,11 @@
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ProjectCard } from "./ProjectCard";
 import { Typography } from './ui/Typography';
 import { Button } from './ui/Button';
 
 export default function ProjectsSection({ data }) {
+  const navigate = useNavigate();
   if (!data) return null;
 
   const displayedProjects = data.slice(0, 4);
@@ -18,7 +19,7 @@ export default function ProjectsSection({ data }) {
         transition={{ duration: 0.6 }}
       >
         <div className="flex items-baseline justify-between mb-4 pb-2">
-          <Typography variant="h3">
+          <Typography variant="h3" as="h2">
             Projects
           </Typography>
           <Typography variant="small" className="text-muted-foreground">
@@ -33,14 +34,13 @@ export default function ProjectsSection({ data }) {
         </div>
 
         <div className="flex justify-center mt-8">
-          <Link to="/projects">
-            <Button
-              variant="secondary"
-              size="sm"
-            >
-              View Projects
-            </Button>
-          </Link>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => navigate('/projects')}
+          >
+            View Projects
+          </Button>
         </div>
       </motion.div>
     </section>

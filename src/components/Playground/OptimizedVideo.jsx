@@ -1,10 +1,17 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { useReducedMotion } from 'motion/react';
 
 const OptimizedVideo = ({ src, poster, className, ...props }) => {
   const videoRef = useRef(null);
   const [isInView, setIsInView] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsInView(true);
+      return undefined;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
@@ -22,7 +29,7 @@ const OptimizedVideo = ({ src, poster, className, ...props }) => {
   useEffect(() => {
     if (!videoRef.current) return;
 
-    if (isInView) {
+    if (isInView && !shouldReduceMotion) {
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
@@ -32,7 +39,7 @@ const OptimizedVideo = ({ src, poster, className, ...props }) => {
     } else {
       videoRef.current.pause();
     }
-  }, [isInView]);
+  }, [isInView, shouldReduceMotion]);
 
   return (
     <video
@@ -42,7 +49,8 @@ const OptimizedVideo = ({ src, poster, className, ...props }) => {
       muted
       loop
       playsInline
-      preload="none"
+      preload={shouldReduceMotion ? 'metadata' : 'none'}
+      aria-hidden="true"
       className={`${className} transition-opacity duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}
       {...props}
     />
