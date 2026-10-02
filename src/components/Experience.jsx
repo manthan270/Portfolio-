@@ -14,7 +14,7 @@ export default function Experience({ data }) {
         transition={{ duration: 0.6 }}
       >
         <div className="flex items-baseline justify-between mb-4 pb-2">
-          <Typography variant="h3">Experience</Typography>
+          <Typography variant="h3" as="h2">Experience</Typography>
           <Typography variant="small" className="text-muted-foreground uppercase tracking-wider font-mono">MY JOURNEY</Typography>
         </div>
 

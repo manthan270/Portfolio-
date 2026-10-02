@@ -2,43 +2,53 @@ import {
   Github, Linkedin, Mail
 } from 'lucide-react';
 
+const contactEmail = 'anilgadegone@gmail.com';
+
 export const portfolioData = {
+  about: {
+    greeting: "Hi, I'm Manthan.",
+    paragraphs: [
+      'My Electronics and Telecommunication Engineering background taught me how to decode complex systems. I bring that exact mindset to web development and data analysis today. My responsive frontend builds prioritize clean design and straightforward usability. On the data side, I analyze information using Excel, SQL, Python, Pandas, and Power BI. Through personal projects and internships, I learned to clean messy datasets and write queries to spot trends. I build visual dashboards that make complex results easy to read.',
+      'I am actively seeking open roles or projects. If your team needs help, please send a message or book a quick call.',
+    ],
+  },
+  contact: {
+    email: contactEmail,
+  },
   hero: {
     name: "Manthan Gadegone",
     title: "Manthan",
     pronunciation: "",
-    roles: ["UI/UX Designer", "Frontend Developer", "Web Developer"],
-    description: [
-      "Bridging the gap between creativity and functionality to bring ideas to life through human-centered design and clean code."
-    ],
-    profileImage: "/images/profile/profile2.webp",
-    profileVideo: "/videos/heymain.mp4",
+    roles: ["WEB DEVELOPER / DATA ANALYST"],
+    profileImage: "/images/profile/manthan.webp",
+    headerImage: "/images/profile/manthan-sm.webp",
+    illustratedProfileImage: "/images/profile/manthan-illustration.webp",
     cvLink: "/CV/MANTHAN GADEGONE.pdf",
     socials: [
-      { name: "Email", icon: Mail, link: "mailto:anilgadegone@gmail.com" },
+      { name: "Email", icon: Mail, link: `mailto:${contactEmail}` },
       { name: "GitHub", icon: Github, link: "https://github.com/manthan270" },
       { name: "LinkedIn", icon: Linkedin, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
     ]
   },
   projects: [
     {
-      id: 'smartcampus',
-      slug: 'smartcampus',
-      title: 'SmartCampus Navigator',
-      description: 'Interactive Campus Navigation App',
-      fullDescription: 'SmartCampus Navigator is an interactive campus navigation app featuring map-based locations, smart search, and a chat assistant to quickly find places like labs and buildings. The app helps students and visitors efficiently navigate the campus with an intuitive interface and real-time assistance.',
+      id: 'global-restaurant-analysis',
+      slug: 'global-restaurant-analysis',
+      title: 'Global Restaurant Analysis',
+      description: 'End-to-End Data Analysis Dashboard',
+      fullDescription: 'A business intelligence analysis of 9,551 restaurant records across 15 countries. Built to support strategic decisions on market expansion, service mix, and cuisine positioning using an interactive slicer-driven dashboard.',
       features: [
-        'Map Navigation: Interactive map with location markers for all campus buildings and labs',
-        'Smart Search: Quickly find any campus location by name or category',
-        'Chat Assistant: AI-powered assistant to answer navigation queries instantly',
-        'Location Details: Detailed info cards for each campus location',
+        'Market Expansion: Identified high-opportunity markets',
+        'Service Impact: Analyzed the effect of services on customer ratings',
+        'Cuisine Performance: Highlighted top-performing cuisines',
+        'Interactive Dashboard: Built with KPIs, slicers, and regional insights',
       ],
-      techStack: ['React.js', 'JavaScript', 'TailwindCSS', 'JSON'],
-      link: 'https://github.com/manthan270',
+      techStack: ['Microsoft Excel', 'Data Analysis', 'Pivot Tables', 'Business Intelligence'],
+      link: 'https://github.com/manthan270/Global-Restaurant-Analysis',
       year: '2024',
-      image: '/images/projects/campus system.webp',
-      category: 'Web Projects',
-      comingSoon: true,
+      image: '/images/projects/global_restaurant_analysis.webp',
+      imageSrcSet: '/images/projects/global_restaurant_analysis-400.webp 400w, /images/projects/global_restaurant_analysis-800.webp 800w, /images/projects/global_restaurant_analysis.webp 1861w',
+      category: 'Data Projects',
     },
     {
       id: 'hirelite',
@@ -55,7 +65,8 @@ export const portfolioData = {
       techStack: ['React.js', 'JavaScript', 'TailwindCSS'],
       link: 'https://hirelite.vercel.app',
       year: '2024',
-      image: '/images/projects/OrdersOgImage.webp',
+      image: '/images/projects/hirelite.webp',
+      imageSrcSet: '/images/projects/hirelite-400.webp 400w, /images/projects/hirelite-800.webp 800w, /images/projects/hirelite.webp 1900w',
       category: 'Web Projects',
     },
   ],
@@ -64,16 +75,30 @@ export const portfolioData = {
       role: 'Intern',
       company: 'Maharashtra Remote Sensing Application Centre',
       period: 'Jan 2025 – May 2025',
-      description: 'Developed backend REST APIs for integrating ML models. Worked on a land cover classification system. Integrated frontend and backend components. Collaborated with team for project delivery.',
-      technologies: ['React.js', 'Express.js', 'JavaScript', 'Gemini API']
+      description: 'Built a Random Forest land-cover classifier in Python (Rasterio, NumPy, Scikit-learn) trained on satellite imagery. Performed change-detection analysis to map land-cover changes from 2005–2025, identifying urban expansion trends',
+      technologies: ['Python', 'Rasterio', 'NumPy', 'scikit-learn', 'Satellite Imagery', 'Change Detection', 'Geospatial Analysis']
+    },
+  ],
+  certificates: [
+    {
+      title: 'Microsoft Certified: Fabric Data Engineer Associate',
+      issuer: 'Microsoft',
+      year: '2026',
+      file: '/certificates/fabric-data-engineer-associate-microsoft-2026.pdf',
+    },
+    {
+      title: 'Microsoft Certified: Fabric Analytics Engineer Associate',
+      issuer: 'Microsoft',
+      year: '2026',
+      file: '/certificates/fabric-analytics-engineer-associate-microsoft-2026.pdf',
     },
   ],
   education: [
     {
       title: 'B.Tech – Electronics & Telecommunication Engineering',
-      institution: 'ST. VINCENT PALLOTTI COLLEGE OF ENGINEERING AND TECHNOLOGY',
+      institution: 'ST. VINCENT PALLOTTI COLLEGE OF ENGINEERING',
       location: 'NAGPUR, MAHARASHTRA',
-      period: '2021 – 2025',
+      period: 'CLASS OF 2025',
       description: 'Studied core electronics, communication systems, and signal processing while building a strong foundation in programming, data analysis, and software development.',
       tags: ['SQL', 'Python', 'Excel', 'Data Analysis', 'AI Solutions', 'Web Development']
     }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Palette, ArrowLeft, Search, Sun, Moon } from 'lucide-react';
 import DesignSystem from './DesignSystem';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 
@@ -12,6 +12,7 @@ export default function Header({ isDark, toggleTheme }) {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
   const [showProgressHeader, setShowProgressHeader] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +24,7 @@ export default function Header({ isDark, toggleTheme }) {
 
   const getPageContext = () => {
     const path = location.pathname;
-    if (path === '/') return { title: 'Manthan Gadegone', subtitle: 'UI/UX Designer', root: true };
+    if (path === '/') return { title: portfolioData.hero.name, subtitle: portfolioData.hero.roles[0], root: true };
     if (path.startsWith('/project/')) return { title: 'View Project', subtitle: 'Case Study', root: false };
     if (path === '/projects') return { title: 'Projects', subtitle: 'Work Archive', root: false };
     if (path === '/playground') return { title: 'Playground', subtitle: 'Creative Archive', root: false };
@@ -38,35 +39,42 @@ export default function Header({ isDark, toggleTheme }) {
         <div className="absolute top-0 left-[calc(-50vw+50%)] w-screen h-full border-b border-dashed border-border pointer-events-none" />
 
         <div className="flex items-center justify-between px-4 h-14 relative z-10">
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             {!context.root && (
-              <Link to={location.pathname.startsWith('/project/') ? '/projects' : '/'}>
-                <Button variant="ghost" size="icon" aria-label="Go Back" className="w-8 h-8 rounded-full border border-border/50 bg-secondary/10 hover:bg-secondary transition-colors">
-                  <ArrowLeft size={14} />
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Go back"
+                onClick={() => navigate(location.pathname.startsWith('/project/') ? '/projects' : '/')}
+                className="w-8 h-8 rounded-full border border-border/50 bg-secondary/10 hover:bg-secondary transition-colors"
+              >
+                <ArrowLeft size={14} />
+              </Button>
             )}
 
             <AnimatePresence mode="wait">
-              {showProgressHeader && (
+              {(showProgressHeader || context.root) && (
                 <motion.div
                   key={context.title}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  className="flex items-center gap-2"
+                  className="flex min-w-0 items-center gap-2"
                 >
                   <img
-                    src={portfolioData.hero.profileImage}
-                    alt="Profile"
+                    src={portfolioData.hero.headerImage}
+                    alt={portfolioData.hero.name}
+                    width="128"
+                    height="128"
                     loading="lazy"
-                    className="w-8 h-8 rounded-md object-cover"
+                    decoding="async"
+                    className="h-8 w-8 shrink-0 rounded-md object-cover"
                   />
-                  <div className="flex flex-col">
-                    <Typography variant="h4" className="text-sm font-bold leading-none tracking-tight">
+                  <div className="flex min-w-0 flex-col">
+                    <Typography variant="h4" className="max-w-full truncate text-sm font-bold leading-none tracking-tight">
                       {context.title}
                     </Typography>
-                    <Typography variant="small" className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">
+                    <Typography variant="small" className="max-w-full truncate text-[9px] text-muted-foreground font-mono uppercase tracking-wide sm:text-[10px]">
                       {context.subtitle}
                     </Typography>
                   </div>
@@ -75,7 +83,7 @@ export default function Header({ isDark, toggleTheme }) {
             </AnimatePresence>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="ml-2 flex shrink-0 items-center gap-1 sm:gap-2">
             <button
               onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
               className="hidden md:flex items-center gap-2 px-2 py-1.5 bg-secondary/50 border border-border/50 rounded-lg hover:bg-secondary transition-colors group"
