@@ -20,7 +20,12 @@ function getFiles(dir, files = []) {
 
 async function processImages() {
   const imagesDir = path.join(process.cwd(), 'public', 'images');
+  if (!fs.existsSync(imagesDir)) {
+    throw new Error(`Images directory does not exist: ${imagesDir}`);
+  }
+
   const files = getFiles(imagesDir);
+  const deleteOriginals = process.argv.includes('--delete-originals');
   console.log(`Found ${files.length} images to convert.`);
 
   for (const file of files) {
@@ -30,7 +35,8 @@ async function processImages() {
     const dir = path.dirname(file);
     
     // Check if it's a hero image (in profile dir or named hero)
-    const isHero = file.includes('profile') || basename.toLowerCase().includes('hero');
+    const relativePath = path.relative(imagesDir, file).toLowerCase();
+    const isHero = relativePath.split(path.sep).includes('profile') || basename.toLowerCase().includes('hero');
     const quality = isHero ? 85 : 80;
 
     const image = sharp(file);
@@ -57,10 +63,12 @@ async function processImages() {
         .toFile(path.join(dir, `${basename}-400.webp`));
     }
 
-    // Delete original file
-    fs.unlinkSync(file);
-    console.log(`Finished ${path.basename(file)} -> ${basename}.webp`);
+    if (deleteOriginals) fs.unlinkSync(file);
+    console.log(`Generated ${basename}.webp${deleteOriginals ? ' and removed the original' : '; kept the original'}`);
   }
 }
 
-processImages().catch(console.error);
+processImages().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

@@ -1,148 +1,73 @@
-<div align="center">
-  <img alt="Project Banner" src="public/thumbnail.png" width="100%" style="border-radius: 12px; margin-bottom: 2rem;" />
+# Manthan Gadegone — Portfolio
 
-  <h1>Portfolio</h1>
-  <p><strong>A modern, highly interactive, and uniquely designed personal portfolio website showcasing creatively engineered web experiences. Built with an emphasis on "Cosmic Minimalism", smooth animations, and a focus on both aesthetics and performance.</strong></p>
+Personal portfolio for Manthan Gadegone, a web developer and data analyst. The site presents project work, experience, education, skills, certificates, and contact options in a responsive React application.
 
-  <p>
-    <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-00d8ff?style=flat-square&logo=react&logoColor=black" alt="React 19" /></a>
-    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS v4" /></a>
-    <a href="https://gsap.com/"><img src="https://img.shields.io/badge/GSAP-3-88CE02?style=flat-square&logo=greensock&logoColor=white" alt="GSAP" /></a>
-    <a href="https://motion.dev/"><img src="https://img.shields.io/badge/Motion-12-FF0080?style=flat-square&logo=framer&logoColor=white" alt="Motion" /></a>
-    <a href="https://github.com/manthan270/Portfolio/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT" /></a>
-  </p>
-</div>
+## Links
 
-<br />
+- Website: [manthanone.vercel.app](https://manthanone.vercel.app/)
+- GitHub: [github.com/manthan270](https://github.com/manthan270)
+- LinkedIn: [linkedin.com/in/manthan-gadegone-126a7922b](https://linkedin.com/in/manthan-gadegone-126a7922b)
+- Email: [anilgadegone@gmail.com](mailto:anilgadegone@gmail.com)
+- CV: [public/CV/MANTHAN GADEGONE.pdf](public/CV/MANTHAN%20GADEGONE.pdf)
 
-## 📋 Table of Contents
+## Technology
 
-- [🚀 Features](#-features)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [⚙️ Getting Started](#️-getting-started)
-- [📂 Project Structure](#-project-structure)
-- [🤝 Contributing & Usage](#-contributing--usage)
-- [📄 License](#-license)
+- React 18 and React Router 7
+- Vite 7
+- Tailwind CSS 4
+- Motion for React, Lucide icons, and Paper Design shaders
+- Vercel Analytics and Speed Insights
 
----
+## Run locally
 
-## 🚀 Features
+Use Node.js 20.19 or newer in the 20.x line, or Node.js 22.12 or newer.
 
-- **Cosmic Minimalism Aesthetic:** A refined, sleek, and void-like design language offering an immersive deep-space vibe to users.
-- **Advanced Animations:** Smooth transitions and complex interactions using GSAP for heavy lifting and Motion for declarative React-based spring physics.
-- **Native View Transitions:** Incorporates the native CSS View Transitions API for a seamless, buttery circular-reveal theme toggle (Dark/Light mode).
-- **Command Palette:** A fully functional `Ctrl+K` / `Cmd+K` global command palette for lightning-fast, keyboard-first navigation across the entire portfolio.
-- **Interactive Playground Gallery:** Explore UI pages, 3D arts, and posters with an innovative horizontal marquee and bento grid layout featuring hover-to-play video previews.
-- **Project Showcases:** Categorized displays for Web Projects, UI Projects, and In-depth Case Studies with immaculate media aspect ratio management.
-- **Accessible & Responsive:** Fully responsive layouts focusing on mobile-view porting without compromising features, plus a11y considerations for keyboard navigation.
-
----
-
-## 🛠️ Tech Stack
-
-### Framework & Routing
-- [**React 19**](https://react.dev/) - UI Library
-- [**Vite**](https://vitejs.dev/) - Next Generation Frontend Tooling
-- [**React Router DOM**](https://reactrouter.com/) - Declarative Routing
-
-### Styling
-- [**Tailwind CSS v4**](https://tailwindcss.com/) - Utility-first CSS framework
-- **Vanilla CSS** - For core layout structures & complex CSS variables
-- `clsx` & `tailwind-merge` - Dynamic class construction
-
-### Animations
-- [**GSAP (GreenSock)**](https://gsap.com/) - High-performance property animations, scroll-triggered events.
-- [**Motion**](https://motion.dev/) - Fluid, spring-based component animation and lifecycle transitions.
-- **CSS View Transitions API** - Native DOM transition handling.
-- `tailwindcss-animate` - Tailwind utility classes for basic CSS keyframe animations.
-
-### Assets & Optimization
-- [**HugeIcons React**](https://hugeicons.com/) - Comprehensive premium icon library.
-- [**Vercel Analytics**](https://vercel.com/analytics) - Privacy-friendly traffic insights.
-
----
-
-## ⚙️ Getting Started
-
-### Prerequisites
-
-You will need [Node.js](https://nodejs.org/) installed on your machine (v18+ recommended).
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/manthan270/Portfolio.git
-   ```
-
-2. Navigate into the project directory:
-   ```bash
-   cd Portfolio
-   ```
-
-3. Install the dependencies:
-   ```bash
-   npm install
-   ```
-
-### Development
-
-Start the Vite development server:
-
-```bash
+```sh
+npm ci
 npm run dev
 ```
 
-Your application will be available at [`http://localhost:5173`](http://localhost:5173).
+The development server runs at `http://localhost:5173`.
 
-### Building for Production
+Useful checks:
 
-To create an optimized production build:
-
-```bash
+```sh
+npm run lint
 npm run build
-```
-
-To preview the production build locally:
-
-```bash
 npm run preview
 ```
 
----
-
-## 📂 Project Structure
-
-A brief overview of the top-level project architecture:
+## Project structure
 
 ```text
-/
-├── public/                # Static graphical assets (images, videos, logic-less files)
-├── src/
-│   ├── components/        # Reusable UI components (Buttons, Modals, System UI)
-│   │   ├── Layout/        # RootLayout and structural wrappers
-│   │   └── ui/            # Granular base UI components
-│   ├── data/              # Static content configurations and site data
-│   ├── pages/             # Route-level components (Home, Projects, Playground)
-│   ├── index.css          # Global stylesheet containing variables and core base setups
-│   └── main.jsx           # React DOM entry point
-├── eslint.config.js       # Linter configuration
-├── package.json           # Dependencies and scripts
-├── tailwind.config.js*    # Optional depending on Tailwind v4 setup
-└── vite.config.js         # Build tool configuration
+public/                   Static images, videos, certificates, CV, and icons
+src/components/            Shared sections and interface components
+src/data/portfolioData.jsx Portfolio content and personal details
+src/data/playgroundData.js Playground content
+src/pages/                 Home, project, and playground routes
+src/App.jsx                Routes and app-level behavior
+src/index.css              Theme tokens and global styles
+vite.config.js             Vite, React, Tailwind, and bundle analysis
+vercel.json                SPA routing and static asset headers
 ```
 
----
+Update the portfolio content in `src/data/portfolioData.jsx`. Add a new certificate by placing its PDF in `public/certificates/` with a descriptive kebab-case filename, then adding one entry to the `certificates` array:
 
-## 🤝 Contributing & Usage
+```js
+{
+  title: 'Certificate title',
+  issuer: 'Issuing organization',
+  year: 'Year shown on the certificate',
+  file: '/certificates/certificate-title-issuer-year.pdf',
+}
+```
 
-This is my personal portfolio template currently tailored specifically to showcase my work. However, feel free to explore the code, draw inspiration, fork the concept, and adapt the components for your own digital showcases!
+The file path must match the PDF's public path exactly, including capitalization. Certificate links open the PDF in a separate tab.
 
-If you find a bug or have an optimization suggestion, feel free to open an issue or submit a pull request.
+## Optional OX Alpha CLI
 
----
+`npm run cli` starts the local OX Alpha assistant. It requires `OPENROUTER_API_KEY` in the environment or a local `.env` file. The assistant sends prompts and project-file contents returned by its tools to OpenRouter. Keep local environment files out of archives and public repositories; the repository ignore rules exclude them.
 
-## 📄 License
+## Deployment and licensing
 
-This project is open-source and available under the [MIT License](LICENSE). 
+Vercel rewrites application routes to `index.html` so React Router can handle direct visits. No `LICENSE` file is present in this repository.
