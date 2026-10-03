@@ -7,7 +7,6 @@ import { portfolioData } from '../data/portfolioData';
 
 export default function Contact() {
   const [copyStatus, setCopyStatus] = useState('idle');
-  const [time, setTime] = useState('');
   const [isShaderVisible, setIsShaderVisible] = useState(false);
   const shaderSectionRef = useRef(null);
   const maxPixelCount = useMobileShaderPixelLimit(shaderSectionRef);
@@ -29,17 +28,6 @@ export default function Contact() {
     });
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
-
-  // Clock for the "Device Screen"
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }));
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => () => clearTimeout(copyResetTimeoutRef.current), []);
@@ -92,7 +80,7 @@ export default function Contact() {
 
           <div className="relative z-20 h-full w-full p-5 flex flex-col justify-between text-white font-mono">
             <div className="flex justify-between items-start text-sm tracking-widest uppercase">
-              <span className="text-md font-light tracking-tighter">{time}</span>
+              <Clock />
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-orange-700 animate-pulse" />
                 <span className="text-md font-light tracking-tighter">Hire Me</span>
@@ -159,6 +147,28 @@ export default function Contact() {
       </motion.div>
     </section>
   );
+}
+
+function Clock() {
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      }));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span className="text-md font-light tracking-tighter">{time}</span>;
 }
 
 function TactileButton({ children, onClick, href, label, className = '', ...props }) {
