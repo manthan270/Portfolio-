@@ -2,7 +2,7 @@ import {
   Github, Linkedin, Mail
 } from 'lucide-react';
 
-const contactEmail = 'anilgadegone@gmail.com';
+const contactEmail = 'manthangadegone27@gmail.com';
 
 export const portfolioData = {
   about: {
@@ -19,15 +19,15 @@ export const portfolioData = {
     name: "Manthan Gadegone",
     title: "Manthan",
     pronunciation: "",
-    roles: ["WEB DEVELOPER / DATA ANALYST"],
+    roles: ["Web Developer & Data Analyst"],
     profileImage: "/images/profile/manthan.webp",
     headerImage: "/images/profile/manthan-sm.webp",
     illustratedProfileImage: "/images/profile/manthan-illustration.webp",
     cvLink: "/CV/MANTHAN GADEGONE.pdf",
     socials: [
-      { name: "Email", icon: Mail, link: `mailto:${contactEmail}` },
-      { name: "GitHub", icon: Github, link: "https://github.com/manthan270" },
-      { name: "LinkedIn", icon: Linkedin, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
+      { name: "Email", tooltip: "manthangadegone27", icon: Mail, link: `mailto:${contactEmail}` },
+      { name: "GitHub", tooltip: "manthan270", icon: Github, link: "https://github.com/manthan270" },
+      { name: "LinkedIn", tooltip: "manthan-gadegone", icon: Linkedin, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
     ]
   },
   projects: [

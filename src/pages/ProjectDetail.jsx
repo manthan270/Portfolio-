@@ -76,7 +76,7 @@ const ProjectDetail = () => {
                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                className="rounded-xl border border-border bg-background shadow-lg overflow-hidden"
             >
-               <div className={`relative w-full bg-secondary/5 ${hasFigma ? 'aspect-4/3' : 'aspect-video'}`}>
+               <div className={`relative w-full bg-secondary/5 ${hasFigma ? 'aspect-[4/3]' : 'aspect-video'}`}>
                   {hasVideo ? (
                      <iframe
                         className="w-full h-full"

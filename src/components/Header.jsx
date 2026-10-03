@@ -66,7 +66,7 @@ export default function Header({ isDark, toggleTheme }) {
                     alt={portfolioData.hero.name}
                     width="128"
                     height="128"
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
                     className="h-8 w-8 shrink-0 rounded-md object-cover"
                   />
@@ -74,7 +74,7 @@ export default function Header({ isDark, toggleTheme }) {
                     <Typography variant="h4" className="max-w-full truncate text-sm font-bold leading-none tracking-tight">
                       {context.title}
                     </Typography>
-                    <Typography variant="small" className="max-w-full truncate text-[9px] text-muted-foreground font-mono uppercase tracking-wide sm:text-[10px]">
+                    <Typography variant="small" className="max-w-full truncate text-[10px] text-muted-foreground font-mono uppercase">
                       {context.subtitle}
                     </Typography>
                   </div>

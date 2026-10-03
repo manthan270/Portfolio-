@@ -13,13 +13,13 @@
 
   <!-- Open Graph / Social Sharing -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Manthan Gadegone — WEB DEVELOPER / DATA ANALYST" />
+  <meta property="og:title" content="Manthan | Portfolio" />
   <meta property="og:description" content="Manthan Gadegone is a web developer and data analyst. Explore responsive web projects, data analysis work, internship experience, and Microsoft Fabric certifications." />
   <meta property="og:url" content="https://manthanone.vercel.app/" />
   <meta property="og:image" content="https://manthanone.vercel.app/images/profile/manthan.webp" />
   <meta property="og:image:alt" content="Manthan Gadegone" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Manthan Gadegone — WEB DEVELOPER / DATA ANALYST" />
+  <meta name="twitter:title" content="Manthan | Portfolio" />
   <meta name="twitter:description" content="Manthan Gadegone is a web developer and data analyst. Explore responsive web projects, data analysis work, internship experience, and Microsoft Fabric certifications." />
   <meta name="twitter:image" content="https://manthanone.vercel.app/images/profile/manthan.webp" />
 
@@ -32,7 +32,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="/favicon/site.webmanifest" />
 
-  <title>Manthan Gadegone — WEB DEVELOPER / DATA ANALYST</title>
+  <title>Manthan | Portfolio</title>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -49,7 +49,10 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  </noscript>
   <link rel="preload" as="image" href="/images/profile/manthan.webp" type="image/webp" fetchpriority="high" />
   <script>
     (() => {
@@ -61,7 +64,7 @@
       }
 
       if (theme !== 'light' && theme !== 'dark') {
-        theme = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        theme = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light';
       }
 
       document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -72,6 +75,11 @@
 </head>
 
 <body>
+  <noscript>
+    <p style="margin: 2rem; text-align: center; font: 1rem/1.5 system-ui, sans-serif;">
+      JavaScript is required to display this portfolio. Please enable JavaScript and reload the page.
+    </p>
+  </noscript>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

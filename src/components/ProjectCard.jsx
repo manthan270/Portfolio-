@@ -21,7 +21,7 @@ export const ProjectCard = memo(({ project }) => {
         className="group relative flex flex-col rounded-2xl bg-card/80 p-2 transition-all duration-500"
       >
         {/* Visual Header */}
-        <div className="relative aspect-16/10 overflow-hidden rounded-2xl bg-secondary/10">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-secondary/10">
           <motion.img
             src={project.image}
             srcSet={project.imageSrcSet}

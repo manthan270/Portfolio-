@@ -3,14 +3,20 @@ import './HeroImage.css';
 
 export default function HeroImage({ src, illustratedSrc, alt }) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   return (
     <button
       type="button"
       className="profile-flip"
+      data-interacted={hasInteracted}
       aria-label={`Show ${isFlipped ? 'profile photo' : 'illustrated avatar'}`}
       aria-pressed={isFlipped}
-      onClick={() => setIsFlipped((value) => !value)}
+      onClick={() => {
+        setHasInteracted(true);
+        setIsFlipped((value) => !value);
+      }}
+      onMouseLeave={() => setHasInteracted(false)}
     >
       <span className="profile-flip__card">
         <span className="profile-flip__face">

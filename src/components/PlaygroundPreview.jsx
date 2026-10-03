@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Typography } from './ui/Typography';
@@ -7,6 +7,27 @@ import { playgroundData } from '../data/playgroundData';
 
 const VideoCard = ({ src, className }) => {
   const videoRef = useRef(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShouldLoad(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '300px' });
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -31,9 +52,9 @@ const VideoCard = ({ src, className }) => {
         loop
         muted
         playsInline
-        preload="metadata"
+        preload={shouldLoad ? 'metadata' : 'none'}
         className="w-full h-full object-cover duration-300"
-        src={`${src}#t=1.5`}
+        src={shouldLoad ? `${src}#t=1.5` : undefined}
       />
     </div>
   );

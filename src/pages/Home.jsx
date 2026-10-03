@@ -29,7 +29,7 @@ export default function Home() {
 
     const frame = window.requestAnimationFrame(() => {
       document.getElementById(sectionId)?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ? 'auto' : 'smooth',
         block: 'start',
       });
     });

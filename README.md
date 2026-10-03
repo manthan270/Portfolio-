@@ -2,12 +2,14 @@
 
 Personal portfolio for Manthan Gadegone, a web developer and data analyst. The site presents project work, experience, education, skills, certificates, and contact options in a responsive React application.
 
+> **Screenshot placeholder:** Add a current portfolio screenshot at `docs/portfolio-screenshot.png` and replace this note with the image when it is available.
+
 ## Links
 
 - Website: [manthanone.vercel.app](https://manthanone.vercel.app/)
 - GitHub: [github.com/manthan270](https://github.com/manthan270)
 - LinkedIn: [linkedin.com/in/manthan-gadegone-126a7922b](https://linkedin.com/in/manthan-gadegone-126a7922b)
-- Email: [anilgadegone@gmail.com](mailto:anilgadegone@gmail.com)
+- Email: [manthangadegone27@gmail.com](mailto:manthangadegone27@gmail.com)
 - CV: [public/CV/MANTHAN GADEGONE.pdf](public/CV/MANTHAN%20GADEGONE.pdf)
 
 ## Technology
@@ -23,7 +25,7 @@ Personal portfolio for Manthan Gadegone, a web developer and data analyst. The s
 Use Node.js 20.19 or newer in the 20.x line, or Node.js 22.12 or newer.
 
 ```sh
-npm ci
+npm install
 npm run dev
 ```
 
@@ -67,6 +69,8 @@ The file path must match the PDF's public path exactly, including capitalization
 ## Optional OX Alpha CLI
 
 `npm run cli` starts the local OX Alpha assistant. It requires `OPENROUTER_API_KEY` in the environment or a local `.env` file. The assistant sends prompts and project-file contents returned by its tools to OpenRouter. Keep local environment files out of archives and public repositories; the repository ignore rules exclude them.
+
+The CLI is optional. To configure it locally, copy `.env.example` to `.env` and fill in the values on your machine. Do not commit `.env`.
 
 ## Deployment and licensing
 

@@ -27,19 +27,23 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     const { pathname } = location;
-    const projectSlug = pathname.startsWith('/project/') ? pathname.split('/').filter(Boolean).at(-1) : null;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const projectSlug = pathname.startsWith('/project/')
+      ? pathSegments[pathSegments.length - 1] || null
+      : null;
     const project = projectSlug
       ? portfolioData.projects.find((item) => item.slug === projectSlug || item.id === projectSlug)
       : null;
+    const shortName = portfolioData.hero.name.split(' ')[0];
     const pageTitle = pathname === '/'
-      ? `${portfolioData.hero.name} — ${portfolioData.hero.roles[0]}`
+      ? `${shortName} | Portfolio`
       : project
-        ? `${project.title} — ${portfolioData.hero.name}`
+        ? `${project.title} | ${shortName}`
         : pathname === '/projects'
-          ? `Projects — ${portfolioData.hero.name}`
+          ? `Projects | ${shortName}`
           : pathname === '/playground'
-            ? `Playground — ${portfolioData.hero.name}`
-            : `Page not found — ${portfolioData.hero.name}`;
+            ? `Playground | ${shortName}`
+            : `Page not found | ${shortName}`;
     const sourceDescription = project
       ? project.description
       : pathname === '/projects'

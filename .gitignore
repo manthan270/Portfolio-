@@ -9,17 +9,24 @@ lerna-debug.log*
 
 node_modules
 dist
+build/
 dist-ssr
 .next
 .vercel
+.cache
+.vite
+coverage
+*.eslintcache
 *.local
 stats-optimized.html
+_to_review/
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj

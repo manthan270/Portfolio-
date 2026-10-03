@@ -4,6 +4,7 @@ import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
 import { useMobileShaderPixelLimit } from '../lib/useMobileShaderPixelLimit';
 import HeroImage from "./HeroImage.jsx";
+import './Hero.css';
 import { Typography } from './ui/Typography';
 import { Button } from './ui/Button';
 import CVModal from './CVModal';
@@ -53,7 +54,7 @@ export default function Hero({ data }) {
 
       {/* Background Layer */}
       <div ref={backgroundRef} className="h-36 w-full relative overflow-hidden isolate">
-        <div className="absolute inset-0 z-0 opacity-100">
+        <div className="absolute inset-0 z-0 bg-background opacity-100">
           <Dithering
             width="800"
             height="150"
@@ -97,8 +98,8 @@ export default function Hero({ data }) {
               </Typography>
 
               <div className="flex items-center gap-3 text-muted-foreground">
-                <Typography variant="h4" as="p" className="font-mono text-xs sm:text-sm font-medium uppercase tracking-wide text-primary/90">
-                  {data.roles.join("  /  ")}
+                <Typography variant="h4" as="p" className="text-sm sm:text-base font-medium text-foreground/90">
+                  {data.roles.join("  &  ")}
                 </Typography>
               </div>
             </div>
@@ -141,20 +142,29 @@ export default function Hero({ data }) {
                       href={social.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="
+                      className={`
                         group relative p-2 rounded-md 
                         bg-foreground/5 
                         text-muted-foreground/80 
                         hover:bg-foreground/10 hover:text-foreground
                         transition-colors
                         flex items-center justify-center
-                      "
-                      title={social.name}
-                      aria-label={social.name}
+                        ${social.tooltip ? 'social-link-with-tooltip' : ''}
+                      `}
+                      title={social.tooltip ? undefined : social.name}
+                      aria-label={social.tooltip ? `${social.name}: ${social.tooltip}` : social.name}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <Icon size={16} strokeWidth={1.5} />
+                      {social.tooltip && (
+                        <span
+                          aria-hidden="true"
+                          className="social-handle-tooltip"
+                        >
+                          {social.tooltip}
+                        </span>
+                      )}
                     </motion.a>
                   );
                 })}

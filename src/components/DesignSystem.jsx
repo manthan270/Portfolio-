@@ -28,10 +28,7 @@ export default function DesignSystem({ isOpen, onClose }) {
       {isOpen && (
         <div className="fixed inset-0 z-100 flex items-start justify-center pt-[10vh] px-4 sm:px-6">
           {/* Backdrop */}
-          <FocusTrap focusTrapOptions={{
-            initialFocus: () => closeButtonRef.current,
-            returnFocusOnDeactivate: true,
-          }}>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -41,6 +38,10 @@ export default function DesignSystem({ isOpen, onClose }) {
           />
 
           {/* Modal Container */}
+          <FocusTrap focusTrapOptions={{
+            initialFocus: () => closeButtonRef.current,
+            returnFocusOnDeactivate: true,
+          }}>
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}

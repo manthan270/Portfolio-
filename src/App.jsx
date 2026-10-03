@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { lazy, Suspense, useState, useCallback } from 'react';
+import { MotionConfig, AnimatePresence } from 'motion/react';
 import RootLayout from './components/Layout/RootLayout';
 import SignatureLoader from './components/SignatureLoader';
 import CommandPalette from './components/CommandPalette';
@@ -29,36 +29,29 @@ function NotFound() {
 }
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      setIsLoading(false);
-      return undefined;
+  const [showIntro, setShowIntro] = useState(() => {
+    // Only show the intro on the very first visit per session
+    try {
+      return !sessionStorage.getItem('intro-seen');
+    } catch {
+      return true;
     }
+  });
 
-    const timer = setTimeout(() => setIsLoading(false), 3200);
-    return () => clearTimeout(timer);
-  }, [prefersReducedMotion]);
+  const dismissIntro = useCallback(() => {
+    setShowIntro(false);
+    try {
+      sessionStorage.setItem('intro-seen', '1');
+    } catch {
+      // The intro still exits when session storage is unavailable.
+    }
+  }, []);
 
   return (
-    <BrowserRouter>
-      <AnimatePresence>
-        {isLoading && !prefersReducedMotion && <SignatureLoader key="loader" />}
-      </AnimatePresence>
-      <CommandPalette />
+    <MotionConfig reducedMotion="user">
+      <BrowserRouter>
+        <CommandPalette />
 
-      {/* Page content reveals with a cinematic entrance once the loader exits */}
-      <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98, y: 16 }}
-        animate={
-          isLoading && !prefersReducedMotion
-            ? { opacity: 0, scale: 0.98, y: 16 }
-            : { opacity: 1, scale: 1, y: 0 }
-        }
-        transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-      >
         <RootLayout>
           <Suspense fallback={<LoadingState />}>
             <Routes>
@@ -70,16 +63,20 @@ export default function App() {
             </Routes>
           </Suspense>
         </RootLayout>
-      </motion.div>
-      <Suspense fallback={null}>
-        {!isLoading && (
-          <>
+
+        <AnimatePresence mode="wait">
+          {showIntro && (
+            <SignatureLoader key="intro" onComplete={dismissIntro} />
+          )}
+        </AnimatePresence>
+
+        {!showIntro && (
+          <Suspense fallback={null}>
             <Analytics />
             <SpeedInsights />
-          </>
+          </Suspense>
         )}
-      </Suspense>
-    </BrowserRouter>
+      </BrowserRouter>
+    </MotionConfig>
   );
 }
-

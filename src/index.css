@@ -38,7 +38,7 @@
   --text-2xl: 2.5rem;
 
   --font-sans: "Onest", system-ui, sans-serif;
-  --font-mono: "Space Mono", mono;
+  --font-mono: "Space Mono", monospace;
 
   /* Spacing */
   --spacing-1: 0.25rem;
@@ -189,6 +189,21 @@
 
   html {
     @apply scroll-smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   body {

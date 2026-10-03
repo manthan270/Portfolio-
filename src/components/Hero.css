@@ -1,0 +1,45 @@
+.social-link-with-tooltip {
+  overflow: visible;
+}
+
+.social-handle-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 30;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: #fff;
+  color: #18181b;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 18%);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.social-handle-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 5px solid transparent;
+  border-top-color: #fff;
+  content: '';
+  transform: translateX(-50%);
+}
+
+.social-link-with-tooltip:hover .social-handle-tooltip,
+.social-link-with-tooltip:focus .social-handle-tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-handle-tooltip {
+    transition: none;
+  }
+}
