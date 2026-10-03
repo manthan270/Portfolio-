@@ -1,7 +1,5 @@
 # ROADMAP — Portfolio Stabilization and Release
 
-**Updated:** 2026-10-03
-
 **Working branch:** `final-cleanup`
 
 ## Current State
