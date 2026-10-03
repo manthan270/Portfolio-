@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Typography } from '../ui/Typography';
 
 
@@ -12,6 +12,7 @@ export default function Characters({ data = [] }) {
   const [nextSlotIndex, setNextSlotIndex] = useState(0);
   const [nextDataIndex, setNextDataIndex] = useState(slotCount % safeLength);
   const [isInView, setIsInView] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
   const containerRef = React.useRef(null);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function Characters({ data = [] }) {
   }, []);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || shouldReduceMotion) return undefined;
 
     const interval = setInterval(() => {
       setDisplayedIndices(prev => {
@@ -38,7 +39,7 @@ export default function Characters({ data = [] }) {
     }, updateInterval);
 
     return () => clearInterval(interval);
-  }, [data.length, nextSlotIndex, nextDataIndex, isInView]);
+  }, [data.length, nextSlotIndex, nextDataIndex, isInView, shouldReduceMotion]);
 
   if (!data || data.length === 0) return null;
 
