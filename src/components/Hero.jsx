@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
+import { useMobileShaderPixelLimit } from '../lib/useMobileShaderPixelLimit';
 import HeroImage from "./HeroImage.jsx";
 import { Typography } from './ui/Typography';
 import { Button } from './ui/Button';
@@ -12,6 +13,7 @@ export default function Hero({ data }) {
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const [isBackgroundVisible, setIsBackgroundVisible] = useState(false);
   const backgroundRef = useRef(null);
+  const maxPixelCount = useMobileShaderPixelLimit(backgroundRef);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function Hero({ data }) {
             shape="wave"
             type="2x2"
             size={2}
+            maxPixelCount={maxPixelCount}
             speed={shouldReduceMotion || !isBackgroundVisible ? 0 : 1}
           />
         </div>

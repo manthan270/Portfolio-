@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Dithering } from '@paper-design/shaders-react';
+import { useMobileShaderPixelLimit } from '../lib/useMobileShaderPixelLimit';
 import { Typography } from './ui/Typography';
 import { portfolioData } from '../data/portfolioData';
 
@@ -9,6 +10,7 @@ export default function Contact() {
   const [time, setTime] = useState('');
   const [isShaderVisible, setIsShaderVisible] = useState(false);
   const shaderSectionRef = useRef(null);
+  const maxPixelCount = useMobileShaderPixelLimit(shaderSectionRef);
   const copyResetTimeoutRef = useRef(null);
   const email = portfolioData.contact.email;
   const shouldReduceMotion = useReducedMotion();
@@ -83,6 +85,7 @@ export default function Contact() {
               shape="ripple"
               type="2x2"
               size={2}
+              maxPixelCount={maxPixelCount}
               speed={shouldReduceMotion || !isShaderVisible ? 0 : 2}
             />
           </div>
