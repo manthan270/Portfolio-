@@ -28,3 +28,4 @@ const FigmaExploration = ({ data }) => {
 };
 
 export default FigmaExploration;
+
