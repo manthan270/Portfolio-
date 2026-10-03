@@ -1,10 +1,29 @@
-import { useState, memo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useRef, memo } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Typography } from './ui/Typography';
 import { LayoutGrid, Rows } from 'lucide-react';
 
 export default memo(function Skills({ data }) {
   const [view, setView] = useState('scroll');
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const element = sectionRef.current;
+    if (!element) return undefined;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsInView(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   if (!data) return null;
 
@@ -14,7 +33,7 @@ export default memo(function Skills({ data }) {
   const row2 = data.slice(midpoint);
 
   return (
-    <section className="px-4 py-6 overflow-hidden">
+    <section ref={sectionRef} className="px-4 py-6 overflow-hidden">
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -77,8 +96,8 @@ export default memo(function Skills({ data }) {
                 exit={{ opacity: 0 }}
                 className="flex flex-col gap-4 mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
               >
-                <MarqueeRow items={row1} direction="left" />
-                <MarqueeRow items={row2} direction="right" />
+                <MarqueeRow items={row1} direction="left" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />
+                <MarqueeRow items={row2} direction="right" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />
               </motion.div>
             ) : (
 
@@ -105,11 +124,14 @@ export default memo(function Skills({ data }) {
 
 // --- Helper Components ---
 
-const MarqueeRow = ({ items, direction = "left" }) => {
+const MarqueeRow = ({ items, direction = "left", isInView, shouldReduceMotion }) => {
+  const animationClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right';
+
   return (
     <div className="flex overflow-hidden select-none">
       <div
-        className={`flex shrink-0 gap-3 pr-3 ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'}`}
+        className={`flex shrink-0 gap-3 pr-3 ${shouldReduceMotion ? '' : animationClass}`}
+        style={{ animationPlayState: isInView && !shouldReduceMotion ? 'running' : 'paused' }}
       >
         {[...items, ...items, ...items, ...items].map((skill, idx) => (
           <SkillPill key={`${skill.name}-${idx}`} skill={skill} />
