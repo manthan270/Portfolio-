@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
@@ -10,7 +10,25 @@ import CVModal from './CVModal';
 export default function Hero({ data }) {
   const [showCV, setShowCV] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const [isBackgroundVisible, setIsBackgroundVisible] = useState(false);
+  const backgroundRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const element = backgroundRef.current;
+    if (!element) return undefined;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsBackgroundVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsBackgroundVisible(entry.isIntersecting);
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -32,7 +50,7 @@ export default function Hero({ data }) {
       </div>
 
       {/* Background Layer */}
-      <div className="h-36 w-full relative overflow-hidden isolate">
+      <div ref={backgroundRef} className="h-36 w-full relative overflow-hidden isolate">
         <div className="absolute inset-0 z-0 opacity-100">
           <Dithering
             width="800"
@@ -42,7 +60,7 @@ export default function Hero({ data }) {
             shape="wave"
             type="2x2"
             size={2}
-            speed={shouldReduceMotion ? 0 : 1}
+            speed={shouldReduceMotion || !isBackgroundVisible ? 0 : 1}
           />
         </div>
       </div>

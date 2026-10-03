@@ -7,9 +7,27 @@ import { portfolioData } from '../data/portfolioData';
 export default function Contact() {
   const [copyStatus, setCopyStatus] = useState('idle');
   const [time, setTime] = useState('');
+  const [isShaderVisible, setIsShaderVisible] = useState(false);
+  const shaderSectionRef = useRef(null);
   const copyResetTimeoutRef = useRef(null);
   const email = portfolioData.contact.email;
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const element = shaderSectionRef.current;
+    if (!element) return undefined;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setIsShaderVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsShaderVisible(entry.isIntersecting);
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   // Clock for the "Device Screen"
   useEffect(() => {
@@ -55,7 +73,7 @@ export default function Contact() {
         "
       >
 
-        <div className="relative w-full rounded-lg overflow-hidden bg-primary mb-4 ring-1 ring-border shadow-inner isolate">
+        <div ref={shaderSectionRef} className="relative w-full rounded-lg overflow-hidden bg-primary mb-4 ring-1 ring-border shadow-inner isolate">
           <div className="absolute inset-0">
             <Dithering
               width="100%"
@@ -65,7 +83,7 @@ export default function Contact() {
               shape="ripple"
               type="2x2"
               size={2}
-              speed={shouldReduceMotion ? 0 : 2}
+              speed={shouldReduceMotion || !isShaderVisible ? 0 : 2}
             />
           </div>
 
