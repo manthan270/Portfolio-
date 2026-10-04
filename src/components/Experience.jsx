@@ -13,7 +13,7 @@ export default function Experience({ data }) {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className="flex items-baseline justify-between mb-4 pb-2">
+        <div className="mb-4 flex flex-col items-start gap-1 pb-2 sm:flex-row sm:items-baseline sm:justify-between">
           <Typography variant="h3" as="h2">Experience</Typography>
           <Typography variant="small" className="text-muted-foreground uppercase tracking-wider font-mono">MY JOURNEY</Typography>
         </div>

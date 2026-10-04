@@ -13,7 +13,7 @@ export default function Certificates({ data }) {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className="mb-4 flex items-baseline justify-between pb-2">
+        <div className="mb-4 flex flex-col items-start gap-1 pb-2 sm:flex-row sm:items-baseline sm:justify-between">
           <Typography variant="h3" as="h2">Certificates</Typography>
           <Typography
             variant="small"

@@ -13,7 +13,7 @@ export default function Education({ data }) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
             >
-                <div className="flex items-baseline justify-between mb-4 pb-2">
+                <div className="mb-4 flex flex-col items-start gap-1 pb-2 sm:flex-row sm:items-baseline sm:justify-between">
                     <Typography variant="h3" as="h2">Education</Typography>
                     <Typography variant="small" className="text-muted-foreground">MY ACADEMIC BACKGROUND</Typography>
                 </div>
@@ -44,18 +44,17 @@ export default function Education({ data }) {
                                         {education.title}
                                     </Typography>
 
-                                    <div className="flex flex-col gap-1.5 mt-1 text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                                        <div className="flex items-center gap-1.5">
-                                            <GraduationCap className="w-3 h-3 opacity-70" />
-                                            <span>{education.institution}</span>
-                                            {education.period && (
-                                                <>
-                                                    <span className="mx-1 opacity-50">·</span>
-                                                    <Calendar className="w-3 h-3 opacity-70" />
-                                                    <span>{education.period}</span>
-                                                </>
-                                            )}
+                                    <div className="mt-1 flex flex-col items-start gap-1.5 text-xs font-mono uppercase tracking-wider text-muted-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3">
+                                        <div className="flex min-w-0 items-start gap-1.5">
+                                            <GraduationCap className="mt-0.5 h-3 w-3 shrink-0 opacity-70" />
+                                            <span className="min-w-0 break-words">{education.institution}</span>
                                         </div>
+                                        {education.period && (
+                                            <div className="flex items-center gap-1.5">
+                                                <Calendar className="h-3 w-3 shrink-0 opacity-70" />
+                                                <span className="whitespace-nowrap">{education.period}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

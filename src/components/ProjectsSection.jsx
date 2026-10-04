@@ -18,7 +18,7 @@ export default function ProjectsSection({ data }) {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <div className="flex items-baseline justify-between mb-4 pb-2">
+        <div className="mb-4 flex flex-col items-start gap-1 pb-2 sm:flex-row sm:items-baseline sm:justify-between">
           <Typography variant="h3" as="h2">
             Projects
           </Typography>
