@@ -72,14 +72,14 @@ export const ExperienceCard = memo(({ experience, index }) => {
         {isOpen && (
           <motion.div
             key="body"
-            initial={{ height: 0, opacity: 0 }}
+            initial={index === 0 ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 280, damping: 28 }}
             className="overflow-hidden"
           >
             <motion.div
-              initial={{ y: -8, opacity: 0 }}
+              initial={index === 0 ? { y: 0, opacity: 1 } : { y: -8, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -8, opacity: 0 }}
               transition={{ duration: 0.2, delay: 0.05 }}

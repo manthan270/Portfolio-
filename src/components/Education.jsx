@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Typography } from './ui/Typography';
-import { Calendar, GraduationCap, MapPin } from 'lucide-react';
+import { Calendar, GraduationCap } from 'lucide-react';
 
 export default function Education({ data }) {
     if (!data) return null;
@@ -15,7 +15,7 @@ export default function Education({ data }) {
             >
                 <div className="flex items-baseline justify-between mb-4 pb-2">
                     <Typography variant="h3" as="h2">Education</Typography>
-                    <Typography variant="small" className="text-muted-foreground">MY BACKGROUND</Typography>
+                    <Typography variant="small" className="text-muted-foreground">MY ACADEMIC BACKGROUND</Typography>
                 </div>
 
                 <div className="space-y-4">
@@ -48,18 +48,13 @@ export default function Education({ data }) {
                                         <div className="flex items-center gap-1.5">
                                             <GraduationCap className="w-3 h-3 opacity-70" />
                                             <span>{education.institution}</span>
-                                        </div>
-
-                                        {education.location && (
-                                            <div className="flex items-center gap-1.5">
-                                                <MapPin className="w-3 h-3 opacity-70" />
-                                                <span>{education.location}</span>
-                                            </div>
-                                        )}
-
-                                        <div className="flex items-center gap-1.5">
-                                            <Calendar className="w-3 h-3 opacity-70" />
-                                            <span>{education.period}</span>
+                                            {education.period && (
+                                                <>
+                                                    <span className="mx-1 opacity-50">·</span>
+                                                    <Calendar className="w-3 h-3 opacity-70" />
+                                                    <span>{education.period}</span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

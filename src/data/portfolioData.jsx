@@ -95,10 +95,9 @@ export const portfolioData = {
   ],
   education: [
     {
-      title: 'B.Tech – Electronics & Telecommunication Engineering',
+      title: 'Bachelor of Technology',
       institution: 'ST. VINCENT PALLOTTI COLLEGE OF ENGINEERING',
-      location: 'NAGPUR, MAHARASHTRA',
-      period: 'CLASS OF 2025',
+      period: 'since 2025',
       description: 'Studied core electronics, communication systems, and signal processing while building a strong foundation in programming, data analysis, and software development.',
       tags: ['SQL', 'Python', 'Excel', 'Data Analysis', 'AI Solutions', 'Web Development']
     }

@@ -53,8 +53,8 @@ export default function Home() {
       <SectionDivider />
 
       <Suspense fallback={<LoadingState compact />}>
-        <div id="education" className="relative scroll-mt-16">
-          <Education data={portfolioData.education} />
+        <div id="experience" className="relative scroll-mt-16">
+          <Experience data={portfolioData.experience} />
         </div>
       </Suspense>
 
@@ -69,8 +69,8 @@ export default function Home() {
       <SectionDivider />
 
       <Suspense fallback={<LoadingState compact />}>
-        <div id="experience" className="relative scroll-mt-16">
-          <Experience data={portfolioData.experience} />
+        <div id="education" className="relative scroll-mt-16">
+          <Education data={portfolioData.education} />
         </div>
       </Suspense>
 
