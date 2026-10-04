@@ -34,10 +34,10 @@ export default function Certificates({ data }) {
               className="group flex min-h-20 items-center justify-between gap-4 rounded-xl border border-border/50 bg-card/70 p-4 transition-colors duration-300 hover:border-border hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <span className="flex min-w-0 flex-col gap-1">
-                <span className="font-sans text-sm font-semibold leading-snug tracking-tight text-foreground/90 transition-colors group-hover:text-foreground">
+                <span className="font-sans text-sm font-medium leading-5 tracking-tight text-foreground/90 transition-colors group-hover:text-foreground">
                   {certificate.title}
                 </span>
-                <span className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70 sm:text-xs">
+                <span className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] leading-[1.5] uppercase tracking-wider text-muted-foreground/70">
                   <span>{certificate.issuer}</span>
                   <span aria-hidden="true">·</span>
                   <span>{certificate.year}</span>
