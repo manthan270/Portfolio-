@@ -55,11 +55,11 @@ export default function Contact() {
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="
-          relative w-full 
-          bg-accent
-          rounded-lg ring-1 ring-border/20
-          p-2 shadow-2xl shadow-black/10
-          inset-shadow-sm inset-shadow-accent
+          relative w-full
+          bg-white/40 dark:bg-accent
+          rounded-lg ring-1 ring-black/10 dark:ring-border/20
+          p-2 shadow-2xl shadow-black/5 dark:shadow-black/10
+          inset-shadow-sm inset-shadow-black/5 dark:inset-shadow-accent
         "
       >
 
@@ -83,7 +83,7 @@ export default function Contact() {
               <Clock />
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-orange-700 animate-pulse" />
-                <span className="text-md font-light tracking-tighter">Hire Me</span>
+                <span className="hidden dark:inline text-md font-light tracking-tighter">Hire Me</span>
               </div>
             </div>
 
@@ -99,14 +99,14 @@ export default function Contact() {
 
           <TactileButton
             href={`mailto:${email}`}
-            className="col-span-1 h-32"
+            className="col-span-1 h-28 dark:h-32"
             label="Send Mail"
           >
           </TactileButton>
 
           <TactileButton
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="col-span-1 h-32"
+            className="col-span-1 h-28 dark:h-32"
             label="Go To Top"
           >
           </TactileButton>
@@ -186,10 +186,10 @@ function TactileButton({ children, onClick, href, label, className = '', ...prop
                 group relative
                 overflow-hidden
                 p-4 rounded-sm
-                bg-secondary
-                inset-shadow-sm
-                inset-shadow-accent
-                shadow-lg
+                bg-[#f0f0f0] dark:bg-secondary
+                border border-[#303030] dark:border-black
+                inset-shadow-none dark:inset-shadow-sm dark:inset-shadow-accent
+                shadow-none dark:shadow-lg
                 active:scale-[0.98]
                 transition-all duration-100 ease-out
                 flex flex-col items-center justify-center
