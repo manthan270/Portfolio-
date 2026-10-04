@@ -2,6 +2,8 @@
 
 @plugin "tailwindcss-animate";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 
   /* Light mode defaults — overridden by .dark in the cascade below */
