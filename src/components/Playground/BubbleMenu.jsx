@@ -74,7 +74,7 @@ const OrbitShimmer = React.memo(function OrbitShimmer({ color, active }) {
         <motion.span
           key="orbit"
           aria-hidden="true"
-          className="absolute -inset-1 rounded-full pointer-events-none z-0"
+          className="absolute inset-0 rounded-full overflow-hidden pointer-events-none z-0"
           initial={{ opacity: 0, scale: 0.75 }}
           animate={{ opacity: 0.85, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
