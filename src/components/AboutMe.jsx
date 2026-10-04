@@ -17,11 +17,11 @@ export default function AboutMe({ data }) {
                 </div>
 
                 <div className="flex flex-col gap-4 text-muted-foreground">
-                    <Typography variant="body" className="text-[13px] font-semibold text-foreground">
+                    <Typography variant="body" className="font-sans text-[13px] font-semibold tracking-normal text-foreground">
                         {data.greeting}
                     </Typography>
                     {data.paragraphs.map((paragraph) => (
-                        <Typography key={paragraph} variant="body" className="text-[13px]">
+                        <Typography key={paragraph} variant="body" className="font-sans text-[13px] tracking-normal">
                             {paragraph}
                         </Typography>
                     ))}
