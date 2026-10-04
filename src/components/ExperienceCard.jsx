@@ -78,13 +78,7 @@ export const ExperienceCard = memo(({ experience, index }) => {
             transition={{ type: 'spring', stiffness: 280, damping: 28 }}
             className="overflow-hidden"
           >
-            <motion.div
-              initial={index === 0 ? { y: 0, opacity: 1 } : { y: -8, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -8, opacity: 0 }}
-              transition={{ duration: 0.2, delay: 0.05 }}
-              className="pl-8 pr-3 pb-4 flex flex-col gap-3"
-            >
+            <div className="pl-8 pr-3 pb-4 flex flex-col gap-3">
               {/* Description */}
               {experience.description && (
                 <div className="relative bg-secondary/40 px-3 py-2 rounded-md inset-shadow-sm">
@@ -121,7 +115,7 @@ export const ExperienceCard = memo(({ experience, index }) => {
                   </motion.span>
                 ))}
               </motion.div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
