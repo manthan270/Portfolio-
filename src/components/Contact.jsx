@@ -200,7 +200,7 @@ function TactileButton({ children, onClick, href, label, className = '', ...prop
         {children}
       </div>
 
-      <div className="absolute opacity-20 bottom-2 left-3 flex flex-col items-start leading-none">
+      <div className="absolute bottom-2 left-3 flex flex-col items-start leading-none text-foreground opacity-70 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
         {label && <span className="text-xs font-light tracking-wider font-mono">{label}</span>}
       </div>
 
