@@ -17,7 +17,7 @@ export default function Certificates({ data }) {
           <Typography variant="h3" as="h2">Certificates</Typography>
           <Typography
             variant="small"
-            className="text-blue-700/75 dark:text-blue-300/75"
+            className="text-blue-900 dark:text-blue-300"
           >
             Credentials
           </Typography>
