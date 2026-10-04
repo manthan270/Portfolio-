@@ -46,10 +46,10 @@
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
   --spacing-3: 1rem;
-  --spacing-4: 1.618rem;
-  --spacing-5: 2.618rem;
-  --spacing-6: 4.236rem;
-  --spacing-7: 6.854rem;
+  --spacing-4: 1.5rem;
+  --spacing-5: 2.5rem;
+  --spacing-6: 3.75rem;
+  --spacing-7: 6.25rem;
 
   --animate-shimmer: shimmer 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 
