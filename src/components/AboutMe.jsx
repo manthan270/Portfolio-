@@ -13,15 +13,15 @@ export default function AboutMe({ data }) {
                 className="bg-card border border-border/50 rounded-2xl shadow-sm p-8 md:p-10"
             >
                 <div className="flex items-baseline mb-6 md:mb-8">
-                    <Typography variant="h3" as="h2">About Me</Typography>
+                    <Typography variant="h3" as="h2" className="text-[1.625rem]">About Me</Typography>
                 </div>
 
                 <div className="flex flex-col gap-4 text-muted-foreground">
-                    <Typography variant="body" className="font-semibold text-foreground">
+                    <Typography variant="body" className="text-[13px] font-semibold text-foreground">
                         {data.greeting}
                     </Typography>
                     {data.paragraphs.map((paragraph) => (
-                        <Typography key={paragraph} variant="body">
+                        <Typography key={paragraph} variant="body" className="text-[13px]">
                             {paragraph}
                         </Typography>
                     ))}
