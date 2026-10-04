@@ -83,7 +83,7 @@ export default function Contact() {
               <Clock />
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-orange-700 animate-pulse" />
-                <span className="hidden dark:inline text-md font-light tracking-tighter">Hire Me</span>
+                <span className="text-md font-light tracking-tighter">Hire Me</span>
               </div>
             </div>
 
@@ -99,14 +99,14 @@ export default function Contact() {
 
           <TactileButton
             href={`mailto:${email}`}
-            className="col-span-1 h-28 dark:h-32"
+            className="col-span-1 h-28"
             label="Send Mail"
           >
           </TactileButton>
 
           <TactileButton
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="col-span-1 h-28 dark:h-32"
+            className="col-span-1 h-28"
             label="Go To Top"
           >
           </TactileButton>
