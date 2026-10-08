@@ -11,8 +11,8 @@
     "build": "vite build --configLoader runner",
     "lint": "eslint .",
     "preview": "vite preview --configLoader runner",
-    "cli": "node cli.js",
-    "ox": "node cli.js"
+    "cli": "node scripts/ox-alpha.js",
+    "ox": "node scripts/ox-alpha.js"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.72",

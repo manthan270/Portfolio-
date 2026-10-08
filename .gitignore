@@ -20,6 +20,7 @@ coverage
 *.local
 stats-optimized.html
 _to_review/
+.planning/
 
 # Editor directories and files
 .vscode/*

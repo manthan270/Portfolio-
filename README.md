@@ -2,8 +2,6 @@
 
 Personal portfolio for Manthan Gadegone, a web developer and data analyst. The site presents project work, experience, education, skills, certificates, and contact options in a responsive React application.
 
-> **Screenshot placeholder:** Add a current portfolio screenshot at `docs/portfolio-screenshot.png` and replace this note with the image when it is available.
-
 ## Links
 
 - Website: [manthanone.vercel.app](https://manthanone.vercel.app/)
@@ -43,6 +41,7 @@ npm run preview
 
 ```text
 public/                   Static images, videos, certificates, CV, and icons
+scripts/                  Image conversion and optional local OX CLI tools
 src/components/            Shared sections and interface components
 src/data/portfolioData.jsx Portfolio content and personal details
 src/data/playgroundData.js Playground content

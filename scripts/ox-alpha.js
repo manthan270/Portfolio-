@@ -7,7 +7,7 @@ import { promisify } from 'util';
 import { fileURLToPath } from 'url';
 
 const execFileAsync = promisify(execFile);
-const workspaceRoot = fs.realpathSync(path.dirname(fileURLToPath(import.meta.url)));
+const workspaceRoot = fs.realpathSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'));
 const envFile = path.join(workspaceRoot, '.env');
 const maxTextFileSize = 1024 * 1024;
 
