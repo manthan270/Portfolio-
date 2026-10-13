@@ -72,7 +72,7 @@ export const ExperienceCard = memo(({ experience, index }) => {
         {isOpen && (
           <motion.div
             key="body"
-            initial={index === 0 ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+            initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 280, damping: 28 }}

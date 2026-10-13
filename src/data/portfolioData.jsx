@@ -72,11 +72,18 @@ export const portfolioData = {
   ],
   experience: [
     {
+      role: 'Data Analytics with AI Intern',
+      company: 'IBM SkillsBuild, AICTE & BharatCares',
+      period: 'Aug 2026 – Sep 2026',
+      description: 'Worked on data cleaning, preprocessing, and exploratory analysis projects. In terms of data visualization used Power BI. Worked with regression, classification, decision trees, and clustering issues out and finished up with a work which aligned to the UN SDGs.',
+      technologies: ['Power BI', 'Machine Learning', 'Data Analysis', 'NumPy']
+    },
+    {
       role: 'Intern',
       company: 'Maharashtra Remote Sensing Application Centre',
       period: 'Jan 2025 – May 2025',
-      description: 'Built a Random Forest land-cover classifier in Python (Rasterio, NumPy, Scikit-learn) trained on satellite imagery. Performed change-detection analysis to map land-cover changes from 2005–2025, identifying urban expansion trends',
-      technologies: ['Python', 'Rasterio', 'NumPy', 'scikit-learn', 'Satellite Imagery', 'Change Detection', 'Geospatial Analysis']
+      description: 'Built out a Random Forest land cover classifier in Python (with Rasterio, NumPy, Scikit-learn) of satellite imagery. Performed change detection analysis to map out land cover changes from 2005 to 2025 and to identify urban expansion trends.',
+      technologies: ['Python', 'scikit-learn', 'Satellite Imagery']
     },
   ],
   certificates: [
