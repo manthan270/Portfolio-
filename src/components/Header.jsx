@@ -18,6 +18,7 @@ export default function Header({ isDark, toggleTheme }) {
     const handleScroll = () => {
       setShowProgressHeader(window.scrollY > 150);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -53,7 +54,7 @@ export default function Header({ isDark, toggleTheme }) {
             )}
 
             <AnimatePresence mode="wait">
-              {(showProgressHeader || context.root) && (
+              {showProgressHeader && (
                 <motion.div
                   key={context.title}
                   initial={{ opacity: 0, x: -10 }}
