@@ -14,7 +14,6 @@ const LEVELS = 256;                 // the reveal map is 8-bit
 const SOFT = 1;                     // pen-edge softness, in map levels (same look as before)
 const SPAN = LEVELS - 1 + SOFT + 2; // = 258, same as the old p * 258
 const MAX_DPR = 2;                  // 3x was ~2.25x more pixels for no visible gain at 420px wide
-const MAX_FRAME_MS = 40;            // a stalled frame can no longer skip over part of the signature
 
 // cubic-bezier easing, same curve you had: [0.35, 0, 0.25, 1]
 function makeEase(x1, y1, x2, y2) {
@@ -175,13 +174,12 @@ function startSignature(canvas, outline, mapUrl, { onReady, onFail }) {
     play(durationMs, easeFn, done) {
       cancelAnimationFrame(raf);
       show(0);
-      let last = 0;
-      let elapsed = 0;
+      let startedAt;
       const tick = (now) => {
-        // the clock starts on the first real frame, and a long stall cannot skip ahead
-        if (last) elapsed += Math.min(now - last, MAX_FRAME_MS);
-        last = now;
-        const x = Math.min(1, elapsed / durationMs);
+        // Start on the first real frame, but keep wall-clock timing after dropped frames.
+        // paint() fills every crossed level, so catch-up does not leave gaps in the stroke.
+        if (startedAt === undefined) startedAt = now;
+        const x = Math.min(1, (now - startedAt) / durationMs);
         show(easeFn(x));
         if (x < 1) raf = requestAnimationFrame(tick);
         else if (done) done();
@@ -291,12 +289,14 @@ const SignatureLoader = ({ onComplete }) => {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-background text-foreground"
       style={{ backgroundColor: 'var(--color-background, #09090b)' }}
     >
-      <div className="w-[min(78vw,420px)]">
+      <div className="w-[68vw] max-w-[360px]">
         <canvas
           ref={canvasRef}
+          width={VB_W}
+          height={VB_H}
           role="img"
           aria-label="Manthan signature"
-          style={{ display: 'block', width: '100%', aspectRatio: '1912 / 577' }}
+          style={{ display: 'block', width: '100%', height: 'auto' }}
         />
       </div>
     </motion.div>
