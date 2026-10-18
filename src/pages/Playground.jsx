@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { playgroundData } from '../data/playgroundData';
 import { motion } from 'motion/react';
 
@@ -26,7 +26,6 @@ const SectionSkeleton = () => (
 
 export default function Playground() {
   const [activeSection, setActiveSection] = useState(null);
-  const scrollTimeoutRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,30 +36,39 @@ export default function Playground() {
       rootMargin: '-20% 0px -60% 0px',
       threshold: [0, 0.1]
     };
+    const sectionIds = ['figma', '3d', 'posters'];
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const activationLine = () => window.innerHeight * 0.3;
+    const distanceToActivationLine = (element) => {
+      const rect = element.getBoundingClientRect();
+      const line = activationLine();
+      if (line < rect.top) return rect.top - line;
+      if (line > rect.bottom) return line - rect.bottom;
+      return 0;
+    };
+    const updateActiveSection = () => {
+      const closestSection = sections
+        .map((element) => ({
+          element,
+          distance: distanceToActivationLine(element),
+          top: element.getBoundingClientRect().top,
+        }))
+        .sort((a, b) => a.distance - b.distance || a.top - b.top)[0];
+
+      setActiveSection(closestSection?.element.id ?? null);
+    };
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-            scrollTimeoutRef.current = setTimeout(() => {
-              setActiveSection(entry.target.id);
-            }, 100);
-          }
-        });
-      },
+      () => updateActiveSection(),
       observerOptions
     );
 
-    const sectionIds = ['figma', '3d', 'posters'];
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    sections.forEach((section) => observer.observe(section));
 
     return () => {
       observer.disconnect();
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 

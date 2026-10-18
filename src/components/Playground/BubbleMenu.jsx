@@ -151,6 +151,7 @@ const MenuItem = React.memo(function MenuItem({
   onLeave,
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const isHighlighted = isActive || isHovered;
 
   return (
     <motion.button
@@ -160,6 +161,8 @@ const MenuItem = React.memo(function MenuItem({
       onMouseLeave={onLeave}
       onFocus={() => onHover(item.id)}
       onBlur={onLeave}
+      aria-label={item.label}
+      aria-current={isActive ? 'location' : undefined}
       initial={false}
       animate={{
         backgroundColor: isActive ? item.color : 'rgba(255,255,255,0.01)',
@@ -169,7 +172,7 @@ const MenuItem = React.memo(function MenuItem({
             ? `${item.color}B3`
             : 'rgba(128,128,128,0.5)',
         color: isActive ? 'white' : 'var(--color-muted-foreground)',
-        minWidth: isActive ? '100px' : '48px',
+        minWidth: isHighlighted ? '100px' : '48px',
       }}
       whileHover={shouldReduceMotion ? undefined : { scale: 1.07, y: -2 }}
       whileTap={{ scale: 0.92 }}
@@ -209,7 +212,7 @@ const MenuItem = React.memo(function MenuItem({
         </motion.span>
 
         <AnimatePresence mode="popLayout">
-          {isActive && (
+          {isHighlighted && (
             <motion.span
               key="label"
               initial={{ opacity: 0, x: -5, filter: 'blur(4px)' }}
@@ -284,7 +287,7 @@ const BubbleMenu = ({ activeSection }) => {
         <div key={item.id} data-id={item.id}>
           <MenuItem
             item={item}
-            isActive={activeSection === item.id || hoveredId === item.id}
+            isActive={activeSection === item.id}
             isHovered={hoveredId === item.id}
             onSelect={handleSelect}
             onHover={handleHover}
