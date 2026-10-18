@@ -30,45 +30,37 @@ export default function Playground() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (typeof IntersectionObserver === 'undefined') return undefined;
-
-    const observerOptions = {
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: [0, 0.1]
-    };
     const sectionIds = ['figma', '3d', 'posters'];
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean);
-    const activationLine = () => window.innerHeight * 0.3;
-    const distanceToActivationLine = (element) => {
-      const rect = element.getBoundingClientRect();
-      const line = activationLine();
-      if (line < rect.top) return rect.top - line;
-      if (line > rect.bottom) return line - rect.bottom;
-      return 0;
-    };
+    let frameId = null;
+
     const updateActiveSection = () => {
-      const closestSection = sections
-        .map((element) => ({
-          element,
-          distance: distanceToActivationLine(element),
-          top: element.getBoundingClientRect().top,
-        }))
-        .sort((a, b) => a.distance - b.distance || a.top - b.top)[0];
+      frameId = null;
+      const activationLine = window.innerHeight * 0.5;
+      let activeSection = sections[0];
 
-      setActiveSection(closestSection?.element.id ?? null);
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top > activationLine) break;
+        activeSection = section;
+      }
+
+      setActiveSection(activeSection?.id ?? null);
     };
 
-    const observer = new IntersectionObserver(
-      () => updateActiveSection(),
-      observerOptions
-    );
+    const scheduleUpdate = () => {
+      if (frameId === null) frameId = window.requestAnimationFrame(updateActiveSection);
+    };
 
-    sections.forEach((section) => observer.observe(section));
+    scheduleUpdate();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
     };
   }, []);
 
