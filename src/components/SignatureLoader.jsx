@@ -8,6 +8,8 @@ const DRAW_DURATION = 2.6;   // seconds to write the signature (smaller = faster
 const HOLD_DURATION = 700;   // ms the finished signature stays on screen
 const EXIT_DURATION = 0.5;   // seconds to fade out
 const START_TIMEOUT = 8000;  // ms: if the signature cannot start, show the site anyway
+const STARTUP_STABLE_MS = 500; // wait for startup frame drops to settle before drawing
+const MAX_STARTUP_WAIT_MS = 1500; // keep the added wait bounded on busy or background pages
 
 const VB_W = 1912, VB_H = 577;
 const LEVELS = 256;                 // the reveal map is 8-bit
@@ -35,6 +37,52 @@ function makeEase(x1, y1, x2, y2) {
 }
 
 const ease = makeEase(0.35, 0, 0.25, 1);
+
+function waitForStableFrames(callback) {
+  let finished = false;
+  let frame = 0;
+  let maxTimer = 0;
+  let lastFrame = null;
+  let expectedFrameInterval = 0;
+  let stableDuration = 0;
+
+  const start = () => {
+    if (finished) return;
+    finished = true;
+    window.cancelAnimationFrame(frame);
+    window.clearTimeout(maxTimer);
+    callback();
+  };
+
+  const sampleFrame = (now) => {
+    if (finished) return;
+    if (lastFrame !== null) {
+      const interval = now - lastFrame;
+      if (!expectedFrameInterval) expectedFrameInterval = Math.min(interval, 32);
+      if (interval <= Math.min(expectedFrameInterval * 1.75, 50)) {
+        stableDuration += interval;
+      } else {
+        stableDuration = 0;
+      }
+      if (stableDuration >= STARTUP_STABLE_MS) {
+        start();
+        return;
+      }
+    }
+    lastFrame = now;
+    frame = window.requestAnimationFrame(sampleFrame);
+  };
+
+  maxTimer = window.setTimeout(start, MAX_STARTUP_WAIT_MS);
+  frame = window.requestAnimationFrame(sampleFrame);
+
+  return () => {
+    if (finished) return;
+    finished = true;
+    window.cancelAnimationFrame(frame);
+    window.clearTimeout(maxTimer);
+  };
+}
 
 // Let the browser convert ANY css colour (rgb, hex, oklch, color(srgb ...)) to plain rgb.
 // The old code pulled numbers out of the string, which breaks on oklch / color() values.
@@ -244,6 +292,7 @@ const SignatureLoader = ({ onComplete }) => {
     let finished = false;
     let holdTimer = 0;
     let startTimer = 0;
+    let cancelPendingStart = null;
 
     // The exit timer now starts when the signature has really been drawn (not at mount),
     // so slow loading can no longer cut the tail of the signature off.
@@ -251,6 +300,7 @@ const SignatureLoader = ({ onComplete }) => {
       if (finished) return;
       finished = true;
       window.clearTimeout(startTimer);
+      cancelPendingStart?.();
       holdTimer = window.setTimeout(() => onCompleteRef.current?.(), delay);
     };
 
@@ -259,12 +309,16 @@ const SignatureLoader = ({ onComplete }) => {
 
     const stop = startSignature(canvasRef.current, SIGNATURE_OUTLINE, REVEAL_MAP, {
       onReady(sig) {
-        window.clearTimeout(startTimer);
         if (shouldReduceMotion) {
+          window.clearTimeout(startTimer);
           sig.seek(1);
           finish(500);
         } else {
-          sig.play(DRAW_DURATION * 1000, ease, () => finish(HOLD_DURATION));
+          cancelPendingStart = waitForStableFrames(() => {
+            if (finished) return;
+            window.clearTimeout(startTimer);
+            sig.play(DRAW_DURATION * 1000, ease, () => finish(HOLD_DURATION));
+          });
         }
       },
       onFail() {
@@ -275,6 +329,7 @@ const SignatureLoader = ({ onComplete }) => {
     return () => {
       window.clearTimeout(startTimer);
       window.clearTimeout(holdTimer);
+      cancelPendingStart?.();
       stop();
     };
   }, [shouldReduceMotion]);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Palette, ArrowLeft, Search, Sun, Moon } from 'lucide-react';
 import DesignSystem from './DesignSystem';
 import { motion, AnimatePresence } from 'motion/react';
@@ -11,16 +11,30 @@ import { portfolioData } from '../data/portfolioData';
 export default function Header({ isDark, toggleTheme }) {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
   const [showProgressHeader, setShowProgressHeader] = useState(false);
+  const progressHeaderVisibleRef = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowProgressHeader(window.scrollY > 150);
+    let frameId = 0;
+    const syncProgressHeader = () => {
+      frameId = 0;
+      const shouldShow = window.scrollY > 150;
+      if (shouldShow === progressHeaderVisibleRef.current) return;
+
+      progressHeaderVisibleRef.current = shouldShow;
+      setShowProgressHeader(shouldShow);
     };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(syncProgressHeader);
+    };
+    syncProgressHeader();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.cancelAnimationFrame(frameId);
+    };
   }, []);
 
   const getPageContext = () => {
