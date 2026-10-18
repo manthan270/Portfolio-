@@ -14,6 +14,14 @@ const GLOW_SPRING = { type: 'spring', stiffness: 210, damping: 24 };
 const EASE_OUT_EXPO = [0.22, 1, 0.36, 1];
 const SHEEN_EASE = [0.4, 0, 0.2, 1];
 
+const tint = (hex, opacity) => {
+  const value = hex.slice(1);
+  const [red, green, blue] = [0, 2, 4].map((offset) =>
+    Number.parseInt(value.slice(offset, offset + 2), 16)
+  );
+  return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+};
+
 /* ------------------------------------------------------------------ */
 /* Glow layers                                                          */
 /* Every layer animates ONLY opacity/transform so the browser keeps     */
@@ -165,13 +173,20 @@ const MenuItem = React.memo(function MenuItem({
       aria-current={isActive ? 'location' : undefined}
       initial={false}
       animate={{
-        backgroundColor: isActive ? item.color : 'rgba(255,255,255,0.01)',
+        // Keep the selected section solid, but give the hovered/focused item
+        // a visible color wash so the moving sheen does not read as the only
+        // feedback on an otherwise black button.
+        backgroundColor: isActive
+          ? item.color
+          : isHovered
+            ? tint(item.color, 0.24)
+            : 'rgba(255,255,255,0.01)',
         borderColor: isActive
           ? item.color
           : isHovered
             ? `${item.color}B3`
             : 'rgba(128,128,128,0.5)',
-        color: isActive ? 'white' : 'var(--color-muted-foreground)',
+        color: isHighlighted ? 'white' : 'var(--color-muted-foreground)',
         minWidth: isHighlighted ? '100px' : '48px',
       }}
       whileHover={shouldReduceMotion ? undefined : { scale: 1.07, y: -2 }}
