@@ -37,6 +37,12 @@ npm run build
 npm run preview
 ```
 
+To regenerate WebP images and responsive image sizes from source JPEG or PNG files in `public/images/`, run:
+
+```sh
+npm run images:convert
+```
+
 ## Project structure
 
 ```text

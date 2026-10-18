@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import SectionWrapper from './SectionWrapper';
 import OptimizedVideo from './OptimizedVideo';

@@ -67,10 +67,15 @@ const CommandPalette = () => {
       },
       {
         group: "Projects",
-        items: [
-          { id: 'proj-global-restaurant', label: 'Global Restaurant Analysis', icon: Globe, action: () => navigate('/project/global-restaurant-analysis') },
-          { id: 'proj-hirelite', label: 'HireLite', icon: Globe, action: () => navigate('/project/hirelite') },
-        ]
+        items: portfolioData.projects.map((project) => {
+          const slug = project.slug || project.id;
+          return {
+            id: `proj-${slug}`,
+            label: project.title,
+            icon: Globe,
+            action: () => navigate(`/project/${slug}`),
+          };
+        }),
       },
       {
         group: "Social Links",

@@ -102,7 +102,7 @@ function cssColorToRgb(color) {
 // Each frame only the pixels whose level lies in the band the pen just crossed are
 // touched, so the whole animation costs one pass over the signature instead of one
 // pass per frame.
-export function createPainter(pix, alpha, levelStart, d) {
+function createPainter(pix, alpha, levelStart, d) {
   let shown = -1;
   return {
     paint(edge) {
