@@ -1,10 +1,11 @@
 import { useState, memo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Typography } from './ui/Typography';
-import { Calendar, MapPin, ChevronUp, ChevronDown } from 'lucide-react';
+import { Calendar, MapPin, ChevronDown } from 'lucide-react';
 
 export const ExperienceCard = memo(({ experience, index }) => {
   const [isOpen, setIsOpen] = useState(index === 0);
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <motion.div
@@ -16,11 +17,11 @@ export const ExperienceCard = memo(({ experience, index }) => {
     >
       {/* Timeline bar */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-border/20 group-last:bottom-auto group-last:h-4" />
-      <div className={`absolute left-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent from-0% via-primary via-20% to-transparent to-90% transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} />
+      <div className={`absolute left-0 top-0 bottom-0 w-px bg-linear-to-b from-transparent from-0% via-primary via-20% to-transparent to-90% transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`} />
 
       {/* Diamond dot */}
-      <div className={`absolute left-[-5px] top-4 w-[11px] h-[11px] bg-background border rotate-45 z-10 transition-all duration-300 ${isOpen ? 'border-primary bg-primary' : 'border-border group-hover:border-primary/60'}`}>
-        <div className={`absolute inset-[3px] bg-background transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
+      <div className={`absolute left-[-5px] top-4 w-[11px] h-[11px] bg-background border rotate-45 z-10 transition-colors duration-200 ${isOpen ? 'border-primary bg-primary' : 'border-border group-hover:border-primary/60'}`}>
+        <div className={`absolute inset-[3px] bg-background transition-opacity duration-200 ${isOpen ? 'opacity-100' : 'opacity-0'}`} />
       </div>
 
       {/* Card */}
@@ -35,7 +36,7 @@ export const ExperienceCard = memo(({ experience, index }) => {
           <div className="flex flex-col gap-0.5 min-w-0 flex-1">
             <Typography
               variant="h4"
-              className={`text-sm font-semibold tracking-tight leading-tight truncate transition-colors duration-300 ${isOpen ? 'text-foreground' : 'text-foreground/75 group-hover:text-foreground'}`}
+              className={`text-sm font-semibold tracking-tight leading-tight truncate transition-colors duration-200 ${isOpen ? 'text-foreground' : 'text-foreground/75 group-hover:text-foreground'}`}
             >
               {experience.role}
             </Typography>
@@ -52,18 +53,11 @@ export const ExperienceCard = memo(({ experience, index }) => {
             </div>
           </div>
 
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={isOpen ? 'collapse' : 'expand'}
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.6 }}
-              transition={{ duration: 0.15 }}
-              className="shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors"
-            >
-              {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-            </motion.div>
-          </AnimatePresence>
+          <ChevronDown
+            size={16}
+            aria-hidden="true"
+            className={`shrink-0 text-muted-foreground/40 group-hover:text-muted-foreground transition-transform duration-200 ease-out motion-reduce:transition-none ${isOpen ? 'rotate-180 text-foreground' : 'rotate-0'}`}
+          />
         </div>
       </button>
 
@@ -75,7 +69,10 @@ export const ExperienceCard = memo(({ experience, index }) => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.22,
+              ease: [0.16, 1, 0.3, 1]
+            }}
             className="overflow-hidden"
           >
             <div className="pl-8 pr-3 pb-4 flex flex-col gap-3">
@@ -92,29 +89,16 @@ export const ExperienceCard = memo(({ experience, index }) => {
               )}
 
               {/* Tech pills */}
-              <motion.div
-                className="flex flex-wrap gap-1.5"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {},
-                  visible: { transition: { staggerChildren: 0.05 } }
-                }}
-              >
+              <div className="flex flex-wrap gap-1.5">
                 {(experience.technologies ?? []).map((skill) => (
-                  <motion.span
+                  <span
                     key={skill}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.85, y: 4 },
-                      visible: { opacity: 1, scale: 1, y: 0 }
-                    }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}
                     className="text-xs font-mono text-muted-foreground uppercase tracking-wider bg-secondary/50 border border-border rounded-md px-2 py-0.5"
                   >
                     {skill}
-                  </motion.span>
+                  </span>
                 ))}
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         )}
