@@ -1,7 +1,13 @@
 const fontStylesheet = document.querySelector('#site-fonts');
 
 if (fontStylesheet) {
-  fontStylesheet.addEventListener('load', () => {
+  const activateFonts = () => {
     fontStylesheet.media = 'all';
-  }, { once: true });
+  };
+
+  if (fontStylesheet.sheet) {
+    activateFonts();
+  } else {
+    fontStylesheet.addEventListener('load', activateFonts, { once: true });
+  }
 }
