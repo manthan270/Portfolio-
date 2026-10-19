@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Palette, ArrowLeft, Search, Sun, Moon } from 'lucide-react';
-import DesignSystem from './DesignSystem';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/Button';
@@ -8,8 +7,12 @@ import { Typography } from './ui/Typography';
 
 import { portfolioData } from '../data/portfolioData';
 
+const loadDesignSystem = () => import('./DesignSystem');
+const DesignSystem = lazy(loadDesignSystem);
+
 export default function Header({ isDark, toggleTheme }) {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
+  const [hasLoadedDesignSystem, setHasLoadedDesignSystem] = useState(false);
   const [showProgressHeader, setShowProgressHeader] = useState(false);
   const progressHeaderVisibleRef = useRef(false);
   const location = useLocation();
@@ -47,6 +50,10 @@ export default function Header({ isDark, toggleTheme }) {
   };
 
   const context = getPageContext();
+  const openDesignSystem = () => {
+    setHasLoadedDesignSystem(true);
+    setShowDesignSystem(true);
+  };
 
   return (
     <>
@@ -124,7 +131,9 @@ export default function Header({ isDark, toggleTheme }) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setShowDesignSystem(true)}
+              onClick={openDesignSystem}
+              onMouseEnter={() => { void loadDesignSystem(); }}
+              onFocus={() => { void loadDesignSystem(); }}
               className="rounded-full w-9 h-9 hover:bg-muted"
               aria-label="View Design System"
             >
@@ -158,7 +167,11 @@ export default function Header({ isDark, toggleTheme }) {
         </div>
       </div>
 
-      <DesignSystem isOpen={showDesignSystem} onClose={() => setShowDesignSystem(false)} />
+      {hasLoadedDesignSystem && (
+        <Suspense fallback={null}>
+          <DesignSystem isOpen={showDesignSystem} onClose={() => setShowDesignSystem(false)} />
+        </Suspense>
+      )}
     </>
   );
 }

@@ -1,8 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-// Move the two big constants (SIGNATURE_OUTLINE and REVEAL_MAP) out of this file into
-// ./signatureData.js and add `export` in front of each one. Nothing else about them changes.
-import { SIGNATURE_OUTLINE, REVEAL_MAP } from './signatureData';
 
 const DRAW_DURATION = 2.6;   // seconds to write the signature (smaller = faster)
 const HOLD_DURATION = 700;   // ms the finished signature stays on screen
@@ -289,10 +286,12 @@ const SignatureLoader = ({ onComplete }) => {
   }, [onComplete]);
 
   useEffect(() => {
+    let disposed = false;
     let finished = false;
     let holdTimer = 0;
     let startTimer = 0;
     let cancelPendingStart = null;
+    let stop = () => {};
 
     // The exit timer now starts when the signature has really been drawn (not at mount),
     // so slow loading can no longer cut the tail of the signature off.
@@ -307,26 +306,38 @@ const SignatureLoader = ({ onComplete }) => {
     // Safety net: if the signature can't start, don't trap the visitor behind the loader.
     startTimer = window.setTimeout(() => finish(0), START_TIMEOUT);
 
-    const stop = startSignature(canvasRef.current, SIGNATURE_OUTLINE, REVEAL_MAP, {
-      onReady(sig) {
-        if (shouldReduceMotion) {
-          window.clearTimeout(startTimer);
-          sig.seek(1);
-          finish(500);
-        } else {
-          cancelPendingStart = waitForStableFrames(() => {
-            if (finished) return;
-            window.clearTimeout(startTimer);
-            sig.play(DRAW_DURATION * 1000, ease, () => finish(HOLD_DURATION));
-          });
-        }
-      },
-      onFail() {
-        finish(0);
-      },
-    });
+    const loadSignature = async () => {
+      try {
+        const { SIGNATURE_OUTLINE, REVEAL_MAP } = await import('./signatureData');
+        if (disposed || finished || !canvasRef.current) return;
+
+        stop = startSignature(canvasRef.current, SIGNATURE_OUTLINE, REVEAL_MAP, {
+          onReady(sig) {
+            if (shouldReduceMotion) {
+              window.clearTimeout(startTimer);
+              sig.seek(1);
+              finish(500);
+            } else {
+              cancelPendingStart = waitForStableFrames(() => {
+                if (finished) return;
+                window.clearTimeout(startTimer);
+                sig.play(DRAW_DURATION * 1000, ease, () => finish(HOLD_DURATION));
+              });
+            }
+          },
+          onFail() {
+            finish(0);
+          },
+        });
+      } catch {
+        if (!disposed) finish(0);
+      }
+    };
+
+    void loadSignature();
 
     return () => {
+      disposed = true;
       window.clearTimeout(startTimer);
       window.clearTimeout(holdTimer);
       cancelPendingStart?.();

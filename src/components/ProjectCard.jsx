@@ -1,10 +1,12 @@
-import { useState, memo } from 'react';
+import { useState, memo, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { Typography } from "./ui/Typography";
-import ComingSoonModal from './ComingSoonModal';
+
+const loadComingSoonModal = () => import('./ComingSoonModal');
+const ComingSoonModal = lazy(loadComingSoonModal);
 
 export const ProjectCard = memo(({ project }) => {
   const navigate = useNavigate();
@@ -65,6 +67,8 @@ export const ProjectCard = memo(({ project }) => {
             {project.comingSoon ? (
               <button
                 onClick={() => setModalOpen(true)}
+                onMouseEnter={() => { void loadComingSoonModal(); }}
+                onFocus={() => { void loadComingSoonModal(); }}
                 className="flex-1 flex h-8 items-center justify-center gap-2 rounded-xl bg-primary text-background transition-all hover:opacity-90 active:scale-[0.98] shadow-sm"
               >
                 <span className="text-[11px] font-mono font-semibold uppercase tracking-tighter">
@@ -102,8 +106,10 @@ export const ProjectCard = memo(({ project }) => {
         <div className="absolute inset-0 rounded-[32px] pointer-events-none border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
       </motion.div>
       {modalOpen && createPortal(
-        <ComingSoonModal onClose={() => setModalOpen(false)} />,
-        document.body
+        <Suspense fallback={null}>
+          <ComingSoonModal onClose={() => setModalOpen(false)} />
+        </Suspense>,
+        document.body,
       )}
     </>
   );
