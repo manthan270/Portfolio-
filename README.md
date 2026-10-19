@@ -1,5 +1,7 @@
 # Manthan Gadegone — Portfolio
 
+[![CI](https://github.com/manthan270/Portfolio-/actions/workflows/ci.yml/badge.svg)](https://github.com/manthan270/Portfolio-/actions/workflows/ci.yml)
+
 Personal portfolio for Manthan Gadegone, a web developer and data analyst. The site presents project work, experience, education, skills, certificates, and contact options in a responsive React application.
 
 ## Links
