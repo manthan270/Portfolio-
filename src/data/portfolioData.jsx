@@ -23,7 +23,7 @@ export const portfolioData = {
     profileImage: "/images/profile/manthan.webp",
     headerImage: "/images/profile/manthan-sm.webp",
     illustratedProfileImage: "/images/profile/manthan-illustration.webp",
-    cvLink: "/CV/MANTHAN GADEGONE.pdf",
+    cvLink: "/CV/manthan-gadegone.pdf",
     socials: [
       { name: "Email", tooltip: "manthangadegone27", icon: Mail, link: `mailto:${contactEmail}` },
       { name: "GitHub", tooltip: "manthan270", icon: Github, link: "https://github.com/manthan270" },
@@ -112,16 +112,16 @@ export const portfolioData = {
 
   //custom svg from folder public/images/icons
   skills: [
-    { name: 'React', icon: '/images/icons/React.svg' },
-    { name: 'JS', icon: '/images/icons/JavaScript.svg' },
-    { name: 'Tailwind', icon: '/images/icons/Tailwind CSS.svg' },
-    { name: 'CSS', icon: '/images/icons/CSS3.svg' },
-    { name: 'HTML', icon: '/images/icons/HTML5.svg' },
-    { name: 'Node', icon: '/images/icons/Node.js.svg' },
-    { name: 'Git', icon: '/images/icons/Git.svg' },
-    { name: 'Python', icon: '/images/icons/Python.svg' },
-    { name: 'SQL', icon: '/images/icons/SQL Developer.svg' },
-    { name: 'Figma', icon: '/images/icons/Figma.svg' },
+    { name: 'React', icon: '/images/icons/react.svg' },
+    { name: 'JS', icon: '/images/icons/javascript.svg' },
+    { name: 'Tailwind', icon: '/images/icons/tailwind-css.svg' },
+    { name: 'CSS', icon: '/images/icons/css3.svg' },
+    { name: 'HTML', icon: '/images/icons/html5.svg' },
+    { name: 'Node', icon: '/images/icons/node-js.svg' },
+    { name: 'Git', icon: '/images/icons/git.svg' },
+    { name: 'Python', icon: '/images/icons/python.svg' },
+    { name: 'SQL', icon: '/images/icons/sql-developer.svg' },
+    { name: 'Figma', icon: '/images/icons/figma.svg' },
   ],
   footer: {
     year: new Date().getFullYear(),

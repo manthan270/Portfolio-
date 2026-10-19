@@ -8,7 +8,7 @@ Personal portfolio for Manthan Gadegone, a web developer and data analyst. The s
 - GitHub: [github.com/manthan270](https://github.com/manthan270)
 - LinkedIn: [linkedin.com/in/manthan-gadegone-126a7922b](https://linkedin.com/in/manthan-gadegone-126a7922b)
 - Email: [manthangadegone27@gmail.com](mailto:manthangadegone27@gmail.com)
-- CV: [public/CV/MANTHAN GADEGONE.pdf](public/CV/MANTHAN%20GADEGONE.pdf)
+- CV: [public/CV/manthan-gadegone.pdf](public/CV/manthan-gadegone.pdf)
 
 ## Technology
 
@@ -47,7 +47,7 @@ npm run images:convert
 
 ```text
 public/                   Static images, videos, certificates, CV, and icons
-scripts/                  Image conversion and optional local OX CLI tools
+scripts/                  Image conversion tools
 src/components/            Shared sections and interface components
 src/data/portfolioData.jsx Portfolio content and personal details
 src/data/playgroundData.js Playground content
@@ -71,12 +71,6 @@ Update the portfolio content in `src/data/portfolioData.jsx`. Add a new certific
 
 The file path must match the PDF's public path exactly, including capitalization. Certificate links open the PDF in a separate tab.
 
-## Optional OX Alpha CLI
-
-`npm run cli` starts the local OX Alpha assistant. It requires `OPENROUTER_API_KEY` in the environment or a local `.env` file. The assistant sends prompts and project-file contents returned by its tools to OpenRouter. Keep local environment files out of archives and public repositories; the repository ignore rules exclude them.
-
-The CLI is optional. To configure it locally, copy `.env.example` to `.env` and fill in the values on your machine. Do not commit `.env`.
-
 ## Deployment and licensing
 
-Vercel rewrites application routes to `index.html` so React Router can handle direct visits. No `LICENSE` file is present in this repository.
+Vercel rewrites application routes to `index.html` so React Router can handle direct visits. This project is released under the [MIT License](LICENSE).
