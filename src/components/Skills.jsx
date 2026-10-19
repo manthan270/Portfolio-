@@ -49,9 +49,12 @@ export default memo(function Skills({ data }) {
 
           {/* SLIDING TOGGLE CONTROLS */}
           <button
+            type="button"
             onClick={() => setView(prev => prev === 'scroll' ? 'stack' : 'scroll')}
             className="group flex items-center gap-1 p-1 bg-secondary/30 border border-border/40 rounded-lg cursor-pointer hover:border-border/60 transition-colors"
             title="Toggle View"
+            aria-label={view === 'scroll' ? 'Switch to grid view' : 'Switch to scrolling view'}
+            aria-pressed={view === 'stack'}
           >
             {/* Scroll Option */}
             <div className="relative px-1 py-1">

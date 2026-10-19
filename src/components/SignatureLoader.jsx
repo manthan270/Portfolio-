@@ -354,6 +354,9 @@ const SignatureLoader = ({ onComplete }) => {
       }}
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-background text-foreground"
       style={{ backgroundColor: 'var(--color-background, #09090b)' }}
+      role="status"
+      aria-live="polite"
+      aria-label="Loading portfolio"
     >
       <div className="w-[68vw] max-w-[360px]">
         <canvas

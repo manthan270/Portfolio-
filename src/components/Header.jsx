@@ -57,7 +57,7 @@ export default function Header({ isDark, toggleTheme }) {
 
   return (
     <>
-      <div className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md">
         <div className="absolute top-0 left-[calc(-50vw+50%)] w-screen h-full border-b border-dashed border-border pointer-events-none" />
 
         <div className="flex items-center justify-between px-4 h-14 relative z-10">
@@ -136,6 +136,8 @@ export default function Header({ isDark, toggleTheme }) {
               onFocus={() => { void loadDesignSystem(); }}
               className="rounded-full w-9 h-9 hover:bg-muted"
               aria-label="View Design System"
+              aria-expanded={showDesignSystem}
+              aria-haspopup="dialog"
             >
               <Palette size={18} />
             </Button>
@@ -165,7 +167,7 @@ export default function Header({ isDark, toggleTheme }) {
             </Button>
           </div>
         </div>
-      </div>
+      </header>
 
       {hasLoadedDesignSystem && (
         <Suspense fallback={null}>
