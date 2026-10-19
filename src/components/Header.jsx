@@ -10,6 +10,13 @@ import { portfolioData } from '../data/portfolioData';
 const loadDesignSystem = () => import('./DesignSystem');
 const DesignSystem = lazy(loadDesignSystem);
 
+function getShortcutModifier() {
+  if (typeof navigator === 'undefined') return 'Ctrl';
+
+  const platform = navigator.userAgentData?.platform ?? navigator.userAgent;
+  return /mac/i.test(platform) ? '⌘' : 'Ctrl';
+}
+
 export default function Header({ isDark, toggleTheme }) {
   const [showDesignSystem, setShowDesignSystem] = useState(false);
   const [hasLoadedDesignSystem, setHasLoadedDesignSystem] = useState(false);
@@ -113,7 +120,7 @@ export default function Header({ isDark, toggleTheme }) {
               <Search size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
               <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">Search...</span>
               <div className="flex items-center gap-1 ml-2">
-                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">{navigator.platform?.includes('Mac') ? '⌘' : 'Ctrl'}</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">{getShortcutModifier()}</kbd>
                 <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-background border border-border/50 rounded text-muted-foreground">K</kbd>
               </div>
             </button>
