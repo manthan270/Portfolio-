@@ -51,7 +51,7 @@ npm run images:convert
 public/                   Static images, videos, certificates, CV, and icons
 scripts/                  Image conversion tools
 src/components/            Shared sections and interface components
-src/data/portfolioData.jsx Portfolio content and personal details
+src/data/portfolioData.js  Portfolio content and personal details
 src/data/playgroundData.js Playground content
 src/pages/                 Home, project, and playground routes
 src/App.jsx                Routes and app-level behavior
@@ -60,7 +60,7 @@ vite.config.js             Vite, React, Tailwind, and bundle analysis
 vercel.json                SPA routing and static asset headers
 ```
 
-Update the portfolio content in `src/data/portfolioData.jsx`. Add a new certificate by placing its PDF in `public/certificates/` with a descriptive kebab-case filename, then adding one entry to the `certificates` array:
+Update the portfolio content in `src/data/portfolioData.js`. Add a new certificate by placing its PDF in `public/certificates/` with a descriptive kebab-case filename, then adding one entry to the `certificates` array:
 
 ```js
 {
@@ -75,4 +75,4 @@ The file path must match the PDF's public path exactly, including capitalization
 
 ## Deployment and licensing
 
-Vercel rewrites application routes to `index.html` so React Router can handle direct visits. This project is released under the [MIT License](LICENSE).
+The production build generates crawlable HTML for the portfolio routes; Vercel serves those extensionless static pages first and keeps the React Router fallback for unknown application paths. This project is released under the [MIT License](LICENSE).
