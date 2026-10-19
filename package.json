@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite --configLoader runner",
-    "build": "vite build --configLoader runner",
+    "build": "vite build --configLoader runner && node scripts/prerender.js",
     "lint": "eslint .",
     "preview": "vite preview --configLoader runner",
     "images:convert": "node scripts/convert-images.js"

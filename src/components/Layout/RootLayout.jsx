@@ -2,13 +2,22 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../Header';
 import { portfolioData } from '../../data/portfolioData';
-
-const siteUrl = 'https://manthanone.vercel.app';
-const defaultDescription = 'Manthan Gadegone is a web developer and data analyst. Explore responsive web projects, data analysis work, internship experience, and Microsoft Fabric certifications.';
+import { getPageMetadata, getStructuredData } from '../../lib/siteMetadata';
 
 function setMeta(selector, content) {
   const element = document.querySelector(selector);
   if (element) element.setAttribute('content', content);
+}
+
+function getRouteLastModified(pathname) {
+  const script = document.getElementById('route-last-modified');
+  if (!script?.textContent) return undefined;
+
+  try {
+    return JSON.parse(script.textContent)[pathname];
+  } catch {
+    return undefined;
+  }
 }
 
 export default function RootLayout({ children }) {
@@ -26,49 +35,32 @@ export default function RootLayout({ children }) {
   }, [isDark]);
 
   useEffect(() => {
-    const { pathname } = location;
-    const pathSegments = pathname.split('/').filter(Boolean);
-    const projectSlug = pathname.startsWith('/project/')
-      ? pathSegments[pathSegments.length - 1] || null
-      : null;
-    const project = projectSlug
-      ? portfolioData.projects.find((item) => item.slug === projectSlug || item.id === projectSlug)
-      : null;
-    const shortName = portfolioData.hero.name.split(' ')[0];
-    const pageTitle = pathname === '/'
-      ? `${shortName} | Portfolio`
-      : project
-        ? `${project.title} | ${shortName}`
-        : pathname === '/projects'
-          ? `Projects | ${shortName}`
-          : pathname === '/playground'
-            ? `Playground | ${shortName}`
-            : `Page not found | ${shortName}`;
-    const sourceDescription = project
-      ? project.description
-      : pathname === '/projects'
-        ? 'Selected web development and data analysis projects by Manthan Gadegone.'
-        : pathname === '/playground'
-          ? 'Creative work and design explorations by Manthan Gadegone.'
-          : defaultDescription;
-    const description = sourceDescription.length > 160
-      ? `${sourceDescription.slice(0, 157).trimEnd()}...`
-      : sourceDescription;
-    const canonicalUrl = new URL(pathname, siteUrl).toString();
-    const knownRoute = pathname === '/' || pathname === '/projects' || pathname === '/playground' || Boolean(project);
+    const metadata = getPageMetadata(location.pathname, portfolioData);
+    const routeLastModified = getRouteLastModified(metadata.pathname);
 
-    document.title = pageTitle;
-    setMeta('meta[name="description"]', description);
-    setMeta('meta[property="og:title"]', pageTitle);
-    setMeta('meta[property="og:description"]', description);
-    setMeta('meta[property="og:url"]', canonicalUrl);
-    setMeta('meta[name="twitter:title"]', pageTitle);
-    setMeta('meta[name="twitter:description"]', description);
-    setMeta('meta[name="robots"]', knownRoute ? 'index, follow' : 'noindex, follow');
+    document.title = metadata.title;
+    setMeta('meta[name="description"]', metadata.description);
+    setMeta('meta[property="og:title"]', metadata.title);
+    setMeta('meta[property="og:description"]', metadata.description);
+    setMeta('meta[property="og:url"]', metadata.canonicalUrl);
+    setMeta('meta[property="og:image"]', metadata.image);
+    setMeta('meta[property="og:image:alt"]', metadata.imageAlt);
+    setMeta('meta[name="twitter:title"]', metadata.title);
+    setMeta('meta[name="twitter:description"]', metadata.description);
+    setMeta('meta[name="twitter:image"]', metadata.image);
+    setMeta('meta[name="twitter:image:alt"]', metadata.imageAlt);
+    setMeta('meta[name="robots"]', metadata.knownRoute ? 'index, follow' : 'noindex, follow');
 
     const canonicalLink = document.querySelector('link[rel="canonical"]');
-    canonicalLink?.setAttribute('href', canonicalUrl);
-  }, [location]);
+    canonicalLink?.setAttribute('href', metadata.canonicalUrl);
+
+    const structuredData = document.getElementById('structured-data');
+    if (structuredData) {
+      structuredData.textContent = JSON.stringify(
+        getStructuredData(metadata, portfolioData, { dateModified: routeLastModified }),
+      );
+    }
+  }, [location.pathname]);
 
   const syncThemeToDOM = useCallback((isDarkMode) => {
     const root = document.documentElement;
