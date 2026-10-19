@@ -47,31 +47,15 @@
       ]
     }
   </script>
+  <script src="/theme-init.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link id="site-fonts" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" media="print">
+  <script src="/font-loader.js"></script>
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Onest:wght@100..900&family=Sora:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   </noscript>
   <link rel="preload" as="image" href="/images/profile/manthan.webp" type="image/webp" fetchpriority="high" />
-  <script>
-    (() => {
-      let theme;
-      try {
-        theme = localStorage.getItem('theme');
-      } catch {
-        // Continue with the operating-system preference when storage is blocked.
-      }
-
-      if (theme !== 'light' && theme !== 'dark') {
-        theme = window.matchMedia?.('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light';
-      }
-
-      document.documentElement.classList.toggle('dark', theme === 'dark');
-      const themeColor = document.querySelector('meta[name="theme-color"]');
-      themeColor?.setAttribute('content', theme === 'dark' ? '#09090b' : '#f7f7f7');
-    })();
-  </script>
 </head>
 
 <body>
