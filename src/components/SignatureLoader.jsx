@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 
-const DRAW_DURATION = 2.6;   // seconds to write the signature (smaller = faster)
-const HOLD_DURATION = 700;   // ms the finished signature stays on screen
-const EXIT_DURATION = 0.5;   // seconds to fade out
+const DRAW_DURATION = 1.5;   // seconds to write the signature (smaller = faster)
+const HOLD_DURATION = 250;   // ms the finished signature stays on screen
+const EXIT_DURATION = 0.3;   // seconds to fade out
 const START_TIMEOUT = 8000;  // ms: if the signature cannot start, show the site anyway
-const STARTUP_STABLE_MS = 500; // wait for startup frame drops to settle before drawing
+const STARTUP_STABLE_MS = 250; // wait for startup frame drops to settle before drawing
 const MAX_STARTUP_WAIT_MS = 1500; // keep the added wait bounded on busy or background pages
 
 const VB_W = 1912, VB_H = 577;
