@@ -1,29 +1,14 @@
-import { useState, useEffect, useRef, memo } from 'react';
+import { useState, useRef, memo } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Typography } from './ui/Typography';
 import { LayoutGrid, Rows } from 'lucide-react';
+import { useInView } from '../lib/useInView';
 
 export default memo(function Skills({ data }) {
   const [view, setView] = useState('scroll');
-  const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef);
   const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const element = sectionRef.current;
-    if (!element) return undefined;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setIsInView(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsInView(entry.isIntersecting);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   if (!data) return null;
 

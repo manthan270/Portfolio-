@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { MapPin, Eye, BadgeCheck } from 'lucide-react';
 import { Dithering } from '@paper-design/shaders-react';
+import { useInView } from '../lib/useInView';
 import { useMobileShaderPixelLimit } from '../lib/useMobileShaderPixelLimit';
 import HeroImage from "./HeroImage.jsx";
 import './Hero.css';
@@ -12,26 +13,10 @@ import CVModal from './CVModal';
 export default function Hero({ data }) {
   const [showCV, setShowCV] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
-  const [isBackgroundVisible, setIsBackgroundVisible] = useState(false);
   const backgroundRef = useRef(null);
+  const isBackgroundVisible = useInView(backgroundRef);
   const maxPixelCount = useMobileShaderPixelLimit(backgroundRef);
   const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const element = backgroundRef.current;
-    if (!element) return undefined;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setIsBackgroundVisible(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsBackgroundVisible(entry.isIntersecting);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const root = document.documentElement;

@@ -1,34 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Dithering } from '@paper-design/shaders-react';
+import { useInView } from '../lib/useInView';
 import { useMobileShaderPixelLimit } from '../lib/useMobileShaderPixelLimit';
 import { Typography } from './ui/Typography';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Contact() {
   const [copyStatus, setCopyStatus] = useState('idle');
-  const [isShaderVisible, setIsShaderVisible] = useState(false);
   const shaderSectionRef = useRef(null);
+  const isShaderVisible = useInView(shaderSectionRef);
   const maxPixelCount = useMobileShaderPixelLimit(shaderSectionRef);
   const copyResetTimeoutRef = useRef(null);
   const email = portfolioData.contact.email;
   const shouldReduceMotion = useReducedMotion();
-
-  useEffect(() => {
-    const element = shaderSectionRef.current;
-    if (!element) return undefined;
-
-    if (typeof IntersectionObserver === 'undefined') {
-      setIsShaderVisible(true);
-      return undefined;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      setIsShaderVisible(entry.isIntersecting);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => () => clearTimeout(copyResetTimeoutRef.current), []);
 
