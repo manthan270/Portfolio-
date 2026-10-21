@@ -6,15 +6,6 @@ import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 import FocusTrap from 'focus-trap-react';
 
-function downloadFile(url, filename) {
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
 export default function CVModal({ isOpen, onClose, cvUrl }) {
   const closeButtonRef = useRef(null);
   const previewUrl = cvUrl.replace(/\.pdf$/i, '-preview.png');
@@ -92,7 +83,8 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     variant="primary"
                     size="sm"
                     icon={Download}
-                    onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
+                    href={cvUrl}
+                    download="Manthan_Gadegone_CV.pdf"
                     className="hidden sm:flex"
                   >
                     Download
@@ -144,7 +136,8 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                   variant="primary"
                   className="flex-1"
                   icon={Download}
-                  onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
+                  href={cvUrl}
+                  download="Manthan_Gadegone_CV.pdf"
                 >
                   Download Resume
                 </Button>
