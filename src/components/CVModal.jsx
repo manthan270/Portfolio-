@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Download, File } from 'lucide-react';
+import { X, Download, ExternalLink, File } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 import FocusTrap from 'focus-trap-react';
@@ -17,6 +17,7 @@ function downloadFile(url, filename) {
 
 export default function CVModal({ isOpen, onClose, cvUrl }) {
   const closeButtonRef = useRef(null);
+  const previewUrl = cvUrl.replace(/\.pdf$/i, '-preview.png');
 
   // Close on Escape key + lock body scroll
   useEffect(() => {
@@ -77,6 +78,17 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
 
                 <div className="flex items-center gap-2">
                   <Button
+                    variant="secondary"
+                    size="sm"
+                    icon={ExternalLink}
+                    href={cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:flex"
+                  >
+                    Open PDF
+                  </Button>
+                  <Button
                     variant="primary"
                     size="sm"
                     icon={Download}
@@ -98,20 +110,39 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                 </div>
               </div>
 
-              {/* Main PDF Viewer */}
-              <div className="flex-1 w-full bg-muted/20 relative overflow-hidden">
-                <iframe
-                  src={`${cvUrl}#toolbar=0&navpanes=0&scrollbar=0`}
-                  className="w-full h-full border-none"
-                  title="CV PDF Viewer"
-                />
+              {/* Image previews work even in browsers that do not support PDFs inside iframes. */}
+              <div className="flex-1 w-full overflow-auto bg-muted/20 p-3 sm:p-5">
+                <a
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-fit max-w-full mx-auto rounded-sm shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  aria-label="Open Manthan Gadegone's resume PDF in a new tab"
+                >
+                  <img
+                    src={previewUrl}
+                    alt="Preview of Manthan Gadegone's resume"
+                    className="block max-w-full h-auto rounded-sm bg-white"
+                    decoding="async"
+                  />
+                </a>
               </div>
 
-              {/* Mobile Footer (Download Button) */}
-              <div className="sm:hidden p-4 border-t border-border/50 bg-background flex justify-center shrink-0">
+              {/* Mobile actions keep the full PDF one tap away. */}
+              <div className="sm:hidden p-4 border-t border-border/50 bg-background flex gap-3 shrink-0">
+                <Button
+                  variant="secondary"
+                  className="flex-1"
+                  icon={ExternalLink}
+                  href={cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open PDF
+                </Button>
                 <Button
                   variant="primary"
-                  className="w-full"
+                  className="flex-1"
                   icon={Download}
                   onClick={() => downloadFile(cvUrl, 'Manthan_Gadegone_CV.pdf')}
                 >
