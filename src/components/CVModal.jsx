@@ -6,6 +6,22 @@ import { Button } from './ui/Button';
 import { Typography } from './ui/Typography';
 import FocusTrap from 'focus-trap-react';
 
+const RESUME_URL = '/resume.pdf';
+const RESUME_FILENAME = 'Manthan_Gadegone_Resume.pdf';
+
+function handleResumeDownload(event) {
+  const { userAgent, platform, maxTouchPoints } = window.navigator;
+  const isIOS = /iPad|iPhone|iPod/i.test(userAgent)
+    || (platform === 'MacIntel' && maxTouchPoints > 1);
+
+  // iOS Safari ignores an anchor's download attribute. Opening the document is
+  // the reliable fallback and still lets the visitor save or share the PDF.
+  if (isIOS) {
+    event.preventDefault();
+    window.open(event.currentTarget.href, '_blank', 'noopener,noreferrer');
+  }
+}
+
 export default function CVModal({ isOpen, onClose, cvUrl }) {
   const closeButtonRef = useRef(null);
   const previewUrl = cvUrl.replace(/\.pdf$/i, '-preview.png');
@@ -38,7 +54,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6"
+            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 min-[769px]:p-6"
           >
           <FocusTrap focusTrapOptions={{
             initialFocus: () => closeButtonRef.current,
@@ -52,18 +68,18 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="cv-modal-title"
-              className="w-full max-w-5xl h-[calc(100dvh-1rem)] sm:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
+              className="w-full max-w-5xl h-[calc(100dvh-1rem)] min-[769px]:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
             >
 
               {/* Header */}
-              <div className="flex items-center justify-between px-3 py-2.5 sm:px-6 sm:py-3 border-b border-border/50 bg-secondary/5 shrink-0">
-                <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-                  <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg">
-                    <File size={18} className="text-primary sm:w-5 sm:h-5" />
+              <div className="flex items-center justify-between px-3 py-2.5 min-[769px]:px-6 min-[769px]:py-3 border-b border-border/50 bg-secondary/5 shrink-0">
+                <div className="flex min-w-0 items-center gap-2.5 min-[769px]:gap-3">
+                  <div className="p-1.5 min-[769px]:p-2 bg-primary/10 rounded-lg">
+                    <File size={18} className="text-primary min-[769px]:w-5 min-[769px]:h-5" />
                   </div>
                   <div className="flex min-w-0 flex-col">
                     <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold">Resume</Typography>
-                    <Typography variant="small" className="truncate text-[11px] sm:text-xs text-muted-foreground">Manthan Gadegone</Typography>
+                    <Typography variant="small" className="truncate text-[11px] min-[769px]:text-xs text-muted-foreground">Manthan Gadegone</Typography>
                   </div>
                 </div>
 
@@ -75,7 +91,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     href={cvUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden sm:flex"
+                    className="!hidden min-[769px]:!flex"
                   >
                     Open PDF
                   </Button>
@@ -83,9 +99,21 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     variant="primary"
                     size="sm"
                     icon={Download}
-                    href={cvUrl}
-                    download="Manthan_Gadegone_CV.pdf"
-                    className="hidden sm:flex"
+                    href={RESUME_URL}
+                    download={RESUME_FILENAME}
+                    onClick={handleResumeDownload}
+                    className="!hidden min-[769px]:!flex"
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    icon={Download}
+                    href={RESUME_URL}
+                    download={RESUME_FILENAME}
+                    onClick={handleResumeDownload}
+                    className="h-8 min-w-[7rem] px-3 text-xs min-[769px]:!hidden"
                   >
                     Download
                   </Button>
@@ -95,7 +123,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     size="icon"
                     onClick={onClose}
                     aria-label="Close resume viewer"
-                    className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+                    className="w-11 h-11 min-[769px]:w-8 min-[769px]:h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
                   >
                     <X size={18} />
                   </Button>
@@ -103,7 +131,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               </div>
 
               {/* Image previews work even in browsers that do not support PDFs inside iframes. */}
-              <div className="flex-1 w-full overflow-auto overscroll-contain bg-muted/20 p-2 sm:p-5">
+              <div className="flex-1 min-h-0 w-full overflow-auto overscroll-contain bg-muted/20 p-2 min-[769px]:p-5">
                 <a
                   href={cvUrl}
                   target="_blank"
@@ -115,34 +143,11 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
                     src={previewUrl}
                     alt="Preview of Manthan Gadegone's resume"
                     className="block max-w-full h-auto rounded-sm bg-white"
+                    width="1490"
+                    height="2105"
                     decoding="async"
                   />
                 </a>
-              </div>
-
-              {/* Mobile actions keep the full PDF one tap away. */}
-              <div className="sm:hidden p-3 border-t border-border/50 bg-background grid grid-cols-2 gap-2 shrink-0">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="w-full min-w-0"
-                  icon={ExternalLink}
-                  href={cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open
-                </Button>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  className="w-full min-w-0"
-                  icon={Download}
-                  href={cvUrl}
-                  download="Manthan_Gadegone_CV.pdf"
-                >
-                  Download
-                </Button>
               </div>
 
             </motion.div>

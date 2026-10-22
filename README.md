@@ -10,7 +10,7 @@ Personal portfolio for Manthan Gadegone, a web developer and data analyst. The s
 - GitHub: [github.com/manthan270](https://github.com/manthan270)
 - LinkedIn: [linkedin.com/in/manthan-gadegone-126a7922b](https://linkedin.com/in/manthan-gadegone-126a7922b)
 - Email: [manthangadegone27@gmail.com](mailto:manthangadegone27@gmail.com)
-- CV: [public/CV/manthan-gadegone.pdf](public/CV/manthan-gadegone.pdf)
+- Resume: [public/resume.pdf](public/resume.pdf)
 
 ## Technology
 

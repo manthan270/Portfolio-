@@ -23,7 +23,7 @@ export const portfolioData = {
     profileImage: "/images/profile/manthan.webp",
     headerImage: "/images/profile/manthan-sm.webp",
     illustratedProfileImage: "/images/profile/manthan-illustration.webp",
-    cvLink: "/CV/manthan-gadegone.pdf",
+    cvLink: "/resume.pdf",
     socials: [
       { name: "Email", tooltip: "manthangadegone27", icon: Mail, link: `mailto:${contactEmail}` },
       { name: "GitHub", tooltip: "manthan270", icon: Github, link: "https://github.com/manthan270" },
