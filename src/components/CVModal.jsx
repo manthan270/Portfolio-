@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Download, ExternalLink, File } from 'lucide-react';
@@ -8,6 +8,35 @@ import FocusTrap from 'focus-trap-react';
 
 const RESUME_URL = '/resume.pdf';
 const RESUME_FILENAME = 'Manthan_Gadegone_Resume.pdf';
+
+function isFoldableDevice() {
+  if (typeof window === 'undefined') return false;
+  const ua = window.navigator?.userAgent || '';
+  const isFoldableUA = /Pixel.*Fold|Galaxy.*Fold|Galaxy.*Flip|Fold|SM-F\d{3}|Surface Duo/i.test(ua);
+  const hasFoldMedia = Boolean(
+    window.matchMedia?.(
+      '(spanning: single-fold-vertical), (spanning: single-fold-horizontal), (horizontal-viewport-segments: 2), (vertical-viewport-segments: 2)'
+    )?.matches
+  );
+  return Boolean(isFoldableUA || hasFoldMedia);
+}
+
+function useIsFoldableDevice() {
+  const [isFoldable, setIsFoldable] = useState(isFoldableDevice);
+
+  useEffect(() => {
+    const check = () => setIsFoldable(isFoldableDevice());
+    check();
+    window.addEventListener('resize', check);
+    window.addEventListener('orientationchange', check);
+    return () => {
+      window.removeEventListener('resize', check);
+      window.removeEventListener('orientationchange', check);
+    };
+  }, []);
+
+  return isFoldable;
+}
 
 function handleResumeDownload(event) {
   const { userAgent, platform, maxTouchPoints } = window.navigator;
@@ -56,7 +85,7 @@ function ResumeDownloadAction({ pdfUrl, compact = false }) {
 function ModalCloseAction({ onClose, mobileRef, desktopRef }) {
   return (
     <>
-      <div className="min-[769px]:hidden">
+      <div className="sm:hidden">
         <button
           ref={mobileRef}
           type="button"
@@ -69,7 +98,7 @@ function ModalCloseAction({ onClose, mobileRef, desktopRef }) {
           </span>
         </button>
       </div>
-      <div className="hidden min-[769px]:block">
+      <div className="hidden sm:block">
         <Button
           ref={desktopRef}
           variant="ghost"
@@ -89,6 +118,7 @@ export default function CVModal({ isOpen, onClose, pdfUrl = RESUME_URL }) {
   const mobileCloseButtonRef = useRef(null);
   const desktopCloseButtonRef = useRef(null);
   const previewUrl = pdfUrl.replace(/\.pdf$/i, '-preview.png');
+  const isFoldable = useIsFoldableDevice();
 
   // Close on Escape key + lock body scroll
   useEffect(() => {
@@ -122,7 +152,7 @@ export default function CVModal({ isOpen, onClose, pdfUrl = RESUME_URL }) {
           >
           <FocusTrap focusTrapOptions={{
             initialFocus: () => (
-              window.matchMedia('(min-width: 769px)').matches
+              window.matchMedia('(min-width: 640px)').matches
                 ? desktopCloseButtonRef.current
                 : mobileCloseButtonRef.current
             ),
@@ -148,12 +178,17 @@ export default function CVModal({ isOpen, onClose, pdfUrl = RESUME_URL }) {
                   </div>
                   <div className="flex flex-col min-w-0">
                     <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold truncate leading-tight">Resume</Typography>
-                    <Typography variant="small" className="text-xs text-muted-foreground truncate leading-tight">Manthan Gadegone</Typography>
+                    <Typography variant="small" className="text-xs text-muted-foreground truncate leading-tight">
+                      <span className="sm:hidden">
+                        {isFoldable ? 'Manthan Gadegone' : 'Manthan G'}
+                      </span>
+                      <span className="hidden sm:inline">Manthan Gadegone</span>
+                    </Typography>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="hidden min-[769px]:block">
+                  <div className="hidden sm:block">
                     <Button
                       variant="secondary"
                       size="sm"
@@ -165,10 +200,10 @@ export default function CVModal({ isOpen, onClose, pdfUrl = RESUME_URL }) {
                       Open PDF
                     </Button>
                   </div>
-                  <div className="hidden min-[769px]:block">
+                  <div className="hidden sm:block">
                     <ResumeDownloadAction pdfUrl={pdfUrl} />
                   </div>
-                  <div className="min-[769px]:hidden">
+                  <div className="sm:hidden">
                     <ResumeDownloadAction pdfUrl={pdfUrl} compact />
                   </div>
                   <ModalCloseAction
