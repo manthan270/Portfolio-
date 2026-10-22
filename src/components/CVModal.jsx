@@ -38,7 +38,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6"
           >
           <FocusTrap focusTrapOptions={{
             initialFocus: () => closeButtonRef.current,
@@ -52,18 +52,18 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="cv-modal-title"
-              className="w-full max-w-5xl h-[80vh] sm:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
+              className="w-full max-w-5xl h-[calc(100dvh-1rem)] sm:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
             >
 
               {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 sm:px-6 border-b border-border/50 bg-secondary/5 shrink-0">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <File size={20} className="text-primary" />
+              <div className="flex items-center justify-between px-3 py-2.5 sm:px-6 sm:py-3 border-b border-border/50 bg-secondary/5 shrink-0">
+                <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg">
+                    <File size={18} className="text-primary sm:w-5 sm:h-5" />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex min-w-0 flex-col">
                     <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold">Resume</Typography>
-                    <Typography variant="small" className="text-xs text-muted-foreground">Manthan Gadegone</Typography>
+                    <Typography variant="small" className="truncate text-[11px] sm:text-xs text-muted-foreground">Manthan Gadegone</Typography>
                   </div>
                 </div>
 
@@ -103,7 +103,7 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               </div>
 
               {/* Image previews work even in browsers that do not support PDFs inside iframes. */}
-              <div className="flex-1 w-full overflow-auto bg-muted/20 p-3 sm:p-5">
+              <div className="flex-1 w-full overflow-auto overscroll-contain bg-muted/20 p-2 sm:p-5">
                 <a
                   href={cvUrl}
                   target="_blank"
@@ -121,25 +121,27 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
               </div>
 
               {/* Mobile actions keep the full PDF one tap away. */}
-              <div className="sm:hidden p-4 border-t border-border/50 bg-background flex gap-3 shrink-0">
+              <div className="sm:hidden p-3 border-t border-border/50 bg-background grid grid-cols-2 gap-2 shrink-0">
                 <Button
                   variant="secondary"
-                  className="flex-1"
+                  size="sm"
+                  className="w-full min-w-0"
                   icon={ExternalLink}
                   href={cvUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Open PDF
+                  Open
                 </Button>
                 <Button
                   variant="primary"
-                  className="flex-1"
+                  size="sm"
+                  className="w-full min-w-0"
                   icon={Download}
                   href={cvUrl}
                   download="Manthan_Gadegone_CV.pdf"
                 >
-                  Download Resume
+                  Download
                 </Button>
               </div>
 
