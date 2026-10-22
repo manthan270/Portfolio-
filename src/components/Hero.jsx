@@ -113,7 +113,7 @@ export default function Hero({ data }) {
               <CVModal
                 isOpen={showCV}
                 onClose={() => setShowCV(false)}
-                cvUrl={data.cvLink}
+                pdfUrl={data.cvLink}
               />
 
               <div className="h-5 w-px bg-border/60 mx-2 hidden sm:block" />

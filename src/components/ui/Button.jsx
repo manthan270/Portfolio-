@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { motion } from 'motion/react';
 import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const variants = {
   // 1. Primary: The "Gem" look. 
@@ -92,31 +93,40 @@ export const Button = forwardRef(function Button({
   onClick,
   href,
   type = 'button',
+  tabIndex,
   ...props
 }, ref) {
   const variantStyle = variants[variant] || variants.primary;
   const sizeStyle = sizes[size] || sizes.md;
   const shouldAnimateIcon = variant === 'primary' && !loading;
+  const isDisabled = disabled || loading;
+  const isLink = Boolean(href);
 
-  const Component = href ? motion.a : motion.button;
+  const Component = isLink ? motion.a : motion.button;
+  const handleClick = isDisabled
+    ? (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    : onClick;
 
   return (
     <Component
       ref={ref}
       href={href}
       type={href ? undefined : type}
-      className={`
-        cursor-pointer
-        relative overflow-hidden group 
-        inline-flex items-center justify-center 
-        font-medium whitespace-nowrap 
-        transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
-        disabled:pointer-events-none disabled:opacity-50
-        ${variantStyle} ${sizeStyle} ${className}
-      `}
-      onClick={disabled || loading ? (e) => e.preventDefault() : onClick}
-      disabled={!href ? (disabled || loading) : undefined}
-      aria-disabled={href ? (disabled || loading) : undefined}
+      className={cn(
+        "cursor-pointer relative overflow-hidden group inline-flex items-center justify-center font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        variantStyle,
+        sizeStyle,
+        isDisabled && "cursor-not-allowed opacity-50",
+        className
+      )}
+      onClick={handleClick}
+      disabled={!isLink ? isDisabled : undefined}
+      aria-disabled={isLink && isDisabled ? true : undefined}
+      aria-busy={loading || undefined}
+      tabIndex={isLink && isDisabled ? -1 : tabIndex}
 
       // Apply the parent motion settings
       {...buttonMotion}

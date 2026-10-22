@@ -26,7 +26,6 @@ export default function HeroImage({ src, illustratedSrc, alt }) {
             width="800"
             height="800"
             loading="eager"
-            fetchPriority="high"
             decoding="async"
           />
         </span>

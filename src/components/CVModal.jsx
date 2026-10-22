@@ -22,9 +22,73 @@ function handleResumeDownload(event) {
   }
 }
 
-export default function CVModal({ isOpen, onClose, cvUrl }) {
-  const closeButtonRef = useRef(null);
-  const previewUrl = cvUrl.replace(/\.pdf$/i, '-preview.png');
+function ResumeDownloadAction({ pdfUrl, compact = false }) {
+  if (compact) {
+    return (
+      <a
+        href={pdfUrl}
+        download={RESUME_FILENAME}
+        onClick={handleResumeDownload}
+        className="inline-flex h-11 w-28 items-center justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
+        <span className="inline-flex h-8 w-28 items-center justify-center gap-1.5 rounded-md border border-primary/20 bg-gradient-to-b from-primary/90 to-primary px-3 text-xs font-medium text-primary-foreground shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.15),0px_2px_4px_rgba(0,0,0,0.1)] transition-[filter] hover:brightness-110">
+          <Download aria-hidden="true" className="h-[1.2em] w-[1.2em] opacity-80" />
+          <span>Download</span>
+        </span>
+      </a>
+    );
+  }
+
+  return (
+    <Button
+      variant="primary"
+      size="sm"
+      icon={Download}
+      href={pdfUrl}
+      download={RESUME_FILENAME}
+      onClick={handleResumeDownload}
+    >
+      Download
+    </Button>
+  );
+}
+
+function ModalCloseAction({ onClose, mobileRef, desktopRef }) {
+  return (
+    <>
+      <div className="min-[769px]:hidden">
+        <button
+          ref={mobileRef}
+          type="button"
+          onClick={onClose}
+          aria-label="Close resume viewer"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive">
+            <X size={18} aria-hidden="true" />
+          </span>
+        </button>
+      </div>
+      <div className="hidden min-[769px]:block">
+        <Button
+          ref={desktopRef}
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          aria-label="Close resume viewer"
+          className="w-8 h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors shrink-0"
+        >
+          <X size={18} />
+        </Button>
+      </div>
+    </>
+  );
+}
+
+export default function CVModal({ isOpen, onClose, pdfUrl = RESUME_URL }) {
+  const mobileCloseButtonRef = useRef(null);
+  const desktopCloseButtonRef = useRef(null);
+  const previewUrl = pdfUrl.replace(/\.pdf$/i, '-preview.png');
 
   // Close on Escape key + lock body scroll
   useEffect(() => {
@@ -54,86 +118,71 @@ export default function CVModal({ isOpen, onClose, cvUrl }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 min-[769px]:p-6"
+            className="fixed inset-0 z-[999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
           >
           <FocusTrap focusTrapOptions={{
-            initialFocus: () => closeButtonRef.current,
+            initialFocus: () => (
+              window.matchMedia('(min-width: 769px)').matches
+                ? desktopCloseButtonRef.current
+                : mobileCloseButtonRef.current
+            ),
             returnFocusOnDeactivate: true,
           }}>
+            {/* Modal Container */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+              onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
               aria-labelledby="cv-modal-title"
-              className="w-full max-w-5xl h-[calc(100dvh-1rem)] min-[769px]:h-[85vh] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
+              className="w-full max-w-5xl h-[85dvh] max-h-[calc(100dvh-1.5rem)] flex flex-col bg-background rounded-2xl border border-border/50 shadow-2xl relative overflow-hidden"
             >
 
               {/* Header */}
-              <div className="flex items-center justify-between px-3 py-2.5 min-[769px]:px-6 min-[769px]:py-3 border-b border-border/50 bg-secondary/5 shrink-0">
-                <div className="flex min-w-0 items-center gap-2.5 min-[769px]:gap-3">
-                  <div className="p-1.5 min-[769px]:p-2 bg-primary/10 rounded-lg">
-                    <File size={18} className="text-primary min-[769px]:w-5 min-[769px]:h-5" />
+              <div className="flex items-center justify-between px-3 py-2.5 sm:px-6 sm:py-3 border-b border-border/50 bg-secondary/5 shrink-0">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <div className="p-1.5 sm:p-2 bg-primary/10 rounded-lg shrink-0">
+                    <File size={18} className="text-primary sm:w-5 sm:h-5" />
                   </div>
-                  <div className="flex min-w-0 flex-col">
-                    <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold">Resume</Typography>
-                    <Typography variant="small" className="truncate text-[11px] min-[769px]:text-xs text-muted-foreground">Manthan Gadegone</Typography>
+                  <div className="flex flex-col min-w-0">
+                    <Typography variant="h3" as="h2" id="cv-modal-title" className="text-sm font-semibold truncate leading-tight">Resume</Typography>
+                    <Typography variant="small" className="text-xs text-muted-foreground truncate leading-tight">Manthan Gadegone</Typography>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    icon={ExternalLink}
-                    href={cvUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="!hidden min-[769px]:!flex"
-                  >
-                    Open PDF
-                  </Button>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    icon={Download}
-                    href={RESUME_URL}
-                    download={RESUME_FILENAME}
-                    onClick={handleResumeDownload}
-                    className="!hidden min-[769px]:!flex"
-                  >
-                    Download
-                  </Button>
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    icon={Download}
-                    href={RESUME_URL}
-                    download={RESUME_FILENAME}
-                    onClick={handleResumeDownload}
-                    className="h-8 min-w-[7rem] px-3 text-xs min-[769px]:!hidden"
-                  >
-                    Download
-                  </Button>
-                  <Button
-                    ref={closeButtonRef}
-                    variant="ghost"
-                    size="icon"
-                    onClick={onClose}
-                    aria-label="Close resume viewer"
-                    className="w-11 h-11 min-[769px]:w-8 min-[769px]:h-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
-                  >
-                    <X size={18} />
-                  </Button>
+                <div className="flex items-center gap-2 shrink-0">
+                  <div className="hidden min-[769px]:block">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      icon={ExternalLink}
+                      href={pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open PDF
+                    </Button>
+                  </div>
+                  <div className="hidden min-[769px]:block">
+                    <ResumeDownloadAction pdfUrl={pdfUrl} />
+                  </div>
+                  <div className="min-[769px]:hidden">
+                    <ResumeDownloadAction pdfUrl={pdfUrl} compact />
+                  </div>
+                  <ModalCloseAction
+                    onClose={onClose}
+                    mobileRef={mobileCloseButtonRef}
+                    desktopRef={desktopCloseButtonRef}
+                  />
                 </div>
               </div>
 
-              {/* Image previews work even in browsers that do not support PDFs inside iframes. */}
-              <div className="flex-1 min-h-0 w-full overflow-auto overscroll-contain bg-muted/20 p-2 min-[769px]:p-5">
+              {/* Resume preview area */}
+              <div className="flex-1 min-h-0 w-full overflow-auto overscroll-contain bg-muted/20 p-2 sm:p-5">
                 <a
-                  href={cvUrl}
+                  href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-fit max-w-full mx-auto rounded-sm shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
