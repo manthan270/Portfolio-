@@ -38,6 +38,6 @@
     "globals": "^16.4.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "sharp": "^0.35.5",
-    "vite": "^7.1.7"
+    "vite": "^8.3.8"
   }
 }
