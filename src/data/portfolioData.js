@@ -66,7 +66,7 @@ export const portfolioData = {
       link: 'https://hirelite.vercel.app',
       year: '2024',
       image: '/images/projects/hirelite.webp',
-      imageSrcSet: '/images/projects/hirelite-400.webp 400w, /images/projects/hirelite-800.webp 800w, /images/projects/hirelite.webp 1900w',
+      imageSrcSet: '/images/projects/hirelite-400.webp 400w, /images/projects/hirelite-800.webp 800w, /images/projects/hirelite.webp 1600w',
       category: 'Web Projects',
     },
   ],
