@@ -1,4 +1,4 @@
-export const siteUrl = 'https://manthanone.vercel.app';
+export const siteUrl = 'https://manthann.vercel.app';
 
 const defaultDescription = 'Manthan Gadegone is a web developer and data analyst. Explore responsive web projects, data analysis work, internship experience, and Microsoft Fabric certifications.';
 
@@ -34,16 +34,20 @@ export function getPageMetadata(pathname, portfolio) {
         ? `Projects | ${shortName}`
         : normalizedPathname === '/playground'
           ? `Playground | ${shortName}`
-          : `Page not found | ${shortName}`;
+          : normalizedPathname === '/privacy'
+            ? `Privacy | ${shortName}`
+            : `Page not found | ${shortName}`;
   const sourceDescription = project
     ? project.description
     : normalizedPathname === '/projects'
       ? 'Selected web development and data analysis projects by Manthan Gadegone.'
       : normalizedPathname === '/playground'
         ? 'Creative work and design explorations by Manthan Gadegone.'
-        : defaultDescription;
+        : normalizedPathname === '/privacy'
+          ? 'Privacy information for this personal portfolio website.'
+          : defaultDescription;
   const knownRoute = normalizedPathname === '/' || normalizedPathname === '/projects'
-    || normalizedPathname === '/playground' || Boolean(project);
+    || normalizedPathname === '/playground' || normalizedPathname === '/privacy' || Boolean(project);
   const image = project?.image || portfolio.hero.profileImage;
 
   return {
@@ -63,6 +67,7 @@ export function getStaticRoutes(portfolio) {
     '/',
     '/projects',
     '/playground',
+    '/privacy',
     ...portfolio.projects.map((project) => `/project/${project.slug || project.id}`),
   ];
 }

@@ -6,7 +6,7 @@ Personal portfolio for Manthan Gadegone, a web developer and data analyst. The s
 
 ## Links
 
-- Website: [manthanone.vercel.app](https://manthanone.vercel.app/)
+- Website: [manthann.vercel.app](https://manthann.vercel.app/)
 - GitHub: [github.com/manthan270](https://github.com/manthan270)
 - LinkedIn: [linkedin.com/in/manthan-gadegone-126a7922b](https://linkedin.com/in/manthan-gadegone-126a7922b)
 - Email: [manthangadegone27@gmail.com](mailto:manthangadegone27@gmail.com)
@@ -53,7 +53,7 @@ scripts/                  Image conversion tools
 src/components/            Shared sections and interface components
 src/data/portfolioData.js  Portfolio content and personal details
 src/data/playgroundData.js Playground content
-src/pages/                 Home, project, and playground routes
+src/pages/                 Home, project, playground, and privacy routes
 src/App.jsx                Routes and app-level behavior
 src/index.css              Theme tokens and global styles
 vite.config.js             Vite, React, Tailwind, and bundle analysis

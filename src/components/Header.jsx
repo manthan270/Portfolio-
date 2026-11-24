@@ -50,6 +50,7 @@ export default function Header({ isDark, toggleTheme }) {
   const getPageContext = () => {
     const path = location.pathname;
     if (path === '/') return { title: portfolioData.hero.name, subtitle: portfolioData.hero.roles[0], root: true };
+    if (path === '/privacy') return { title: 'Privacy', subtitle: 'Privacy Notice', root: false };
     if (path.startsWith('/project/')) return { title: 'View Project', subtitle: 'Case Study', root: false };
     if (path === '/projects') return { title: 'Projects', subtitle: 'Work Archive', root: false };
     if (path === '/playground') return { title: 'Playground', subtitle: 'Creative Archive', root: false };

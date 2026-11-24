@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Header from '../Header';
 import { portfolioData } from '../../data/portfolioData';
 import { getPageMetadata, getStructuredData } from '../../lib/siteMetadata';
@@ -142,6 +142,8 @@ export default function RootLayout({ children }) {
             <div className="space-y-1 text-center font-mono tracking-tighter sm:tracking-normal">
               <p className="text-muted-foreground uppercase text-[10px] sm:text-xs  font-medium">
                 {portfolioData.footer.year} {portfolioData.footer.text}
+                <span aria-hidden="true"> · </span>
+                <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy</Link>
               </p>
               <p className="text-[9px] sm:text-[10px] text-foreground tracking-normal ">
                 {portfolioData.footer.love}
