@@ -10,6 +10,7 @@ const Home = lazy(() => import('./pages/Home'));
 const Playground = lazy(() => import('./pages/Playground'));
 const ProjectsPage = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const PrivacyPage = lazy(() => import('./pages/Privacy'));
 
 // Deferring heavier third-party scripts to avoid blocking the main thread
 const Analytics = lazy(() => import('@vercel/analytics/react').then(mod => ({ default: mod.Analytics })));
@@ -59,6 +60,7 @@ export default function App() {
               <Route path="/playground" element={<Playground />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/project/:slug" element={<ProjectDetail />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
