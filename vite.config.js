@@ -25,11 +25,21 @@ export default defineConfig(({ mode }) => {
     build: {
       cssCodeSplit: true,
       chunkSizeWarningLimit: 600,
-      rollupOptions: {
+      rolldownOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
-            motion: ['motion/react'],
+          codeSplitting: {
+            groups: [
+              {
+                name: 'vendor',
+                test: /node_modules[\\/](react|react-dom|react-router-dom)([\\/]|$)/,
+                priority: 20,
+              },
+              {
+                name: 'motion',
+                test: /node_modules[\\/]motion([\\/]|$)/,
+                priority: 10,
+              },
+            ],
           },
         },
       },

@@ -8,3 +8,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    groups:
+      vite-toolchain:
+        applies-to: version-updates
+        patterns:
+          - vite
+          - '@vitejs/plugin-react'
