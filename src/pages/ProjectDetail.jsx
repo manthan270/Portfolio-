@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { portfolioData } from '../data/portfolioData';
 import {
-   Github,
+   GitBranch,
    Cpu,
    ListChecks,
    LayoutDashboard,
@@ -118,7 +118,7 @@ const ProjectDetail = () => {
                         rel="noopener noreferrer"
                         variant="secondary"
                         size="md"
-                        icon={isGithub ? Github : Play}
+                        icon={isGithub ? GitBranch : Play}
                         aria-label={isGithub ? 'View project repository on GitHub' : 'Open live project'}
                         className="min-w-40 rounded-lg border-border/70 bg-secondary/40 px-4 font-semibold shadow-sm transition-[background-color,border-color,box-shadow] hover:border-border hover:bg-secondary/70 hover:shadow-md"
                      >
