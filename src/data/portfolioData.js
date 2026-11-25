@@ -1,5 +1,5 @@
 import {
-  Github, Linkedin, Mail
+  GitBranch, Linkedin, Mail
 } from 'lucide-react';
 
 const contactEmail = 'manthangadegone27@gmail.com';
@@ -26,7 +26,7 @@ export const portfolioData = {
     cvLink: "/resume.pdf",
     socials: [
       { name: "Email", tooltip: "manthangadegone27", icon: Mail, link: `mailto:${contactEmail}` },
-      { name: "GitHub", tooltip: "manthan270", icon: Github, link: "https://github.com/manthan270" },
+      { name: "GitHub", tooltip: "manthan270", icon: GitBranch, link: "https://github.com/manthan270" },
       { name: "LinkedIn", tooltip: "manthan-gadegone", icon: Linkedin, link: "https://linkedin.com/in/manthan-gadegone-126a7922b" },
     ]
   },
