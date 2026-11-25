@@ -14,7 +14,7 @@
     "images:convert": "node scripts/convert-images.js"
   },
   "dependencies": {
-    "@paper-design/shaders-react": "^0.0.72",
+    "@paper-design/shaders-react": "^0.0.82",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
